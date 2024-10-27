@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -32,43 +34,40 @@ class AuthController extends Controller
             $error = $validator->errors()->first();
             return response()->json(
                 [
-                    'status' => 'failed',
                     'message' => $error,
                 ],
                 400
             );
         }
 
+        // Store firebase device token
+        // code here...
+
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(
                 [
-                    'status' => 'failed',
                     'message' => 'Your email or password is incorrect.',
-                    'data' => null,
                 ],
                 400
             );
         }
 
-        // if (!$user->hasVerifiedEmail()) {
-        //     return response()->json(
-        //         [
-        //             'status' => 'unverified',
-        //             'message' => 'Your account is still not active, please check your email inbox to verify. If not, please check the SPAM folder.',
-        //             'data' => null,
-        //         ],
-        //         200
-        //     );
-        // }
+        if (@$user->getRoleNames()[0] != 'user') {
+            return response()->json(
+                [
+                    'message' => 'you do not have the right to access',
+                ],
+                400
+            );
+        }
 
         $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
 
         return response()->json(
             [
-                'status' => 'success',
-                'message' => 'Login berhasil.',
+                'message' => 'Login berhasil',
                 'data' => [
                     'token' => $token,
                 ],
@@ -99,12 +98,13 @@ class AuthController extends Controller
             $error = $validator->errors()->first();
             return response()->json(
                 [
-                    'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                400
             );
         }
+
+        DB::beginTransaction();
 
         $user = User::create([
             'name' => $request->name,
@@ -112,13 +112,18 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // $user->sendEmailVerificationNotification();
+        $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
+
+        $user->assignRole('user');
+
+        DB::commit();
 
         return response()->json(
             [
-                'status' => 'success',
-                'message' => 'Register successfully, please log in using your new account.',
-                'data' => null
+                'message' => 'Register successfully.',
+                'data' => [
+                    'token' => $token
+                ]
             ],
             200
         );
@@ -134,7 +139,6 @@ class AuthController extends Controller
     {
         if ($request->user()) {
             return response()->json([
-                "status" => "success",
                 "message" => "User data has been successfully obtained.",
                 "data" => [
                     "id" => $request->user()->id,
@@ -147,7 +151,7 @@ class AuthController extends Controller
 
         return response()->json([
             "status" => "failed",
-            "message" => "Data user tidak ditemukan."
+            "message" => "User data not found."
         ], 200);
     }
 
@@ -165,8 +169,33 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'status' => 'success',
                 'message' => 'You have successfully logged out.',
+            ],
+            200
+        );
+    }
+
+    /**
+     * Remove the specified account resource from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function removeAccount(Request $request)
+    {
+        DB::beginTransaction();
+        $request
+            ->user()
+            ->currentAccessToken()
+            ->delete();
+
+        $request->user()->email = Str::random(40) . '@aksibencana.com';
+        $request->user()->save();
+
+        DB::commit();
+
+        return response()->json(
+            [
+                'message' => 'Your account successfully removed.',
             ],
             200
         );
@@ -191,10 +220,9 @@ class AuthController extends Controller
             $error = $validator->errors()->first();
             return response()->json(
                 [
-                    'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                400
             );
         }
         $user = User::where('email', $request->email)->first();
@@ -207,21 +235,19 @@ class AuthController extends Controller
                 $seconds = RateLimiter::availableIn($key);
                 return response()->json(
                     [
-                        'status' => 'failed',
                         'message' =>
                         'If you have previously requested verification, please check your incoming email messages, including spam and promotional folders. You can send a verification request again after ' .
                             $seconds .
                             ' seconds',
                         'data' => null,
                     ],
-                    200
+                    400
                 );
             } else {
                 RateLimiter::hit($key, $decay);
                 $user->sendEmailVerificationNotification();
                 return response()->json(
                     [
-                        'status' => 'success',
                         'message' =>
                         'A verification email has been sent, please check your email inbox to verify.',
                         'data' => null,
@@ -233,7 +259,6 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'status' => 'success',
                 'message' => 'Akun kamu sudah aktif.',
             ],
             200
@@ -246,7 +271,7 @@ class AuthController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function resetPassword(Request $request)
+    public function sendEmailResetPassword(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
@@ -259,10 +284,9 @@ class AuthController extends Controller
             $error = $validator->errors()->first();
             return response()->json(
                 [
-                    'status' => 'failed',
                     'message' => $error,
                 ],
-                200
+                400
             );
         }
         // We will send the password reset link to this user. Once we have attempted
@@ -273,7 +297,6 @@ class AuthController extends Controller
         return $response == Password::RESET_LINK_SENT
             ? response()->json(
                 [
-                    'status' => 'success',
                     'message' =>
                     'The password reset link has been successfully sent to your email, please check your email inbox.',
                 ],
@@ -281,11 +304,10 @@ class AuthController extends Controller
             )
             : response()->json(
                 [
-                    'status' => 'failed',
                     'message' =>
                     'You have requested a password reset some time ago, please check your email again.',
                 ],
-                200
+                400
             );
     }
 }
