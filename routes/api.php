@@ -7,8 +7,6 @@ use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/location-store', [LocationController::class, 'storeLocation']);
-
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -43,6 +41,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/volunteer/detail/{id}', [VolunteerController::class, 'show']);
 
     Route::post('/volunteer/register', [VolunteerController::class, 'register']);
+
+    Route::get('/volunteer/abilities', [VolunteerController::class, 'abilities']);
 
     /*
     |--------------------------------------------------------------------------

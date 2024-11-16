@@ -3,12 +3,34 @@
 namespace App\Http\Controllers\API\Volunteers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ability;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
+
+    /**
+     * List Abilities
+     */
+    public function abilities()
+    {
+        $abilities = Ability::all();
+        $results = [];
+
+        foreach ($abilities as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "name" => $item->name
+            ];
+        }
+
+        return response()->json([
+            "message" => "Ability data successfully retrieved",
+            "data" => $results
+        ], 200);
+    }
 
     /**
      * Register Volunteer
@@ -59,7 +81,7 @@ class VolunteerController extends Controller
 
         $volunteer = Volunteer::find($id);
 
-        if(!$volunteer){
+        if (!$volunteer) {
             return response()->json([
                 "message" => "Volunteer data not found",
             ], 404);

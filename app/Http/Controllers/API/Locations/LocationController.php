@@ -74,6 +74,10 @@ class LocationController extends Controller
         return json_decode($result, true);
     }
 
+    /**
+     * Run first time when init location data
+     * ignore when you using import database directly
+     */
     public function storeLocation()
     {
         ini_set('max_execution_time', 100000);
