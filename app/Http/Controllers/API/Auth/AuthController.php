@@ -130,7 +130,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Detail User
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -156,7 +156,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Logout
      *
      * @return \Illuminate\Http\Response
      */
@@ -176,7 +176,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Remove the specified account resource from storage.
+     * Remove Account
      *
      * @return \Illuminate\Http\Response
      */
@@ -202,7 +202,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Handle a request verification email for user.
+     * Resend Verification
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -266,7 +266,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Send Email Reset Password
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
