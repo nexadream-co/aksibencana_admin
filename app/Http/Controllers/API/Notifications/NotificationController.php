@@ -17,11 +17,12 @@ class NotificationController extends Controller
             'page' => ['integer'],
             'limit' => ['integer'],
         ]);
+
         $user = User::find($request->user()->id);
 
         $notifications = $user->notifications()->paginate($request->limit);
         $results = [];
- 
+
         foreach ($notifications as $item) {
             $results[] = [
                 "id" => $item->id,

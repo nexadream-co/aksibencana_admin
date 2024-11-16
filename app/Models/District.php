@@ -10,4 +10,9 @@ class District extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city_id');
+    }
 }

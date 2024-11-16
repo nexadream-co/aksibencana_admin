@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\Educations\EducationController;
+use App\Http\Controllers\API\Locations\LocationController;
 use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/location-store', [LocationController::class, 'storeLocation']);
 
 Route::post('/auth/login', [AuthController::class, 'login']);
 
@@ -62,4 +65,15 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     */
 
     Route::get('/notifications', [NotificationController::class, 'index']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Location Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage location data API
+    |
+    */
+
+    Route::get('/locations', [LocationController::class, 'index']);
 });
