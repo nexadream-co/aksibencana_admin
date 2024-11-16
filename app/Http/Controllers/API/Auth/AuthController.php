@@ -19,6 +19,7 @@ class AuthController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @unauthenticated
      */
     public function login(Request $request)
     {
@@ -81,6 +82,7 @@ class AuthController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @unauthenticated
      */
     public function register(Request $request)
     {
@@ -266,10 +268,11 @@ class AuthController extends Controller
     }
 
     /**
-     * Send Email Reset Password
+     * Forgot Password
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @unauthenticated
      */
     public function sendEmailResetPassword(Request $request)
     {
