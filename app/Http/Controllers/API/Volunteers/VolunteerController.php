@@ -16,10 +16,10 @@ class VolunteerController extends Controller
      */
     public function abilities()
     {
-        $abilities = Ability::all();
+        $data = Ability::all();
         $results = [];
 
-        foreach ($abilities as $item) {
+        foreach ($data as $item) {
             $results[] = [
                 "id" => $item->id,
                 "name" => $item->name
