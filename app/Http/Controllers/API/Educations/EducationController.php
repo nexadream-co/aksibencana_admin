@@ -22,6 +22,7 @@ class EducationController extends Controller
                 "title" => $item->title,
                 "banner" => $item->banner,
                 "contents" => $item->contents,
+                "created_at" => $item->created_at->format("Y-m-d h:i:s")
             ];
         }
 
@@ -29,6 +30,5 @@ class EducationController extends Controller
             "message" => "Education data successfully retrieved",
             "data" => $results
         ], 200);
-
     }
 }

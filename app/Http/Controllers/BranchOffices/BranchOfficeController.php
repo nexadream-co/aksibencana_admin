@@ -26,7 +26,10 @@ class BranchOfficeController extends Controller
             $results[] = [
                 "id" => $item->id,
                 "name" => $item->name,
-                "district_id" => $item->district_id,
+                "district" => @$item->district ? [
+                    "id" => $item->district->id,
+                    "name" => $item->district->name,
+                ] : null,
                 "address" => $item->address,
                 "latitude" => $item->latitude,
                 "longitude" => $item->longitude
