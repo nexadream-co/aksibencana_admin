@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Http\Controllers\API\Educations;
+
+use App\Http\Controllers\Controller;
+use App\Models\Education;
+use Illuminate\Http\Request;
+
+class EducationController extends Controller
+{
+    /**
+     * List Educations
+     */
+    public function index(Request $request)
+    {
+        $results = [];
+        $educations = Education::latest()->get();
+
+        foreach ($educations as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "title" => $item->title,
+                "banner" => $item->banner,
+                "contents" => $item->contents,
+            ];
+        }
+
+        return response()->json([
+            "message" => "Education data successfully retrieved",
+            "data" => $results
+        ], 200);
+
+    }
+}

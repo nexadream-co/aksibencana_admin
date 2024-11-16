@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\Educations\EducationController;
+use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,4 +40,26 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/volunteer/detail/{id}', [VolunteerController::class, 'show']);
 
     Route::post('/volunteer/register', [VolunteerController::class, 'register']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Education Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage education data API
+    |
+    */
+
+    Route::get('/educations', [EducationController::class, 'index']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage notification data API
+    |
+    */
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });

@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('name')->nullable();
-            $table->string('category')->comment('disaster_emergency|reconstruction')->nullable();
-            $table->string('date_of_birth')->nullable();
-            $table->string('whatsapp')->nullable();
-            $table->string('address')->nullable();
-            $table->text('ability')->nullable();
+            $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('district_id')->index();
+            $table->text('categories')->nullable()->comment('emergency|reconstruction');
+            $table->date('date_of_birth')->nullable();
+            $table->string('whatsapp_number')->nullable();
+            $table->text('address')->nullable();
             $table->string('health_status')->nullable();
-            $table->string('status')->nullable();
-            $table->string('ktp_url')->nullable();
+            $table->string('availability_status')->nullable()->comment('active|inactive');
+            $table->string('status')->nullable()->comment('active|inactive|request');
+            $table->string('ktp')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

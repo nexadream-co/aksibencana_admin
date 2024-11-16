@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     /**
-     * Login Manual
+     * Login Email Password
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -28,6 +28,8 @@ class AuthController extends Controller
             [
                 'email' => 'required|email',
                 'password' => 'required',
+                'device_name' => 'string',
+                'device_token' => 'string|required',
             ]
         );
 
@@ -93,6 +95,8 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|confirmed',
                 'password_confirmation' => 'required',
+                'device_name' => 'string',
+                'device_token' => 'string|required',
             ]
         );
 
@@ -154,7 +158,7 @@ class AuthController extends Controller
         return response()->json([
             "status" => "failed",
             "message" => "User data not found."
-        ], 200);
+        ], 400);
     }
 
     /**

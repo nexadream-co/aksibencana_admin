@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Volunteers;
 use App\Http\Controllers\Controller;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
@@ -25,7 +26,10 @@ class VolunteerController extends Controller
             'whatsapp_number' => ['string'],
         ]);
 
-        Volunteer::create([
+        DB::beginTransaction();
+
+        $volunteer = Volunteer::create([
+            "user_id" => $request->user()->id,
             "date_of_birth" => $request->date_of_birth,
             "address" => $request->address,
             "health_status" => $request->health_status,
@@ -33,8 +37,14 @@ class VolunteerController extends Controller
             "district_id" => $request->district_id,
             "ktp" => $request->ktp,
             "categories" => json_encode($request->categories),
-            "abilities" => json_encode($request->abilities),
+            "availability_status" => "active",
+            "status" => "request",
         ]);
+
+        // Insert to ability
+        // ...
+
+        DB::commit();
 
         return response()->json([
             "message" => "Your registration as volunteer succesfully send, please wait we will confirm your proposal"
