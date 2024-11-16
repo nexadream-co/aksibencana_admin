@@ -80,7 +80,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Register new account
+     * Register
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('volunteers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->index();
-            $table->unsignedBigInteger('district_id')->index();
+            $table->unsignedBigInteger('district_id')->index()->nullable();
             $table->text('categories')->nullable()->comment('emergency|reconstruction');
             $table->date('date_of_birth')->nullable();
             $table->string('whatsapp_number')->nullable();

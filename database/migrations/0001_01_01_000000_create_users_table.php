@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_office_id')->nullable()->index();
             $table->string('name');
             $table->string('photo_url')->nullable();
             $table->string('email')->unique();
