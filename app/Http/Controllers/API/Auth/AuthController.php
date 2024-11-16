@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(
                 [
-                    'message' => 'Your email or password is incorrect.',
+                    'message' => 'Your email or password is incorrect',
                 ],
                 400
             );
@@ -126,7 +126,7 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'message' => 'Register successfully.',
+                'message' => 'Register successfully',
                 'data' => [
                     'token' => $token
                 ]
@@ -144,20 +144,25 @@ class AuthController extends Controller
     public function show(Request $request)
     {
         if ($request->user()) {
+            $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
             return response()->json([
-                "message" => "User data has been successfully obtained.",
+                "message" => "User data has been successfully retrieved",
                 "data" => [
                     "id" => $request->user()->id,
                     "name" => $request->user()->name,
                     "email" => $request->user()->email,
+                    "address" => @$volunteer->address,
                     "photo_url" => $request->user()->photo_url,
+                    "date_of_birth" => @$volunteer->date_of_birth,
+                    "is_volunteer" => @$volunteer != null
                 ]
             ], 200);
         }
 
         return response()->json([
             "status" => "failed",
-            "message" => "User data not found."
+            "message" => "User data not found"
         ], 400);
     }
 
@@ -175,7 +180,7 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'message' => 'You have successfully logged out.',
+                'message' => 'You have successfully logged out',
             ],
             200
         );
@@ -201,72 +206,39 @@ class AuthController extends Controller
 
         return response()->json(
             [
-                'message' => 'Your account successfully removed.',
+                'message' => 'Your account successfully removed',
             ],
             200
         );
     }
 
     /**
-     * Resend Verification
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * Change Password
      */
-    public function resendVerification(Request $request)
+    public function changePassword(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'email' => 'required|email',
-            ],
-        );
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required', 'string'],
+        ]);
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
+        $user = $request->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(
                 [
-                    'message' => $error,
+                    'status' => 'error',
+                    'message' => 'Current password does not match!',
                 ],
                 400
             );
         }
-        $user = User::where('email', $request->email)->first();
-        if (!$user->hasVerifiedEmail()) {
-            $key = 'send-email.' . $user->id;
-            $max = 1;
-            $decay = 300;
 
-            if (RateLimiter::tooManyAttempts($key, $max)) {
-                $seconds = RateLimiter::availableIn($key);
-                return response()->json(
-                    [
-                        'message' =>
-                        'If you have previously requested verification, please check your incoming email messages, including spam and promotional folders. You can send a verification request again after ' .
-                            $seconds .
-                            ' seconds',
-                        'data' => null,
-                    ],
-                    400
-                );
-            } else {
-                RateLimiter::hit($key, $decay);
-                $user->sendEmailVerificationNotification();
-                return response()->json(
-                    [
-                        'message' =>
-                        'A verification email has been sent, please check your email inbox to verify.',
-                        'data' => null,
-                    ],
-                    200
-                );
-            }
-        }
+        $user->password = Hash::make($request->new_password);
+        $user->save();
 
         return response()->json(
-            [
-                'message' => 'Akun kamu sudah aktif.',
-            ],
+            ['message' => 'Your password has been changed'],
             200
         );
     }
@@ -305,14 +277,14 @@ class AuthController extends Controller
             ? response()->json(
                 [
                     'message' =>
-                    'The password reset link has been successfully sent to your email, please check your email inbox.',
+                    'The password reset link has been successfully sent to your email, please check your email inbox',
                 ],
                 200
             )
             : response()->json(
                 [
                     'message' =>
-                    'You have requested a password reset some time ago, please check your email again.',
+                    'You have requested a password reset some time ago, please check your email again',
                 ],
                 400
             );
