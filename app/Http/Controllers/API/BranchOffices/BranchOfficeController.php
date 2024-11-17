@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\BranchOffices;
+namespace App\Http\Controllers\API\BranchOffices;
 
 use App\Http\Controllers\Controller;
 use App\Models\BranchOffice;

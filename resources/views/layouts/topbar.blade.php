@@ -36,7 +36,7 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-inline-block language-switch ms-2">
+            {{-- <div class="dropdown d-inline-block language-switch ms-2">
                 <button type="button" class="btn header-item" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <img class="header-lang-img" src="{{ URL::asset('vendors/images/flags/us.jpg') }}"
@@ -74,9 +74,9 @@
                             height="12"> <span class="align-middle">Russian</span>
                     </a>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="dropdown d-inline-block">
+            {{-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <i class="bx bx-search icon-sm align-middle"></i>
@@ -92,9 +92,9 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
 
-            <div class="dropdown d-inline-block">
+            {{-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon" id="page-header-notifications-dropdown-v"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="bx bx-bell icon-sm align-middle"></i>
@@ -185,22 +185,23 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item user text-start d-flex align-items-center"
                     id="page-header-user-dropdown-v" data-bs-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="{{ URL::asset('vendors/images/users/avatar-3.jpg') }}" alt="Header Avatar">
+                        src="{{ auth()->user()->photo_url ?? 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg' }}"
+                        alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-2 fw-medium font-size-15">Martin Gurley</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="p-3 border-bottom">
-                        <h6 class="mb-0">Martin Gurley</h6>
-                        <p class="mb-0 font-size-11 text-muted">martin.gurley@email.com</p>
+                        <h6 class="mb-0">{{ auth()->user()->name }}</h6>
+                        <p class="mb-0 font-size-11 text-muted">{{ auth()->user()->email }}</p>
                     </div>
-                    <a class="dropdown-item" href="contacts-profile"><i
+                    {{-- <a class="dropdown-item" href="contacts-profile"><i
                             class="mdi mdi-account-circle text-muted font-size-16 align-middle me-2"></i> <span
                             class="align-middle">Profile</span></a>
                     <a class="dropdown-item" href="apps-chat"><i
@@ -216,7 +217,7 @@
                     <a class="dropdown-item" href="auth-lock-screen"><i
                             class="mdi mdi-lock text-muted font-size-16 align-middle me-2"></i> <span
                             class="align-middle">Lock screen</span></a>
-                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-divider"></div> --}}
                     <a class="dropdown-item" href="javascript:void();"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="mdi mdi-logout text-muted font-size-16 align-middle me-2"></i> <span

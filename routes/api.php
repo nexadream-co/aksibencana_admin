@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\Auth\AuthController;
+use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\API\Educations\EducationController;
 use App\Http\Controllers\API\Locations\LocationController;
 use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
-use App\Http\Controllers\BranchOffices\BranchOfficeController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -85,7 +85,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     | Branch Office Routes
     |--------------------------------------------------------------------------
     |
-    | Manage branch offices data API
+    | Manage branch offices data APIs
     |
     */
 

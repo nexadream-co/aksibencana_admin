@@ -32,7 +32,14 @@
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
-                <li class="menu-title" data-key="t-menu">Dashboard</li>
+                <li>
+                    <a href="/">
+                        <i class="bx bx-home-alt icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-dashboard">Dashboard</span>
+                    </a>
+                </li>
+
+                {{-- <li class="menu-title" data-key="t-menu">Dashboard</li>
 
                 <li>
                     <a href="javascript: void(0);">
@@ -44,9 +51,113 @@
                         <li><a href="index" data-key="t-ecommerce">Ecommerce</a></li>
                         <li><a href="dashboard-sales" data-key="t-sales">Sales</a></li>
                     </ul>
+                </li> --}}
+
+                <li class="menu-title" data-key="t-applications">Volunteers</li>
+
+                {{-- <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i class="bx bx-receipt icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-invoices">Volunteers</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('volunteers') }}" data-key="t-invoice-list">List Volunteers</a></li>
+                    </ul>
+                </li> --}}
+
+                <li>
+                    <a href="{{ route('volunteers') }}">
+                        <i class="bx bx-receipt icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-volunteers">Volunteers</span>
+                    </a>
                 </li>
 
-                <li class="menu-title" data-key="t-applications">Applications</li>
+                <li>
+                    <a href="{{ route('abilities') }}">
+                        <i class="bx bx-tag icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-abilities">Abilities</span>
+                    </a>
+                </li>
+
+                <li class="menu-title" data-key="t-applications">Donations</li>
+
+                <li>
+                    <a href="/donations">
+                        <i class="bx bx-crown icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-donations">Donations</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/fundraisers">
+                        <i class="bx bx-user-pin icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-fundraisers">Fundraisers</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/prayer">
+                        <i class="bx bx-heart icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-prayers">Prayer</span>
+                    </a>
+                </li>
+
+                <li class="menu-title" data-key="t-logistics">Logistics</li>
+
+                <li>
+                    <a href="/logistics">
+                        <i class="bx bx-package icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-logistics">Logistics</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/logistics">
+                        <i class="bx bx-landscape icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-disasters">Disasters</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/deliveries">
+                        <i class="bx bx-shape-square icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-disasters">Deliveries</span>
+                    </a>
+                </li>
+
+                <li class="menu-title" data-key="t-applications">Master</li>
+
+                <li>
+                    <a href="{{ route('branch_offices') }}">
+                        <i class="bx bx-buildings icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-branch-offices">Branch Offices</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('education') }}">
+                        <i class="bx bx-book icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-education">Education</span>
+                    </a>
+                </li>
+
+                <li class="menu-title" data-key="t-applications">Profile</li>
+
+                <li>
+                    <a href="/accounts">
+                        <i class="bx bx-user-circle icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-branch-offices">Account</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/logout">
+                        <i class="bx bx-log-out icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-branch-offices">Logout</span>
+                    </a>
+                </li>
+
+                {{-- <li class="menu-title" data-key="t-applications">Template</li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -106,18 +217,6 @@
                     </ul>
                 </li>
 
-
-
-                <li>
-                    <a href="javascript: void(0);" class="has-arrow">
-                        <i class="bx bx-receipt icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-invoices">Invoices</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="invoices-list" data-key="t-invoice-list">Invoice List</a></li>
-                        <li><a href="invoices-detail" data-key="t-invoice-detail">Invoice Detail</a></li>
-                    </ul>
-                </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -290,7 +389,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

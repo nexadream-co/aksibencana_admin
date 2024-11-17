@@ -34,22 +34,22 @@ File: Main Js File
             if (el) {
                 switch (lang) {
                     case "eng":
-                        el.src = "vendors/images/flags/us.jpg";
+                        el.src = "/vendors/images/flags/us.jpg";
                         break;
                     case "sp":
-                        el.src = "vendors/images/flags/spain.jpg";
+                        el.src = "/vendors/images/flags/spain.jpg";
                         break;
                     case "gr":
-                        el.src = "vendors/images/flags/germany.jpg";
+                        el.src = "/vendors/images/flags/germany.jpg";
                         break;
                     case "it":
-                        el.src = "vendors/images/flags/italy.jpg";
+                        el.src = "/vendors/images/flags/italy.jpg";
                         break;
                     case "ru":
-                        el.src = "vendors/images/flags/russia.jpg";
+                        el.src = "/vendors/images/flags/russia.jpg";
                         break;
                     default:
-                        el.src = "vendors/images/flags/us.jpg";
+                        el.src = "/vendors/images/flags/us.jpg";
                         break;
                 }
                 localStorage.setItem('language', lang);
@@ -396,12 +396,12 @@ File: Main Js File
         if (document.getElementById("layout-direction-ltr").checked == true && id === "layout-direction-ltr") {
             document.getElementsByTagName("html")[0].removeAttribute("dir");
             document.getElementById("layout-direction-rtl").checked = false;
-            document.getElementById('bootstrap-style').setAttribute('href', 'vendors/css/bootstrap.min.css');
-            document.getElementById('app-style').setAttribute('href', 'vendors/css/app.min.css');
+            document.getElementById('bootstrap-style').setAttribute('href', '/vendors/css/bootstrap.min.css');
+            document.getElementById('app-style').setAttribute('href', '/vendors/css/app.min.css');
             sessionStorage.setItem("is_visited", "layout-direction-ltr");
         } else if (document.getElementById("layout-direction-rtl").checked == true && id === "layout-direction-rtl") {
             document.getElementById("layout-direction-ltr").checked = false;
-            document.getElementById('app-style').setAttribute('href', 'vendors/css/app.min.rtl.css');
+            document.getElementById('app-style').setAttribute('href', '/vendors/css/app.min.rtl.css');
             document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
             sessionStorage.setItem("is_visited", "layout-direction-rtl");
         }
@@ -528,11 +528,11 @@ File: Main Js File
                 if (e && e.target && e.target.value) {
                     if (e.target.value == "ltr") {
                         document.getElementsByTagName("html")[0].removeAttribute("dir");
-                        document.getElementById('bootstrap-style').setAttribute('href', 'vendors/css/bootstrap.min.css');
-                        document.getElementById('app-style').setAttribute('href', 'vendors/css/app.min.css');
+                        document.getElementById('bootstrap-style').setAttribute('href', '/vendors/css/bootstrap.min.css');
+                        document.getElementById('app-style').setAttribute('href', '/vendors/css/app.min.css');
                         sessionStorage.setItem("is_visited", "layout-direction-ltr");
                     } else {
-                        document.getElementById('app-style').setAttribute('href', 'vendors/css/app.min.rtl.css');
+                        document.getElementById('app-style').setAttribute('href', '/vendors/css/app.min.rtl.css');
                         document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");
                         sessionStorage.setItem("is_visited", "layout-direction-rtl");
                     }
