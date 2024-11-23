@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="index" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('vendors/images/logo-dark-sm.png') }}" alt="" height="26">
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('vendors/images/logo-dark-sm.png') }}" alt="" height="26">
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
                     </span>
                 </a>
 
                 <a href="index" class="logo logo-light">
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('vendors/images/logo-light.png') }}" alt="" height="30">
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
                     </span>
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('vendors/images/logo-light-sm.png') }}" alt="" height="26">
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
                     </span>
                 </a>
             </div>
@@ -194,7 +194,7 @@
                     <img class="rounded-circle header-profile-user"
                         src="{{ auth()->user()->photo_url ?? 'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg' }}"
                         alt="Header Avatar">
-                    <span class="d-none d-xl-inline-block ms-2 fw-medium font-size-15">Martin Gurley</span>
+                    <span class="d-none d-xl-inline-block ms-2 fw-medium font-size-15">{{ auth()->user()->name }}</span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="p-3 border-bottom">
