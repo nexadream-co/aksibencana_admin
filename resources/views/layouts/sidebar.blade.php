@@ -17,7 +17,7 @@
                 <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="60">
             </span>
             <span class="logo-sm">
-                <img src="{{ URL::asset('/assets/images/aksi-bencana-logom.png') }}" alt="" height="40">
+                <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="40">
             </span>
         </a>
     </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\Admin\Education\EducationController;
+use App\Http\Controllers\Admin\Locations\LocationController;
 use App\Http\Controllers\Admin\Volunteers\AbilityController;
 use App\Http\Controllers\Admin\Volunteers\VolunteerController;
 use App\Http\Controllers\HomeController;
@@ -23,6 +24,10 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::get('/volunteers', [VolunteerController::class, 'index'])->name('volunteers');
+
+    Route::get('/volunteer/create', [VolunteerController::class, 'create'])->name('volunteer_create');
+
+    Route::post('/volunteer/store', [VolunteerController::class, 'store'])->name('volunteer_store');
 
     /*
     |--------------------------------------------------------------------------
@@ -67,5 +72,17 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/education', [EducationController::class, 'index'])->name('education');
 
+    /*
+    |--------------------------------------------------------------------------
+    | Education Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage Education data API
+    |
+    */
+
+    Route::get('/location/district/search', [LocationController::class, 'searchDistricts'])->name('location_district_search');
+    
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
+
 });

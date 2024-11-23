@@ -21,9 +21,8 @@
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                            data-bs-target="#addInvoiceModal"><i class="mdi mdi-plus me-1"></i> Add
-                                            Volunter</button>
+                                        <a href="{{route('volunteer_create')}}" class="btn btn-success"><i class="mdi mdi-plus me-1"></i> Add
+                                            Volunter</a>
                                     </div>
                                 </div>
                             </div>
