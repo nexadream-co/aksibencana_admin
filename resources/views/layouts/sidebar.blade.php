@@ -157,7 +157,7 @@
                     </a>
                 </li>
 
-                {{-- <li class="menu-title" data-key="t-applications">Template</li>
+                <li class="menu-title" data-key="t-applications">Template</li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -389,7 +389,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
 
             </ul>
         </div>

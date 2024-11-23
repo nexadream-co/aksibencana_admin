@@ -24,16 +24,21 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mt-4 mt-xl-0">
-                                <form method="post" action="{{ route('volunteer_store') }}">
+                                <form method="post" action="{{ route('volunteer_store') }}" enctype="multipart/form-data">
                                     @csrf
+
                                     <div class="mb-3">
-                                        <label class="form-label" for="name">Name</label>
-                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                            name="name" placeholder="Ability Name" id="name">
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <label for="basicpill-firstname-input" class="form-label"><span
+                                                data-key="t-choose-user">Choose User</span><span
+                                                class="text-danger ms-1">*</span></label>
+                                        <select class="form-control @error('user_id') is-invalid @enderror"
+                                            name="user_id" name="choices-single-default"
+                                            id="user-text-input" placeholder="Search Location">
+                                            <option value="" data-key="t-search-user">Search User
+                                            </option>
+                                        </select>
+                                        @error('user_id')
+                                            <div class="text-danger">The user id field is required.</div>
                                         @enderror
                                     </div>
 
@@ -50,6 +55,89 @@
                                         @error('district_id')
                                             <div class="text-danger">The location id field is required.</div>
                                         @enderror
+                                    </div>
+
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="ktp">KTP</label>
+                                        <input type="file" class="form-control @error('ktp') is-invalid @enderror"
+                                            name="ktp" placeholder="Upload KTP" id="ktp">
+                                        @error('ktp')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="health_status">Health Status</label>
+                                        <input type="text" class="form-control @error('health_status') is-invalid @enderror"
+                                            name="health_status" placeholder="Health Status" id="health_status">
+                                        @error('health_status')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="whatsapp_number">Whatsapp Number</label>
+                                        <input type="number" class="form-control @error('whatsapp_number') is-invalid @enderror"
+                                            name="whatsapp_number" placeholder="Whatsapp number" id="whatsapp_number">
+                                        @error('whatsapp_number')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="date_of_birth">Date of birth</label>
+                                        <input type="date" class="form-control @error('date_of_birth') is-invalid @enderror"
+                                            name="date_of_birth" placeholder="Date of birth" id="date_of_birth">
+                                        @error('date_of_birth')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="address">Address</label>
+                                        <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" rows="3" placeholder="Addres"></textarea>
+                                        @error('address')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="address">Category</label>
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="category" id="category1" checked="">
+                                            <label class="form-check-label" for="category1">
+                                                Emmergency
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="category" id="category2">
+                                            <label class="form-check-label" for="category2">
+                                                Form Radio checked
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                        <input type="checkbox" class="form-check-input" id="customSwitchsizemd" checked>
+                                        <label class="form-check-label" for="customSwitchsizemd">Availability Status</label>
+                                    </div>
+                                    
+                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                        <input type="checkbox" class="form-check-input" id="customSwitchsizemd" checked>
+                                        <label class="form-check-label" for="customSwitchsizemd">Active</label>
                                     </div>
 
                                     <div class="mt-4">
@@ -73,7 +161,9 @@
     <script src="{{ url('/') }}/vendors/js/app.js"></script>
 
     <script>
+        const userElement = document.getElementById('user-text-input');
         const districtElement = document.getElementById('district-text-input');
+        initChoices(userElement, '/user/search');
         initChoices(districtElement, '/location/district/search');
 
         function initChoices(element, url) {

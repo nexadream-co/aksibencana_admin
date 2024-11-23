@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Locations\LocationController;
+use App\Http\Controllers\Admin\Users\UserController;
 use App\Http\Controllers\Admin\Volunteers\AbilityController;
 use App\Http\Controllers\Admin\Volunteers\VolunteerController;
 use App\Http\Controllers\HomeController;
@@ -74,14 +75,25 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Education Routes
+    | Location Routes
     |--------------------------------------------------------------------------
     |
-    | Manage Education data API
+    | Manage Location data API
     |
     */
 
     Route::get('/location/district/search', [LocationController::class, 'searchDistricts'])->name('location_district_search');
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage User data API
+    |
+    */
+
+    Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
     
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
 
