@@ -11,4 +11,9 @@ class Ability extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function volunteers()
+    {
+        return $this->belongsToMany(Volunteer::class, 'volunteer_abilities');
+    }
 }

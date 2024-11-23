@@ -63,8 +63,7 @@ class VolunteerController extends Controller
             "status" => "request",
         ]);
 
-        // Insert to ability
-        // ...
+        $volunteer->abilities()->sync($request->abilities);
 
         DB::commit();
 

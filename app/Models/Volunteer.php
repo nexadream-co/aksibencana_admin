@@ -21,4 +21,9 @@ class Volunteer extends Model
     {
         return $this->belongsTo(District::class, 'district_id');
     }
+
+    public function abilities()
+    {
+        return $this->belongsToMany(Ability::class, 'volunteer_abilities');
+    }
 }

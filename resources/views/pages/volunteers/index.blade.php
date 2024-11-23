@@ -41,8 +41,8 @@
                                     <th scope="col">Category</th>
                                     <th scope="col" width="120px">Availability</th>
                                     <th scope="col" width="120px">Status</th>
-                                    <th scope="col" width="120px">Address</th>
-                                    <th scope="col" width="120px">Age</th>
+                                    <th scope="col" width="120px">City</th>
+                                    <th scope="col" width="120px">Birth</th>
                                     <th scope="col">Action</th>
                                 </tr>
 
@@ -57,19 +57,19 @@
                                             {{ @$item->user->name }}
                                         </td>
                                         <td>
-                                            Hello
+                                            {{implode(', ', @json_decode($item->categories) ?? [])}}
                                         </td>
                                         <td>
-                                            Hello
+                                            {{$item->availability_status}}
                                         </td>
                                         <td>
-                                            Hello
+                                            {{$item->status}}
                                         </td>
                                         <td>
-                                            Hello
+                                            {{@$item->district->city->name}}
                                         </td>
                                         <td>
-                                            Hello
+                                            {{@$item->date_of_birth}}
                                         </td>
                                         <td>
                                             <a class="btn btn-primary"><i class="bx bx-pencil"></i></a>

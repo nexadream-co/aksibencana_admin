@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin\Volunteers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ability;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
@@ -22,7 +24,8 @@ class VolunteerController extends Controller
      */
     public function create()
     {
-        return view('pages.volunteers.create');
+        $abilities = Ability::orderBy('name', 'asc')->get();
+        return view('pages.volunteers.create', compact('abilities'));
     }
 
     /**
@@ -30,7 +33,43 @@ class VolunteerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'date_of_birth' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'health_status' => ['required', 'string'],
+            'ktp' => ['required', 'string'],
+            'user_id' => ['required', 'file'],
+            'district_id' => ['required', 'string'],
+            'district_id' => ['required', 'string'],
+            'categories' => ['required', 'array'],
+            'abilities' => ['required', 'array'],
+            'whatsapp_number' => ['string'],
+        ]);
+
+        DB::beginTransaction();
+
+        $volunteer = Volunteer::create([
+            "district_id" => $request->district_id,
+            "user_id" => $request->user_id,
+            "date_of_birth" => $request->date_of_birth,
+            "address" => $request->address,
+            "health_status" => $request->health_status,
+            "whatsapp_number" => $request->whatsapp_number,
+            "district_id" => $request->district_id,
+            "ktp" => $request->ktp,
+            "categories" => json_encode($request->categories),
+            "availability_status" => $request->availability_status ? 'active' : 'inactive',
+            "status" => $request->status ? 'active' : 'inactive',
+        ]);
+
+        // $volunteer->abilities()->attach($request->abilities);
+        $volunteer->abilities()->sync($request->abilities);
+
+        DB::commit();
+
+        session()->flash('success', 'Volunteer successfully created');
+
+        return redirect()->route('volunteers');
     }
 
     /**

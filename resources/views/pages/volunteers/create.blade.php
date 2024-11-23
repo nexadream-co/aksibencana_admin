@@ -15,11 +15,8 @@
 
 @section('content')
     <div class="row d-flex justify-content-center">
-        <div class="col-lg-5">
+        <div class="col-lg-6">
             <div class="card">
-                {{-- <div class="card-header">
-                    <h4 class="card-title mb-0">Form layouts</h4>
-                </div> --}}
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-12">
@@ -38,7 +35,7 @@
                                             </option>
                                         </select>
                                         @error('user_id')
-                                            <div class="text-danger">The user id field is required.</div>
+                                            <div class="text-danger">The user field is required.</div>
                                         @enderror
                                     </div>
 
@@ -53,7 +50,7 @@
                                             </option>
                                         </select>
                                         @error('district_id')
-                                            <div class="text-danger">The location id field is required.</div>
+                                            <div class="text-danger">The location field is required.</div>
                                         @enderror
                                     </div>
 
@@ -113,31 +110,49 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="address">Category</label>
+                                        <label class="form-label">Category</label>
                                         <div class="form-check mb-3">
-                                            <input class="form-check-input" type="radio" name="category" id="category1" checked="">
+                                            <input class="form-check-input" type="checkbox" name="categories[]" id="category1" value="emmergency">
                                             <label class="form-check-label" for="category1">
                                                 Emmergency
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="category" id="category2">
+                                            <input class="form-check-input" type="checkbox" name="categories[]" id="category2" value="reconstruction">
                                             <label class="form-check-label" for="category2">
-                                                Form Radio checked
+                                                Reconstruction
                                             </label>
                                         </div>
+                                        @error('categories')
+                                            <div class="text-danger">The categories field is required.</div>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Abilities</label>
+                                        @foreach ($abilities as $item)
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" name="abilities[]" value="{{$item->id}}" id="ability{{$loop->iteration}}">
+                                                <label class="form-check-label" for="ability{{$loop->iteration}}">
+                                                    {{$item->name}}
+                                                </label>
+                                            </div>
+                                        @endforeach
+                                        @error('abilities')
+                                            <div class="text-danger">The abilities field is required.</div>
+                                        @enderror
                                     </div>
 
                                     <hr>
 
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                        <input type="checkbox" class="form-check-input" id="customSwitchsizemd" checked>
-                                        <label class="form-check-label" for="customSwitchsizemd">Availability Status</label>
+                                        <input type="checkbox" class="form-check-input" name="availability_status" id="availability_status" checked>
+                                        <label class="form-check-label" for="availability_status">Availability Status</label>
                                     </div>
                                     
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                        <input type="checkbox" class="form-check-input" id="customSwitchsizemd" checked>
-                                        <label class="form-check-label" for="customSwitchsizemd">Active</label>
+                                        <input type="checkbox" class="form-check-input" id="status_active" name="status" checked>
+                                        <label class="form-check-label" for="status_active">Active</label>
                                     </div>
 
                                     <div class="mt-4">
