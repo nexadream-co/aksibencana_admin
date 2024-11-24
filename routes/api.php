@@ -4,6 +4,7 @@ use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\API\Educations\EducationController;
 use App\Http\Controllers\API\Locations\LocationController;
+use App\Http\Controllers\API\Media\MediaController;
 use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,12 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::get('/volunteer/abilities', [VolunteerController::class, 'abilities']);
 
+    Route::put('/volunteer/update', [VolunteerController::class, 'update']);
+
+    Route::patch('/volunteer/update-status', [VolunteerController::class, 'updateStatusVolunteer']);
+
+    Route::patch('/volunteer/update-availability-status', [VolunteerController::class, 'updateAvailabilityStatusVolunteer']);
+
     /*
     |--------------------------------------------------------------------------
     | Education Routes
@@ -57,6 +64,17 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     */
 
     Route::get('/educations', [EducationController::class, 'index']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Media Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage Media data API
+    |
+    */
+
+    Route::post('/media/store-file', [MediaController::class, 'storeFile']);
 
     /*
     |--------------------------------------------------------------------------

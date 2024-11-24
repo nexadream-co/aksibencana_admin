@@ -1,9 +1,9 @@
 @extends('layouts.master')
 @section('title')
-    Create Volunteer
+    Update Volunteer
 @endsection
 @section('page-title')
-    Create Volunteer
+    Update Volunteer
 @endsection
 
 @section('css')
@@ -21,18 +21,25 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mt-4 mt-xl-0">
-                                <form method="post" action="{{ route('volunteer_store') }}" enctype="multipart/form-data">
+                                <form method="post" action="{{ route('volunteer_update', $volunteer->id) }}"
+                                    enctype="multipart/form-data">
                                     @csrf
+                                    @method('put')
 
                                     <div class="mb-3">
                                         <label for="basicpill-firstname-input" class="form-label"><span
                                                 data-key="t-choose-user">Choose User</span><span
                                                 class="text-danger ms-1">*</span></label>
                                         <select class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                                            name="choices-single-default" id="user-text-input"
-                                            placeholder="Search Location">
+                                            name="choices-single-default" id="user-text-input" placeholder="Search Location"
+                                            readonly>
                                             <option value="" data-key="t-search-user">Search User
                                             </option>
+                                            @if (@$volunteer->user->id)
+                                                <option value="{{ @$volunteer->user->id }}" selected>
+                                                    {{ @$volunteer->user->name }}
+                                                </option>
+                                            @endif
                                         </select>
                                         @error('user_id')
                                             <div class="text-danger">The user field is required.</div>
@@ -48,6 +55,13 @@
                                             placeholder="Search Location">
                                             <option value="" data-key="t-search-location">Search Location
                                             </option>
+                                            @if (@$volunteer->district->id)
+                                                <option value="{{ @$volunteer->district->id }}" selected>
+                                                    {{ @$volunteer->district->name }},
+                                                    {{ @$volunteer->district->city->name }},
+                                                    {{ @$volunteer->district->city->province->name }}
+                                                </option>
+                                            @endif
                                         </select>
                                         @error('district_id')
                                             <div class="text-danger">The location field is required.</div>
@@ -57,6 +71,12 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="ktp">KTP</label>
+
+                                        <div class="my-2">
+                                            <img src="{{ url('/') }}/storage/{{ @$volunteer->ktp }}" class="rounded"
+                                                width="70" height="70" style="object-fit: cover">
+                                        </div>
+
                                         <input type="file" class="form-control @error('ktp') is-invalid @enderror"
                                             name="ktp" placeholder="Upload KTP" id="ktp">
                                         @error('ktp')
@@ -71,7 +91,7 @@
                                         <input type="text"
                                             class="form-control @error('health_status') is-invalid @enderror"
                                             name="health_status" placeholder="Health Status" id="health_status"
-                                            value="{{ old('health_status') }}">
+                                            value="{{ old('health_status') ?? @$volunteer->health_status }}">
                                         @error('health_status')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -84,7 +104,7 @@
                                         <input type="number"
                                             class="form-control @error('whatsapp_number') is-invalid @enderror"
                                             name="whatsapp_number" placeholder="Whatsapp number" id="whatsapp_number"
-                                            value="{{ old('whatsapp_number') }}">
+                                            value="{{ old('whatsapp_number') ?? @$volunteer->whatsapp_number }}">
                                         @error('whatsapp_number')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -97,7 +117,7 @@
                                         <input type="date"
                                             class="form-control @error('date_of_birth') is-invalid @enderror"
                                             name="date_of_birth" placeholder="Date of birth" id="date_of_birth"
-                                            value="{{ old('date_of_birth') }}">
+                                            value="{{ old('date_of_birth') ?? @$volunteer->date_of_birth }}">
                                         @error('date_of_birth')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -108,7 +128,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="address">Address</label>
                                         <textarea class="form-control @error('address') is-invalid @enderror" name="address" id="address" rows="3"
-                                            placeholder="Addres">{{ old('address') }}</textarea>
+                                            placeholder="Addres">{{ old('address') ?? @$volunteer->address }}</textarea>
                                         @error('address')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -121,7 +141,7 @@
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" type="checkbox" name="categories[]"
                                                 id="category1" value="emmergency"
-                                                {{ in_array('emmergency', old('categories', [])) ? 'checked' : '' }}>
+                                                {{ in_array('emmergency', old('categories') ?? (json_decode(@$volunteer->categories) ?? [])) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="category1">
                                                 Emmergency
                                             </label>
@@ -129,7 +149,7 @@
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="categories[]"
                                                 id="category2" value="reconstruction"
-                                                {{ in_array('reconstruction', old('categories', [])) ? 'checked' : '' }}>
+                                                {{ in_array('reconstruction', old('categories') ?? (json_decode(@$volunteer->categories) ?? [])) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="category2">
                                                 Reconstruction
                                             </label>
@@ -145,7 +165,7 @@
                                             <div class="form-check mb-3">
                                                 <input class="form-check-input" type="checkbox" name="abilities[]"
                                                     value="{{ $item->id }}" id="ability{{ $loop->iteration }}"
-                                                    {{ in_array($item->id, old('abilities', [])) ? 'checked' : '' }}>
+                                                    {{ in_array($item->id, old('abilities') ?? (json_decode(@$volunteer->abilities->pluck('id')) ?? [])) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="ability{{ $loop->iteration }}">
                                                     {{ $item->name }}
                                                 </label>
@@ -160,14 +180,14 @@
 
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
                                         <input type="checkbox" class="form-check-input" name="availability_status"
-                                            id="availability_status" @if (old('availability_status')) checked @endif>
+                                            id="availability_status" @if ((old('availability_status') ?? @$volunteer->availability_status) == 'active') checked @endif>
                                         <label class="form-check-label" for="availability_status">Availability
                                             Status</label>
                                     </div>
 
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
                                         <input type="checkbox" class="form-check-input" id="status_active"
-                                            name="status" @if (old('status')) checked @endif>
+                                            name="status" @if ((old('status') ?? @$volunteer->status) == 'active') checked @endif>
                                         <label class="form-check-label" for="status_active">Active</label>
                                     </div>
 

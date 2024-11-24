@@ -45,7 +45,7 @@ class LocationController extends Controller
         foreach ($districts as $item) {
             $data[] = [
                 "id" => $item->id,
-                "name" => "$item->name",
+                "name" => "$item->name, " . @$item->city->name,
                 "city" => [
                     "id" => @$item->city->id,
                     "name" => @$item->city->name,

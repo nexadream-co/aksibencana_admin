@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin\Volunteers;
 use App\Http\Controllers\Controller;
 use App\Models\Ability;
 use App\Models\Volunteer;
+use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
+    use ImageUpload;
+
     /**
      * Display a listing of the resource.
      */
@@ -37,14 +40,19 @@ class VolunteerController extends Controller
             'date_of_birth' => ['required', 'string'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
-            'ktp' => ['required', 'string'],
-            'user_id' => ['required', 'file'],
-            'district_id' => ['required', 'string'],
+            'ktp' => ['required', 'file'],
+            'user_id' => ['required', 'string'],
             'district_id' => ['required', 'string'],
             'categories' => ['required', 'array'],
             'abilities' => ['required', 'array'],
             'whatsapp_number' => ['string'],
         ]);
+
+        $is_registered = Volunteer::where('user_id', $request->user_id)->first();
+        if ($is_registered) {
+            session()->flash('error', 'User already regitered as volunteer');
+            return back()->withInput();
+        }
 
         DB::beginTransaction();
 
@@ -55,7 +63,6 @@ class VolunteerController extends Controller
             "address" => $request->address,
             "health_status" => $request->health_status,
             "whatsapp_number" => $request->whatsapp_number,
-            "district_id" => $request->district_id,
             "ktp" => $request->ktp,
             "categories" => json_encode($request->categories),
             "availability_status" => $request->availability_status ? 'active' : 'inactive',
@@ -65,6 +72,13 @@ class VolunteerController extends Controller
         // $volunteer->abilities()->attach($request->abilities);
         $volunteer->abilities()->sync($request->abilities);
 
+        $image = null;
+        if ($request->hasFile('ktp')) {
+            $image = $this->upload($request, 'images', 'ktp');
+            $volunteer->ktp = $image;
+            $volunteer->save();
+        }
+
         DB::commit();
 
         session()->flash('success', 'Volunteer successfully created');
@@ -73,19 +87,17 @@ class VolunteerController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        $volunteer = Volunteer::find($id);
+
+        if (!$volunteer) return abort(404);
+
+        $abilities = Ability::orderBy('name', 'asc')->get();
+
+        return view('pages.volunteers.edit', compact('volunteer', 'abilities'));
     }
 
     /**
@@ -93,7 +105,46 @@ class VolunteerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $volunteer = Volunteer::find($id);
+
+        if (!$volunteer) return abort(404);
+
+        $request->validate([
+            'date_of_birth' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'health_status' => ['required', 'string'],
+            'user_id' => ['required', 'string'],
+            'district_id' => ['required', 'string'],
+            'categories' => ['required', 'array'],
+            'abilities' => ['required', 'array'],
+            'whatsapp_number' => ['string'],
+        ]);
+
+        DB::beginTransaction();
+
+        $volunteer->district_id = $request->district_id;
+        $volunteer->user_id = $request->user_id;
+        $volunteer->date_of_birth = $request->date_of_birth;
+        $volunteer->address = $request->address;
+        $volunteer->health_status = $request->health_status;
+        $volunteer->whatsapp_number = $request->whatsapp_number;
+        $volunteer->categories = json_encode($request->categories);
+        $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
+        $volunteer->status = $request->status ? 'active' : 'inactive';
+        $volunteer->abilities()->sync($request->abilities);
+
+        $image = null;
+        if ($request->hasFile('ktp')) {
+            $image = $this->upload($request, 'images', 'ktp');
+            $volunteer->ktp = $image;
+        }
+
+        $volunteer->save();
+
+        DB::commit();
+        session()->flash('success', 'Volunteer successfully updated');
+
+        return redirect()->route('volunteers');
     }
 
     /**
@@ -101,6 +152,20 @@ class VolunteerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $volunteer = Volunteer::find($id);
+
+        if (!$volunteer) return abort(404);
+
+        DB::beginTransaction();
+
+        $volunteer->abilities()->detach();
+
+        $volunteer->delete();
+
+        DB::commit();
+
+        session()->flash('success', 'Volunteer successfully deleted');
+
+        return redirect()->route('volunteers');
     }
 }

@@ -28,6 +28,12 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/volunteer/create', [VolunteerController::class, 'create'])->name('volunteer_create');
 
+    Route::get('/volunteer/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteer_edit');
+
+    Route::put('/volunteer/update/{id}', [VolunteerController::class, 'update'])->name('volunteer_update');
+
+    Route::delete('/volunteer/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteer_delete');
+
     Route::post('/volunteer/store', [VolunteerController::class, 'store'])->name('volunteer_store');
 
     /*
@@ -94,7 +100,6 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
-    
-    Route::get('{any}', [HomeController::class, 'index'])->name('index');
 
+    Route::get('{any}', [HomeController::class, 'index'])->name('index');
 });

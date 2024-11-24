@@ -57,7 +57,7 @@ class VolunteerController extends Controller
             "health_status" => $request->health_status,
             "whatsapp_number" => $request->whatsapp_number,
             "district_id" => $request->district_id,
-            "ktp" => $request->ktp,
+            "ktp" => str_replace(url('storage') . '/', '', $request->ktp),
             "categories" => json_encode($request->categories),
             "availability_status" => "active",
             "status" => "request",
@@ -90,26 +90,128 @@ class VolunteerController extends Controller
             "message" => "Volunteer data successfully retrieved",
             "data" => [
                 "id" => $volunteer->id,
+                "date_of_birth" => $volunteer->date_of_birth,
+                "address" => $volunteer->address,
+                "district" => [
+                    "id" => @$volunteer->id,
+                    "name" => @$volunteer->district->name,
+                    "city" => [
+                        "id" => @$volunteer->district->city->id,
+                        "name" => @$volunteer->district->city->name,
+                        "province" => [
+                            "id" => @$volunteer->district->city->province->id,
+                            "name" => @$volunteer->district->city->province->name,
+                        ]
+                    ],
+                ],
+                "whatsapp_number" => $volunteer->whatsapp_number,
+                "health_status" => $volunteer->health_status,
+                "abilities" => $volunteer->abilities->pluck('id'),
                 "status" => $volunteer->status,
-                "address" => $volunteer->address
+                "availability_status" => $volunteer->availability_status == "active",
+                "status" => $volunteer->status,
+                "ktp" => url('storage') . '/' . $volunteer->ktp,
             ]
         ], 200);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Update Volunteer
      */
-    public function edit(string $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'date_of_birth' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'health_status' => ['required', 'string'],
+            'ktp' => ['required', 'string'],
+            'district_id' => ['required', 'string'],
+            'categories' => ['required', 'array'],
+            'abilities' => ['required', 'array'],
+            'whatsapp_number' => ['string'],
+        ]);
+
+        $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
+        if (!$volunteer) {
+            return response()->json([
+                "message" => "Volunteer data not found",
+            ], 404);
+        }
+
+        DB::beginTransaction();
+
+        $volunteer->district_id = $request->district_id;
+        $volunteer->date_of_birth = $request->date_of_birth;
+        $volunteer->address = $request->address;
+        $volunteer->health_status = $request->health_status;
+        $volunteer->whatsapp_number = $request->whatsapp_number;
+        $volunteer->categories = json_encode($request->categories);
+        $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
+        $volunteer->status = $request->status ? 'active' : 'inactive';
+        $volunteer->abilities()->sync($request->abilities);
+
+        if ($request->ktp) {
+            $volunteer->ktp = str_replace(url('storage') . '/', '', $request->ktp);
+        }
+
+        $volunteer->save();
+
+        DB::commit();
+
+        return response()->json([
+            "message" => "Volunteer data succesfully updated"
+        ], 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Status Volunteer
      */
-    public function update(Request $request, string $id)
+    public function updateStatusVolunteer(Request $request)
     {
-        //
+        $request->validate([
+            'status' => ['string', 'required', 'in:active,inactive'],
+        ]);
+
+        $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
+        if (!$volunteer) {
+            return response()->json([
+                "message" => "Volunteer data not found",
+            ], 404);
+        }
+
+        $volunteer->status = $request->status;
+        $volunteer->save();
+
+        return response()->json([
+            "message" => "Volunteer status succesfully updated to " . $request->status
+        ], 200);
+    }
+
+    /**
+     * Update Availability Status Volunteer
+     */
+    public function updateAvailabilityStatusVolunteer(Request $request)
+    {
+        $request->validate([
+            'availability_status' => ['boolean', 'required'],
+        ]);
+
+        $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
+        if (!$volunteer) {
+            return response()->json([
+                "message" => "Volunteer data not found",
+            ], 404);
+        }
+
+        $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
+        $volunteer->save();
+
+        return response()->json([
+            "message" => "Volunteer availability status succesfully updated to " . ($request->availability_status ? 'active' : 'inactive')
+        ], 200);
     }
 
     /**
