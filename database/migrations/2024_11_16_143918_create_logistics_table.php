@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('logistics', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('disaster_id')->nullable()->index();
             $table->unsignedBigInteger('expedition_id')->nullable()->index();
             $table->unsignedBigInteger('delivery_id')->nullable()->index();
             $table->unsignedBigInteger('branch_office_id')->nullable()->index();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->unsignedBigInteger('good_id')->nullable()->index();
             $table->string('status')->nullable();
+            $table->date('date')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

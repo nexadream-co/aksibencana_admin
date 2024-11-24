@@ -5,6 +5,7 @@ use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\API\Disasters\DisasterController;
 use App\Http\Controllers\API\Educations\EducationController;
 use App\Http\Controllers\API\Locations\LocationController;
+use App\Http\Controllers\API\Logistics\LogisticController;
 use App\Http\Controllers\API\Media\MediaController;
 use App\Http\Controllers\API\Notifications\NotificationController;
 use App\Http\Controllers\API\Volunteers\VolunteerController;
@@ -118,7 +119,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     | Disaster
     |--------------------------------------------------------------------------
     |
-    | Manage disaster offices data APIs
+    | Manage disaster data APIs
     |
     */
 
@@ -131,4 +132,21 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/disaster/{id}', [DisasterController::class, 'show']);
 
     Route::get('/disasters/mine', [DisasterController::class, 'me']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logistics
+    |--------------------------------------------------------------------------
+    |
+    | Manage logistics data APIs
+    |
+    */
+
+    Route::get('/logistics', [LogisticController::class, 'index']);
+
+    Route::get('/logistic/{id}', [LogisticController::class, 'show']);
+
+    Route::get('/logistic/{id}/receipt-tracks', [LogisticController::class, 'logisticReceiptTracks']);
+
+    Route::post('/logistic/create', [LogisticController::class, 'store']);
 });
