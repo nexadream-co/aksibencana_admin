@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AbilitySeeder::class,
             BranchOfficeSeeder::class,
-            EducationSeeder::class
+            EducationSeeder::class,
+            DisasterCategorySeeder::class
         ]);
     }
 }

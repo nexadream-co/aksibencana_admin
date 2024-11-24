@@ -39,6 +39,6 @@ class UserSeeder extends Seeder
 
         $user->assignRole('user');
         $admin->assignRole('admin');
-        $admin->assignRole('superadmin');
+        $superadmin->assignRole('superadmin');
     }
 }
