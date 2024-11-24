@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('disasters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('created_by')->nullable()->index();
+            $table->unsignedBigInteger('disaster_category_id')->nullable()->index();
             $table->unsignedBigInteger('district_id')->nullable()->index();
             $table->string('title')->nullable();
             $table->text('description')->nullable();

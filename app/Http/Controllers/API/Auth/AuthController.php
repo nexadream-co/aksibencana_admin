@@ -136,6 +136,31 @@ class AuthController extends Controller
     }
 
     /**
+     * Update User
+     */
+    public function updateUser(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'photo_url' => ['required', 'string'],
+        ]);
+
+        $user = $request->user();
+        $user->name = $request->name;
+        $user->address = $request->address;
+        $user->photo_url = $request->photo_url;
+        $user->save();
+
+        return response()->json(
+            [
+                'message' => 'Profile successfully updated'
+            ],
+            200
+        );
+    }
+
+    /**
      * Detail User
      *
      * @param  int  $id

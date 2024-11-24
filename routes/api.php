@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
+use App\Http\Controllers\API\Disasters\DisasterController;
 use App\Http\Controllers\API\Educations\EducationController;
 use App\Http\Controllers\API\Locations\LocationController;
 use App\Http\Controllers\API\Media\MediaController;
@@ -26,6 +27,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     */
 
     Route::get('/user', [AuthController::class, 'show']);
+
+    Route::put('/user/update', [AuthController::class, 'updateUser']);
 
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 
@@ -108,4 +111,24 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     */
 
     Route::get('/branch-offices', [BranchOfficeController::class, 'index']);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disaster
+    |--------------------------------------------------------------------------
+    |
+    | Manage disaster offices data APIs
+    |
+    */
+
+    Route::get('/disaster/categories', [DisasterController::class, 'categories']);
+
+    Route::post('/disaster/create', [DisasterController::class, 'store']);
+
+    Route::get('/disasters', [DisasterController::class, 'index']);
+
+    Route::get('/disaster/{id}', [DisasterController::class, 'show']);
+
+    Route::get('/disasters/mine', [DisasterController::class, 'me']);
 });

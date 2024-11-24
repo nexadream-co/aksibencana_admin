@@ -11,4 +11,14 @@ class Disaster extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(DisasterCategory::class, "disaster_category_id");
+    }
 }
