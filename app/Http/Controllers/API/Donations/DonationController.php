@@ -34,8 +34,8 @@ class DonationController extends Controller
         foreach ($donations as $item) {
             $images = [];
 
-            foreach (@json_decode($item->images) ?? [] as $item) {
-                $images = url('storage').'/'.$item;
+            foreach (@json_decode($item->images) ?? [] as $row) {
+                $images = url('storage').'/'.$row;
             }
 
             $results[] = [
