@@ -194,7 +194,7 @@ class DonationController extends Controller
     /**
      * Donation Histories
      */
-    public function histories(Request $request, string $id)
+    public function histories(Request $request)
     {
         $request->validate([
             'page' => ['integer'],
