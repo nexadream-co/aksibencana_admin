@@ -166,5 +166,9 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::post('/donation/store/{id}', [DonationController::class, 'store']);
     
+    Route::get('/donation/histories', [DonationController::class, 'histories']);
+
+    Route::get('/donation/{id}/prayers', [DonationController::class, 'prayers']);
+
     Route::get('/donation/{id}', [DonationController::class, 'show']);
 });

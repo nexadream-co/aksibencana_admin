@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Donations;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\DonationCategory;
+use App\Models\DonationHistory;
+use App\Models\DonationPrayer;
 use Illuminate\Http\Request;
 
 class DonationController extends Controller
@@ -156,26 +158,72 @@ class DonationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Donation Prayers
      */
-    public function edit(string $id)
+    public function prayers(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'page' => ['integer'],
+            'limit' => ['integer'],
+        ]);
+
+        $prayers = DonationPrayer::with('donationHistory', function($query) use($id){
+            $query->where('donation_id', $id);
+        })->latest()->paginate($request->limit ?? 10);
+
+        $results = [];
+
+        foreach ($prayers as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "pray" => $item->pray,
+                "user" =>  [
+                    "name" => $item->name,
+                    "photo_url" => $item->photo_url,
+                ],
+                "created_at" => $item->created_at->format('Y-m-d H:i:s')
+            ];
+        }
+        
+        return response()->json([
+            "message" => "Donation prayers data successfully retrieved",
+            "data" => $results
+        ], 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Donation Histories
      */
-    public function update(Request $request, string $id)
+    public function histories(Request $request, string $id)
     {
-        //
-    }
+        $request->validate([
+            'page' => ['integer'],
+            'limit' => ['integer'],
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $histories = DonationHistory::where('user_id', $request->user()->id)->latest()->paginate($request->limit ?? 10);
+
+        $results = [];
+
+        foreach ($histories as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "donation" => @$item->donation ? [
+                    "id" => @$item->donation->id,
+                    "title" => @$item->donation->title,
+                    "description" => @$item->donation->description,
+                    "images" => @json_decode(@$item->donation->images) ?? [],
+                ] : null,
+                "total_donation" => $item->nominal,
+                "status" => $item->status,
+                "date" => $item->date,
+                "created_at" => $item->created_at->format('Y-m-d H:i:s')
+            ];
+        }
+        
+        return response()->json([
+            "message" => "Donation histories data successfully retrieved",
+            "data" => $results
+        ], 200);
     }
 }

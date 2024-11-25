@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\Admin\Donations\DonationController;
+use App\Http\Controllers\Admin\Donations\DonationPrayerController;
+use App\Http\Controllers\Admin\Donations\FundraiserController;
 use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Locations\LocationController;
 use App\Http\Controllers\Admin\Users\UserController;
@@ -122,6 +124,28 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::put('/donation/update/{id}', [DonationController::class, 'update'])->name('donation_update');
 
     Route::delete('/donation/delete/{id}', [DonationController::class, 'destroy'])->name('donation_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fundraisers Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage fundraisers data API
+    |
+    */
+
+    Route::get('/fundraisers', [FundraiserController::class, 'index'])->name('fundraisers');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prayers Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage prayers data API
+    |
+    */
+
+    Route::get('/prayers', [DonationPrayerController::class, 'index'])->name('prayers');
 
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
 });

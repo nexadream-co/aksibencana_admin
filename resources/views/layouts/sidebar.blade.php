@@ -89,14 +89,14 @@
                 </li>
 
                 <li>
-                    <a href="/fundraisers">
+                    <a href="{{route('fundraisers')}}">
                         <i class="bx bx-user-pin icon nav-icon"></i>
                         <span class="menu-item" data-key="t-fundraisers">Fundraisers</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/prayer">
+                    <a href="{{route('prayers')}}">
                         <i class="bx bx-heart icon nav-icon"></i>
                         <span class="menu-item" data-key="t-prayers">Prayer</span>
                     </a>
@@ -157,7 +157,7 @@
                     </a>
                 </li>
 
-                <li class="menu-title" data-key="t-applications">Template</li>
+                {{-- <li class="menu-title" data-key="t-applications">Template</li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -389,7 +389,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

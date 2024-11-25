@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('fundraisers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nulable();
-            $table->text('photo')->nulable();
-            $table->text('description')->nulable();
+            $table->string('name')->nullable();
+            $table->text('photo')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

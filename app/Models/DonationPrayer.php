@@ -11,4 +11,14 @@ class DonationPrayer extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function donationHistory()
+    {
+        return $this->belongsTo(DonationHistory::class, 'donation_history_id');
+    }
 }
