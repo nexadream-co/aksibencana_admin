@@ -80,7 +80,7 @@ class DonationController extends Controller
         foreach ($donation_categories as $item) {
             $results[] = [
                 "id" => $item->id,
-                "name" => $item->title
+                "name" => $item->name
             ];
         }
 
