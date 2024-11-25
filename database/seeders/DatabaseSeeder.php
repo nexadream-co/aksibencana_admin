@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
             AbilitySeeder::class,
             BranchOfficeSeeder::class,
             EducationSeeder::class,
-            DisasterCategorySeeder::class
+            DisasterCategorySeeder::class,
+            DonationCategorySeeder::class
         ]);
     }
 }

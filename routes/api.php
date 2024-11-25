@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\API\Disasters\DisasterController;
+use App\Http\Controllers\API\Donations\DonationController;
 use App\Http\Controllers\API\Educations\EducationController;
 use App\Http\Controllers\API\Locations\LocationController;
 use App\Http\Controllers\API\Logistics\LogisticController;
@@ -149,4 +150,21 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/logistic/{id}/receipt-tracks', [LogisticController::class, 'logisticReceiptTracks']);
 
     Route::post('/logistic/create', [LogisticController::class, 'store']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Donations
+    |--------------------------------------------------------------------------
+    |
+    | Manage donations data APIs
+    |
+    */
+
+    Route::get('/donations', [DonationController::class, 'index']);
+
+    Route::get('/donation/categories', [DonationController::class, 'categories']);
+
+    Route::post('/donation/store/{id}', [DonationController::class, 'store']);
+    
+    Route::get('/donation/{id}', [DonationController::class, 'show']);
 });

@@ -77,7 +77,6 @@ class VolunteerController extends Controller
      */
     public function show(string $id)
     {
-
         $volunteer = Volunteer::find($id);
 
         if (!$volunteer) {

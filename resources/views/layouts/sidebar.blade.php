@@ -82,7 +82,7 @@
                 <li class="menu-title" data-key="t-applications">Donations</li>
 
                 <li>
-                    <a href="/donations">
+                    <a href="{{route('donations')}}">
                         <i class="bx bx-crown icon nav-icon"></i>
                         <span class="menu-item" data-key="t-donations">Donations</span>
                     </a>

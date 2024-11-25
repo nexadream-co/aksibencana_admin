@@ -15,9 +15,9 @@
 
                         <div class="mb-4 pb-2">
                             <a href="index" class="d-block auth-logo">
-                                <img src="{{ URL::asset('vendors/images/logo-dark.png') }}" alt="" height="30"
+                                <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="100"
                                     class="auth-logo-dark me-start">
-                                <img src="{{ URL::asset('vendors/images/logo-light.png') }}" alt="" height="30"
+                                <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="100"
                                     class="auth-logo-light me-start">
                             </a>
                         </div>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('donation_category_id')->nullable()->index();
             $table->unsignedBigInteger('fundraiser_id')->nullable()->index();
             $table->string('title')->nulable();
             $table->text('images')->nullable();

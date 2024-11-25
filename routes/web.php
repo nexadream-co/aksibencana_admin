@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
+use App\Http\Controllers\Admin\Donations\DonationController;
 use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Locations\LocationController;
 use App\Http\Controllers\Admin\Users\UserController;
@@ -100,6 +101,27 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Donations Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage donations data API
+    |
+    */
+
+    Route::get('/donations', [DonationController::class, 'index'])->name('donations');
+
+    Route::get('/donation/create', [DonationController::class, 'create'])->name('donation_create');
+
+    Route::post('/donation/store', [DonationController::class, 'store'])->name('donation_store');
+
+    Route::get('/donation/edit/{id}', [DonationController::class, 'edit'])->name('donation_edit');
+
+    Route::put('/donation/update/{id}', [DonationController::class, 'update'])->name('donation_update');
+
+    Route::delete('/donation/delete/{id}', [DonationController::class, 'destroy'])->name('donation_delete');
 
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
 });
