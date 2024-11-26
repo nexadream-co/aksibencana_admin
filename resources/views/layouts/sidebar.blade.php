@@ -105,21 +105,21 @@
                 <li class="menu-title" data-key="t-logistics">Logistics</li>
 
                 <li>
-                    <a href="/logistics">
+                    <a href="{{ route('logistics') }}">
                         <i class="bx bx-package icon nav-icon"></i>
                         <span class="menu-item" data-key="t-logistics">Logistics</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/logistics">
+                    <a href="{{ route('disasters') }}">
                         <i class="bx bx-landscape icon nav-icon"></i>
                         <span class="menu-item" data-key="t-disasters">Disasters</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/deliveries">
+                    <a href="{{route('deliveries')}}">
                         <i class="bx bx-shape-square icon nav-icon"></i>
                         <span class="menu-item" data-key="t-disasters">Deliveries</span>
                     </a>

@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
+use App\Http\Controllers\Admin\Deliveries\DeliveryController;
+use App\Http\Controllers\Admin\Disasters\DisasterController;
 use App\Http\Controllers\Admin\Donations\DonationController;
 use App\Http\Controllers\Admin\Donations\DonationPrayerController;
 use App\Http\Controllers\Admin\Donations\FundraiserController;
 use App\Http\Controllers\Admin\Education\EducationController;
 use App\Http\Controllers\Admin\Locations\LocationController;
+use App\Http\Controllers\Admin\Logistics\LogisticController;
 use App\Http\Controllers\Admin\Users\UserController;
 use App\Http\Controllers\Admin\Volunteers\AbilityController;
 use App\Http\Controllers\Admin\Volunteers\VolunteerController;
@@ -146,6 +149,39 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::get('/prayers', [DonationPrayerController::class, 'index'])->name('prayers');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logistics Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage logistics data API
+    |
+    */
+
+    Route::get('/logistics', [LogisticController::class, 'index'])->name('logistics');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disasters Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage disasters data API
+    |
+    */
+
+    Route::get('/disasters', [DisasterController::class, 'index'])->name('disasters');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Deliveries Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage deliveries data API
+    |
+    */
+
+    Route::get('/deliveries', [DeliveryController::class, 'index'])->name('deliveries');
 
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
 });

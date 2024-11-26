@@ -21,4 +21,19 @@ class Logistic extends Model
     {
         return $this->belongsTo(BranchOffice::class, 'branch_office_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function goods()
+    {
+        return $this->belongsTo(Good::class, 'good_id');
+    }
+
+    public function expedition()
+    {
+        return $this->belongsTo(Expedition::class, 'expedition_id');
+    }
 }
