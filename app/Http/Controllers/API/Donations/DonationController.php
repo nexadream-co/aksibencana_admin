@@ -207,7 +207,7 @@ class DonationController extends Controller
         foreach ($histories as $item) {
             $images = [];
             foreach (@json_decode(@$item->donation->images) ?? [] as $row) {
-                $images[] = $row;
+                $images[] = url('storage').'/'.$row;
             }
 
             $results[] = [
