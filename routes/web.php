@@ -115,6 +115,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
+    Route::get('/users', [UserController::class, 'index'])->name('users');
+
+    Route::get('/user/create', [UserController::class, 'create'])->name('user_create');
+
+    Route::post('/user/store', [UserController::class, 'store'])->name('user_store');
+    
+    Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user_delete');
+
+    Route::post('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user_reset_password');
+
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
 
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user_profile');

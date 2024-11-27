@@ -5,10 +5,18 @@ namespace App\Http\Controllers\Admin\Users;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $data = User::role(['user'])->orderBy('name', 'asc')->get();
+
+        return view('pages.users.index', compact('data'));
+    }
+
     public function searchUsers(Request $request): array
     {
         $data = [];
@@ -70,5 +78,66 @@ class UserController extends Controller
         session()->flash('success', 'Password successfully updated');
 
         return redirect()->back();
+    }
+
+    public function create(Request $request)
+    {
+        return view('pages.users.create');
+    }
+
+    public function store(Request $request)
+    {
+
+        $request->validate([
+            'email' => ['required', 'string'],
+            'name' => ['required', 'string'],
+            'password' => ['required', 'string'],
+        ]);
+
+        DB::beginTransaction();
+
+        $user = new User();
+
+        $user->email = $request->email;
+        $user->name = $request->name;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $user->assignRole('user');
+
+        DB::commit();
+
+        session()->flash('success', 'User successfully created');
+
+        return redirect()->route('users');
+    }
+
+    public function resetPassword($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) return abort(404);
+
+        $random_string = str()->random();
+        
+        $user->password = Hash::make($random_string);
+        $user->save();
+
+        session()->flash('success', 'User password successfully reset to '. $random_string);
+
+        return redirect()->route('users');
+    }
+    
+    public function destroy($id)
+    {
+        $user = User::find($id);
+
+        if (!$user) return abort(404);
+        
+        $user->delete();
+
+        session()->flash('success', 'User successfully deleted');
+
+        return redirect()->route('users');
     }
 }

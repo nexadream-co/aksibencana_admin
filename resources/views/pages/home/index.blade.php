@@ -30,7 +30,7 @@
                                         </div>
 
                                         <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-0 font-size-15">Total Volunteer</h6>
+                                            <h6 class="mb-0 font-size-15">Total Volunteers</h6>
                                         </div>
                                     </div>
 
@@ -49,12 +49,12 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar">
                                             <div class="avatar-title rounded bg-soft-primary">
-                                                <i class="bx bx-cart-alt font-size-24 mb-0 text-primary"></i>
+                                                <i class="bx bx-package font-size-24 mb-0 text-primary"></i>
                                             </div>
                                         </div>
 
                                         <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-0 font-size-15">Total Logistik</h6>
+                                            <h6 class="mb-0 font-size-15">Total Logistics</h6>
                                         </div>
                                     </div>
 
@@ -72,12 +72,12 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar">
                                             <div class="avatar-title rounded bg-soft-primary">
-                                                <i class="bx bx-package font-size-24 mb-0 text-primary"></i>
+                                                <i class="bx bx-shape-square font-size-24 mb-0 text-primary"></i>
                                             </div>
                                         </div>
 
                                         <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-0 font-size-15">Today Pengiriman</h6>
+                                            <h6 class="mb-0 font-size-15">Total Deliveries</h6>
                                         </div>
                                     </div>
 
@@ -96,12 +96,12 @@
                                     <div class="d-flex align-items-center">
                                         <div class="avatar">
                                             <div class="avatar-title rounded bg-soft-primary">
-                                                <i class="bx bx-rocket font-size-24 mb-0 text-primary"></i>
+                                                <i class="bx bx-landscape font-size-24 mb-0 text-primary"></i>
                                             </div>
                                         </div>
 
                                         <div class="flex-grow-1 ms-3">
-                                            <h6 class="mb-0 font-size-15">Total Bencana</h6>
+                                            <h6 class="mb-0 font-size-15">Total Disasters</h6>
                                         </div>
 
                                     </div>
