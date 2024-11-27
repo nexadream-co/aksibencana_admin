@@ -74,6 +74,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/branch-offices', [BranchOfficeController::class, 'index'])->name('branch_offices');
 
+    Route::get('/branch-office/create', [BranchOfficeController::class, 'create'])->name('branch_office_create');
+
+    Route::get('/branch-office/edit/{id}', [BranchOfficeController::class, 'edit'])->name('branch_office_edit');
+
+    Route::post('/branch-office/store', [BranchOfficeController::class, 'store'])->name('branch_office_store');
+
+    Route::put('/branch-office/update/{id}', [BranchOfficeController::class, 'update'])->name('branch_office_update');
+
+    Route::delete('/branch-office/delete/{id}', [BranchOfficeController::class, 'destroy'])->name('branch_office_delete');
+
     /*
     |--------------------------------------------------------------------------
     | Education Routes

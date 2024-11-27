@@ -21,7 +21,7 @@
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <a href="{{ route('ability_create') }}" class="btn btn-success"><i
+                                        <a href="{{ route('branch_office_create') }}" class="btn btn-success"><i
                                                 class="mdi mdi-plus me-1"></i> Add
                                             Branch Office</a>
                                     </div>
@@ -69,14 +69,14 @@
                                             {{ $item->updated_at->format('Y-m-d h:i:s') }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('ability_edit', $item->id) }}" class="btn btn-primary"><i
+                                            <a href="{{ route('branch_office_edit', $item->id) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
 
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
                                             <form id="delete-item-{{ $item->id }}"
-                                                action="{{ route('ability_delete', $item->id) }}" method="POST"
+                                                action="{{ route('branch_office_delete', $item->id) }}" method="POST"
                                                 style="display: none;">
                                                 @method('delete')
                                                 @csrf

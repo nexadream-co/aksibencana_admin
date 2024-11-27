@@ -22,7 +22,7 @@ class BranchOfficeController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.branch_offices.create');
     }
 
     /**
@@ -30,15 +30,24 @@ class BranchOfficeController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'name' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'district_id' => ['required', 'string'],
+            'status' => ['required', 'string'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $branch_office = new BranchOffice();
+        $branch_office->district_id = $request->district_id;
+        $branch_office->name = $request->name;
+        $branch_office->address = $request->address;
+        $branch_office->status = $request->status ? 'active' : 'inactive';
+        $branch_office->save();
+
+
+        session()->flash('success', 'Branch office successfully created');
+
+        return redirect()->route('branch_offices');
     }
 
     /**
@@ -46,7 +55,12 @@ class BranchOfficeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $branch_office = BranchOffice::find($id);
+
+        if (!$branch_office) return abort(404);
+
+        return view('pages.branch_offices.edit', compact('branch_office'));
     }
 
     /**
@@ -54,7 +68,28 @@ class BranchOfficeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string'],
+            'address' => ['required', 'string'],
+            'district_id' => ['required', 'string'],
+            'status' => ['required', 'string'],
+        ]);
+
+
+        $branch_office = BranchOffice::find($id);
+
+        if (!$branch_office) return abort(404);
+
+        $branch_office->district_id = $request->district_id;
+        $branch_office->name = $request->name;
+        $branch_office->address = $request->address;
+        $branch_office->status = $request->status ? 'active' : 'inactive';
+        $branch_office->save();
+
+
+        session()->flash('success', 'Branch office successfully updated');
+
+        return redirect()->route('branch_offices');
     }
 
     /**
@@ -62,6 +97,15 @@ class BranchOfficeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        $branch_office = BranchOffice::find($id);
+
+        if (!$branch_office) return abort(404);
+
+        $branch_office->delete();
+
+        session()->flash('success', 'Branch office successfully deleted');
+
+        return redirect()->route('branch_offices');
     }
 }
