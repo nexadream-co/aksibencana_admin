@@ -21,7 +21,7 @@
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <a href="{{ route('donation_create') }}" class="btn btn-success"><i
+                                        <a href="{{ route('logistic_create') }}" class="btn btn-success"><i
                                                 class="mdi mdi-plus me-1"></i> Add
                                             Logistics</a>
                                     </div>
@@ -73,7 +73,7 @@
                                             {{ @$item->expedition->district->city->name }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('donation_edit', $item->id) }}" class="btn btn-primary"><i
+                                            <a href="{{ route('logistic_edit', $item->id) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
@@ -81,7 +81,7 @@
                                             <a class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
-                                                action="{{ route('donation_delete', $item->id) }}" method="POST"
+                                                action="{{ route('logistic_delete', $item->id) }}" method="POST"
                                                 style="display: none;">
                                                 @method('delete')
                                                 @csrf

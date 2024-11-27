@@ -161,6 +161,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/logistics', [LogisticController::class, 'index'])->name('logistics');
 
+    Route::get('/logistic/create', [LogisticController::class, 'create'])->name('logistic_create');
+
+    Route::get('/logistic/edit/{id}', [LogisticController::class, 'edit'])->name('logistic_edit');
+
+    Route::post('/logistic/store', [LogisticController::class, 'store'])->name('logistic_store');
+
+    Route::put('/logistic/update/{id}', [LogisticController::class, 'update'])->name('logistic_update');
+
+    Route::delete('/logistic/delete/{id}', [LogisticController::class, 'destroy'])->name('logistic_delete');
+
     /*
     |--------------------------------------------------------------------------
     | Disasters Routes
@@ -173,6 +183,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::get('/disasters', [DisasterController::class, 'index'])->name('disasters');
 
     Route::get('/disaster/create', [DisasterController::class, 'create'])->name('disaster_create');
+
+    Route::get('/disaster/search', [DisasterController::class, 'searchDisasters'])->name('disaster_search');
 
     Route::get('/disaster/edit/{id}', [DisasterController::class, 'edit'])->name('disaster_edit');
 

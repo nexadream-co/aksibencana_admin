@@ -141,4 +141,32 @@ class DisasterController extends Controller
 
         return redirect()->route('disasters');
     }
+
+    public function searchDisasters(Request $request): array
+    {
+        $data = [];
+        $search = $request->q;
+        $limit = $request->limit;
+
+        $disasters = Disaster::where('status', 'active');
+        if ($search) {
+            foreach (explode(",", $search) as $key => $item) {
+                if ($key == 0) {
+                    $disasters->where('title', 'LIKE', '%' . $item . '%');
+                } else {
+                    $disasters->orWhere('title', 'LIKE', '%' . $item . '%');
+                }
+            }
+        }
+
+        $disasters = $disasters->paginate($limit ?? 10);
+        foreach ($disasters as $item) {
+            $data[] = [
+                "id" => $item->id,
+                "value" => $item->title
+            ];
+        }
+
+        return $data;
+    }
 }
