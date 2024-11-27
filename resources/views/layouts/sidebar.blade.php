@@ -144,14 +144,15 @@
                 <li class="menu-title" data-key="t-applications">Profile</li>
 
                 <li>
-                    <a href="/accounts">
+                    <a href="{{ route('user_profile') }}">
                         <i class="bx bx-user-circle icon nav-icon"></i>
                         <span class="menu-item" data-key="t-branch-offices">Account</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="/logout">
+                    <a href="javascript:void();"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bx bx-log-out icon nav-icon"></i>
                         <span class="menu-item" data-key="t-branch-offices">Logout</span>
                     </a>

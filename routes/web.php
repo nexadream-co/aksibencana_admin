@@ -117,6 +117,12 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
 
+    Route::get('/user/profile', [UserController::class, 'profile'])->name('user_profile');
+
+    Route::put('/user/profile/update', [UserController::class, 'profileUpdate'])->name('user_profile_update');
+
+    Route::put('/user/profile/change-password', [UserController::class, 'profileChangePassword'])->name('user_profile_change_password');
+
     /*
     |--------------------------------------------------------------------------
     | Donations Routes
