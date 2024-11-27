@@ -31,6 +31,12 @@ class DisasterController extends Controller
         $data = [];
 
         foreach ($disasters as $item) {
+
+            $images = [];
+            foreach (@json_decode($item->images) ?? [] as $row) {
+                $images[] = $row;
+            }
+
             $data[] = [
                 "id" => $item->id,
                 "title" => $item->title,
@@ -38,7 +44,7 @@ class DisasterController extends Controller
                     "id" => $item->category->id,
                     "name" => $item->category->name,
                 ],
-                "images" => @json_decode($item->images) ?? [],
+                "images" => $images,
                 "description" => $item->description,
                 "date" => $item->date,
                 "status" => $item->status,
@@ -78,6 +84,11 @@ class DisasterController extends Controller
         $data = [];
 
         foreach ($disasters as $item) {
+            $images = [];
+            foreach (@json_decode($item->images) ?? [] as $row) {
+                $images[] = $row;
+            }
+
             $data[] = [
                 "id" => $item->id,
                 "title" => $item->title,
@@ -85,7 +96,7 @@ class DisasterController extends Controller
                     "id" => $item->category->id,
                     "name" => $item->category->name,
                 ],
-                "images" => @json_decode($item->images) ?? [],
+                "images" => $images,
                 "description" => $item->description,
                 "date" => $item->date,
                 "status" => $item->status,
@@ -178,6 +189,11 @@ class DisasterController extends Controller
             ], 404);
         }
 
+        $images = [];
+        foreach (@json_decode($disaster->images) ?? [] as $row) {
+            $images[] = $row;
+        }
+
         $data = [
             "id" => $disaster->id,
             "title" => $disaster->title,
@@ -185,7 +201,7 @@ class DisasterController extends Controller
                 "id" => $disaster->category->id,
                 "name" => $disaster->category->name,
             ],
-            "images" => @json_decode($disaster->images) ?? [],
+            "images" => $images,
             "description" => $disaster->description,
             "date" => $disaster->date,
             "status" => $disaster->status,

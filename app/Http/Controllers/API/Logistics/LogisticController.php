@@ -23,6 +23,11 @@ class LogisticController extends Controller
         $data = [];
 
         foreach ($logistics as $item) {
+            $images = [];
+            foreach (@json_decode(@$item->disaster->images) ?? [] as $row) {
+                $images = url('storage').'/'.$row;
+            }
+
             $data[] = [
                 "id" => $item->id,
                 "disaster" => $item->disaster == null ? null : [
@@ -32,7 +37,7 @@ class LogisticController extends Controller
                         "id" => $item->disaster->category->id,
                         "name" => $item->disaster->category->name,
                     ],
-                    "images" => @json_decode($item->disaster->images) ?? [],
+                    "images" => $images,
                     "description" => $item->disaster->description,
                     "date" => $item->disaster->date,
                     "status" => $item->disaster->status,
@@ -96,6 +101,11 @@ class LogisticController extends Controller
             ], 404);
         }
 
+        $images = [];
+        foreach (@json_decode($logistic->images) ?? [] as $row) {
+            $images = url('storage').'/'.$row;
+        }
+
         $data = [
             "id" => $logistic->id,
             "disaster" => $logistic->disaster == null ? null : [
@@ -105,7 +115,7 @@ class LogisticController extends Controller
                     "id" => $logistic->disaster->category->id,
                     "name" => $logistic->disaster->category->name,
                 ],
-                "images" => @json_decode($logistic->disaster->images) ?? [],
+                "images" => $images,
                 "description" => $logistic->disaster->description,
                 "date" => $logistic->disaster->date,
                 "status" => $logistic->disaster->status,

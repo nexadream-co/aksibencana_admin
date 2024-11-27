@@ -20,7 +20,7 @@ class EducationController extends Controller
             $results[] = [
                 "id" => $item->id,
                 "title" => $item->title,
-                "banner" => $item->banner,
+                "banner" => $item->banner  ? url('storage').'/'.@$item->banner : null,
                 "contents" => $item->contents,
                 "created_at" => $item->created_at->format("Y-m-d h:i:s")
             ];

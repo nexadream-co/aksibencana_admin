@@ -56,8 +56,8 @@ class DonationController extends Controller
                 "fundraiser" => @$item->fundraiser ? [
                     "id" => $item->fundraiser->id,
                     "name" => $item->fundraiser->name,
-                    "photo" => $item->fundraiser->photo,
-                    "description" =>url('storage').'/'. @$item->fundraiser->description,
+                    "photo" => @$item->fundraiser->photo ? url('storage').'/'.@$item->fundraiser->photo : null,
+                    "description" => @$item->fundraiser->description,
                 ] : null,
                 "created_at" => $item->created_at->format("Y-m-d h:i:s")
             ];
@@ -124,7 +124,6 @@ class DonationController extends Controller
         }
 
         $images = [];
-
         foreach (@json_decode($donation->images) ?? [] as $row) {
             $images = url('storage').'/'.$row;
         }
@@ -149,8 +148,8 @@ class DonationController extends Controller
                 "fundraiser" => @$donation->fundraiser ? [
                     "id" => $donation->fundraiser->id,
                     "name" => $donation->fundraiser->name,
-                    "photo" => $donation->fundraiser->photo,
-                    "description" =>url('storage').'/'. @$donation->fundraiser->description,
+                    "photo" => @$donation->fundraiser->photo ? url('storage').'/'.@$donation->fundraiser->photo : null,
+                    "description" => @$donation->fundraiser->description,
                 ] : null,
                 "created_at" => $donation->created_at->format("Y-m-d h:i:s")
             ]
@@ -179,7 +178,7 @@ class DonationController extends Controller
                 "pray" => $item->pray,
                 "user" =>  [
                     "name" => $item->name,
-                    "photo_url" => $item->photo_url,
+                    "photo_url" => @$item->photo_url,
                 ],
                 "created_at" => $item->created_at->format('Y-m-d H:i:s')
             ];
@@ -206,13 +205,18 @@ class DonationController extends Controller
         $results = [];
 
         foreach ($histories as $item) {
+            $images = [];
+            foreach (@json_decode(@$item->donation->images) ?? [] as $row) {
+                $images[] = $row;
+            }
+
             $results[] = [
                 "id" => $item->id,
                 "donation" => @$item->donation ? [
                     "id" => @$item->donation->id,
                     "title" => @$item->donation->title,
                     "description" => @$item->donation->description,
-                    "images" => @json_decode(@$item->donation->images) ?? [],
+                    "images" => $images,
                 ] : null,
                 "total_donation" => $item->nominal,
                 "status" => $item->status,
