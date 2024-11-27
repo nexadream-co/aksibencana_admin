@@ -7,19 +7,19 @@ use App\Http\Controllers\Admin\Donations\DonationController;
 use App\Http\Controllers\Admin\Donations\DonationPrayerController;
 use App\Http\Controllers\Admin\Donations\FundraiserController;
 use App\Http\Controllers\Admin\Education\EducationController;
+use App\Http\Controllers\Admin\Home\HomeController;
 use App\Http\Controllers\Admin\Locations\LocationController;
 use App\Http\Controllers\Admin\Logistics\LogisticController;
 use App\Http\Controllers\Admin\Users\UserController;
 use App\Http\Controllers\Admin\Volunteers\AbilityController;
 use App\Http\Controllers\Admin\Volunteers\VolunteerController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
 Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
-    Route::get('/', [HomeController::class, 'root']);
+    Route::get('/', [HomeController::class, 'index']);
 
     /*
     |--------------------------------------------------------------------------
@@ -172,6 +172,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/disasters', [DisasterController::class, 'index'])->name('disasters');
 
+    Route::get('/disaster/create', [DisasterController::class, 'create'])->name('disaster_create');
+
+    Route::get('/disaster/edit/{id}', [DisasterController::class, 'edit'])->name('disaster_edit');
+
+    Route::post('/disaster/store', [DisasterController::class, 'store'])->name('disaster_store');
+
+    Route::put('/disaster/update/{id}', [DisasterController::class, 'update'])->name('disaster_update');
+
+    Route::delete('/disaster/delete/{id}', [DisasterController::class, 'destroy'])->name('disaster_delete');
+
     /*
     |--------------------------------------------------------------------------
     | Deliveries Routes
@@ -182,6 +192,10 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::get('/deliveries', [DeliveryController::class, 'index'])->name('deliveries');
+
+    Route::get('/delivery/create', [DeliveryController::class, 'create'])->name('delivery_create');
+
+    Route::post('/delivery/store', [DeliveryController::class, 'store'])->name('delivery_store');
 
     Route::get('{any}', [HomeController::class, 'index'])->name('index');
 });
