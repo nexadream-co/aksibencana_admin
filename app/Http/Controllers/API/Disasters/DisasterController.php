@@ -34,7 +34,7 @@ class DisasterController extends Controller
 
             $images = [];
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images = url('storage').'/'.$row;
+                $images[] = url('storage').'/'.$row;
             }
 
             $data[] = [
@@ -86,7 +86,7 @@ class DisasterController extends Controller
         foreach ($disasters as $item) {
             $images = [];
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images = url('storage').'/'.$row;
+                $images[] = url('storage').'/'.$row;
             }
 
             $data[] = [
@@ -206,6 +206,8 @@ class DisasterController extends Controller
             "date" => $disaster->date,
             "status" => $disaster->status,
             "address" => $disaster->address,
+            "latitude" => $disaster->latitude,
+            "longitude" => $disaster->longitude,
             "created_by" => @$disaster->user == null ? null : [
                 "id" => @$disaster->user->id,
                 "name" => @$disaster->user->name

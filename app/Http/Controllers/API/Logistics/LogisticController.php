@@ -25,7 +25,7 @@ class LogisticController extends Controller
         foreach ($logistics as $item) {
             $images = [];
             foreach (@json_decode(@$item->disaster->images) ?? [] as $row) {
-                $images = url('storage').'/'.$row;
+                $images[] = url('storage').'/'.$row;
             }
 
             $data[] = [
@@ -103,7 +103,7 @@ class LogisticController extends Controller
 
         $images = [];
         foreach (@json_decode($logistic->images) ?? [] as $row) {
-            $images = url('storage').'/'.$row;
+            $images[] = url('storage').'/'.$row;
         }
 
         $data = [

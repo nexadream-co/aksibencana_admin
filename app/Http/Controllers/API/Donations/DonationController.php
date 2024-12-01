@@ -35,7 +35,7 @@ class DonationController extends Controller
             $images = [];
 
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images = url('storage').'/'.$row;
+                $images[] = url('storage').'/'.$row;
             }
 
             $results[] = [
@@ -125,7 +125,7 @@ class DonationController extends Controller
 
         $images = [];
         foreach (@json_decode($donation->images) ?? [] as $row) {
-            $images = url('storage').'/'.$row;
+            $images[] = url('storage').'/'.$row;
         }
 
         return response()->json([
