@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API\Logistics;
 
 use App\Http\Controllers\Controller;
+use App\Models\Expedition;
+use App\Models\Good;
 use App\Models\Logistic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LogisticController extends Controller
 {
@@ -73,6 +76,7 @@ class LogisticController extends Controller
             'district_id' => ['required', 'integer'],
             'origin_address' => ['required', 'string'],
             'telp' => ['required', 'string'],
+            'expedition_name' => ['required', 'string'],
             'weight' => ['required', 'string'],
             'image' => ['required', 'string'],
             'date' => ['required', 'string'],
@@ -82,6 +86,37 @@ class LogisticController extends Controller
             'goods.type' => ['required', 'string'],
         ]);
 
+        DB::beginTransaction();
+
+        $logistic = new Logistic();
+        $logistic->user_id = $request->user()->id;
+        $logistic->date = $request->date;
+        $logistic->image = @$request->image ? str_replace(url('storage') . '/', '', $request->image) : null;
+        $logistic->branch_office_id = $request->branch_office_id;
+        $logistic->status = 'request';
+
+        $goods = new Good();
+        $goods->name = $request->goods['name'];
+        $goods->type = $request->goods['type'];
+        $goods->save();
+
+        $logistic->good_id = $goods->id;
+
+        $expedition = new Expedition();
+        $expedition->district_id = $request->district_id;
+        $expedition->name = $request->expedition_name;
+        $expedition->sender_name = $request->sender_name;
+        $expedition->origin_address = $request->origin_address;
+        $expedition->telp = $request->telp;
+        $expedition->weight = $request->weight;
+        $expedition->delivered_at = $request->date;
+        $expedition->receipt_code = $request->receipt_number;
+        $expedition->save();
+
+        $logistic->expedition_id = $expedition->id;
+        $logistic->save();
+        
+        DB::commit();
 
         return response()->json([
             "message" => "Your logistic successfully created, please wait we will confirm your logistics"
@@ -129,8 +164,15 @@ class LogisticController extends Controller
                 "id" => $logistic->branch_office->id,
                 "name" => $logistic->branch_office->name,
             ] : null,
+            "goods" => @$logistic->goods ? [
+                "name" => @$logistic->goods->name,
+                "type" => @$logistic->goods->type,
+            ] : null,
+            "image" => @$logistic->image ? url('storage').'/'. @$logistic->image : null,
             "date" => $logistic->date,
+            "receipt_number" => $logistic->expedition->receipt_code,
             "status" => $logistic->status,
+            "sender_name" => @$logistic->expedition->sender_name,
             "created_at" => $logistic->created_at->format('Y-m-d H:i:s')
         ];
 

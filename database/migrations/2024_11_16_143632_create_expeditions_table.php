@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('origin_address')->nullable();
             $table->string('telp')->nullable();
+            $table->string('sender_name')->nullable();
             $table->string('weight')->nullable();
             $table->date('delivered_at')->nullable();
             $table->date('arrived_at')->nullable();

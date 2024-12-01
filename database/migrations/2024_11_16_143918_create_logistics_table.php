@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_office_id')->nullable()->index();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->unsignedBigInteger('good_id')->nullable()->index();
+            $table->text('image')->nullable();
             $table->string('status')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
