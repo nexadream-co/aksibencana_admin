@@ -26,4 +26,9 @@ class Disaster extends Model
     {
         return $this->belongsTo(District::class, "district_id");
     }
+
+    public function deliveries()
+    {
+        return $this->hasMany(Delivery::class, 'disaster_id');
+    }
 }

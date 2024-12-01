@@ -219,4 +219,60 @@ class DisasterController extends Controller
             "data" => $data,
         ], 200);
     }
+
+    /**
+     * Disaster Logistic Tracks
+     */
+    public function logisticTracks(string $id)
+    {
+        $disaster = Disaster::find($id);
+
+        if (!$disaster) {
+            return response()->json([
+                "message" => "Disaster data not found",
+            ], 404);
+        }
+
+        $result = [];
+
+        foreach (@$disaster->deliveries ?? [] as $key => $item) {
+
+            $details = [];
+            foreach (@$item->deliveries ?? [] as $row) {
+                $details[] = [
+                    "title" => @$row->good->name ?? '',
+                    "description" => @$row->good->type,
+                    "value" => null,
+                    "type_unit" => "Unit"
+                ];
+            }
+
+            $result[] = [
+                "id" => $item->id,
+                "logistic" => [
+                    "title" => "Logistic ". ($key + 1),
+                    "description" => "Total ". count(@$item->deliveries ?? [])." logistics",
+                    "details" => $details,
+                ],
+                "origin" => [
+                    "title" => @$item->branchOffice->name,
+                    "latitude" => @$item->branchOffice->latitude,
+                    "longitude" => @$item->branchOffice->longitude
+                ],
+                "destination" => [
+                    "title" => @$item->branchOffice->name,
+                    "latitude" => @$item->station->latitude ?? @$item->disaster->latitude,
+                    "longitude" => @$item->station->longitude ?? @$item->disaster->longitude
+                ],
+                "tracks" => [
+                    [
+                        "id" => $item->id,
+                        "courir_name" => @$item->courier->name,
+                        "latitude" => $item->latitude,
+                        "longitude" => $item->longitude
+                    ]
+                ],
+            ];
+        }
+    }
 }

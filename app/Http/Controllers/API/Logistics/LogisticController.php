@@ -73,7 +73,7 @@ class LogisticController extends Controller
             'district_id' => ['required', 'integer'],
             'origin_address' => ['required', 'string'],
             'telp' => ['required', 'string'],
-            'wight' => ['required', 'string'],
+            'weight' => ['required', 'string'],
             'image' => ['required', 'string'],
             'date' => ['required', 'string'],
             'receipt_number' => ['required', 'string'],

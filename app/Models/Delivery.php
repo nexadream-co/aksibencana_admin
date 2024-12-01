@@ -31,4 +31,9 @@ class Delivery extends Model
     {
         return $this->belongsTo(DisasterStation::class, 'disaster_station_id');
     }
+
+    public function logistics()
+    {
+        return $this->hasMany(Logistic::class, 'delivery_id');
+    }
 }

@@ -5,12 +5,12 @@ namespace App\Http\Controllers\API\Volunteers;
 use App\Http\Controllers\Controller;
 use App\Models\Ability;
 use App\Models\Volunteer;
+use App\Models\VolunteerAssignment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VolunteerController extends Controller
 {
-
     /**
      * List Abilities
      */
@@ -214,10 +214,59 @@ class VolunteerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Assignment Volunteers
      */
-    public function destroy(string $id)
+    public function assignmentVolunteers(Request $request)
     {
-        //
+        $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+        if(!@$volunteer){
+            return response()->json([
+                "message" => "You are not yet registered as volunteer",
+            ], 400);
+        }
+
+        $data = VolunteerAssignment::where('volunteer_id', $volunteer->id)->where('status', 'active')->get();
+        $results = [];
+
+        foreach ($data as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "title" => @$item->disaster->title. @$item->station->title ? ", {$item->station->title}" : "",
+                "description" => $item->description,
+                "date" => $item->date
+            ];
+        }
+
+        return response()->json([
+            "message" => "Assignment volunteer data successfully retrieved",
+            "data" => $results
+        ], 200);
+    }
+
+    
+
+    /**
+     * Update Status Assignment
+     */
+    public function updateStatusAssignment(Request $request, $id)
+    {
+        $request->validate([
+            'status' => ['string', 'required', 'in:finished,canceled'],
+        ]);
+
+        $assignment = VolunteerAssignment::find($id);
+
+        if (!$assignment) {
+            return response()->json([
+                "message" => "Volunteer assignment data not found",
+            ], 404);
+        }
+
+        $assignment->status = $request->status;
+        $assignment->save();
+
+        return response()->json([
+            "message" => "Volunteer assignment status succesfully updated to " . $request->status
+        ], 200);
     }
 }

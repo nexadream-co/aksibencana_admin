@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::get('/volunteer/detail/{id}', [VolunteerController::class, 'show']);
 
+    Route::get('/volunteer/assignments', [VolunteerController::class, 'assignmentVolunteers']);
+
     Route::post('/volunteer/register', [VolunteerController::class, 'register']);
 
     Route::get('/volunteer/abilities', [VolunteerController::class, 'abilities']);
@@ -56,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::put('/volunteer/update', [VolunteerController::class, 'update']);
 
     Route::patch('/volunteer/update-status', [VolunteerController::class, 'updateStatusVolunteer']);
+
+    Route::patch('/volunteer/assignment/:id', [VolunteerController::class, 'updateStatusAssignment']);
 
     Route::patch('/volunteer/update-availability-status', [VolunteerController::class, 'updateAvailabilityStatusVolunteer']);
 
@@ -129,6 +133,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::post('/disaster/create', [DisasterController::class, 'store']);
 
     Route::get('/disasters', [DisasterController::class, 'index']);
+
+    Route::get('/disaster/{id}/logistic/tracks', [DisasterController::class, 'logisticTracks']);
 
     Route::get('/disaster/{id}', [DisasterController::class, 'show']);
 
