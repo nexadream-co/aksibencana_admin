@@ -48,7 +48,7 @@ class VolunteerController extends Controller
             'whatsapp_number' => ['string'],
         ]);
 
-        $is_registered = Volunteer::where('user_id', $request->user_id)->first();
+        $is_registered = Volunteer::where('user_id', $request->user_id)->where('status', '<>', 'rejected')->first();
         if ($is_registered) {
             session()->flash('error', 'User already regitered as volunteer');
             return back()->withInput();

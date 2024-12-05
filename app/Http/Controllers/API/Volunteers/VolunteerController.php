@@ -60,7 +60,7 @@ class VolunteerController extends Controller
             "ktp" => str_replace(url('storage') . '/', '', $request->ktp),
             "categories" => json_encode($request->categories),
             "availability_status" => "active",
-            "status" => "request",
+            "status" => "requested",
         ]);
 
         $volunteer->abilities()->sync($request->abilities);

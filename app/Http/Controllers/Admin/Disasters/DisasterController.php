@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Disasters;
 use App\Http\Controllers\Controller;
 use App\Models\Disaster;
 use App\Models\DisasterCategory;
+use App\Models\DisasterStation;
 use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -164,6 +165,34 @@ class DisasterController extends Controller
             $data[] = [
                 "id" => $item->id,
                 "value" => $item->title
+            ];
+        }
+
+        return $data;
+    }
+    
+    public function searchDisasterStation(Request $request): array
+    {
+        $data = [];
+        $search = $request->q;
+        $limit = $request->limit;
+
+        $disasters = DisasterStation::query();
+        if ($search) {
+            foreach (explode(",", $search) as $key => $item) {
+                if ($key == 0) {
+                    $disasters->where('name', 'LIKE', '%' . $item . '%');
+                } else {
+                    $disasters->orWhere('name', 'LIKE', '%' . $item . '%');
+                }
+            }
+        }
+
+        $disasters = $disasters->paginate($limit ?? 10);
+        foreach ($disasters as $item) {
+            $data[] = [
+                "id" => $item->id,
+                "value" => $item->name
             ];
         }
 

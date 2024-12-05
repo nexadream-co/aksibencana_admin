@@ -12,7 +12,9 @@ use App\Http\Controllers\Admin\Locations\LocationController;
 use App\Http\Controllers\Admin\Logistics\LogisticController;
 use App\Http\Controllers\Admin\Users\UserController;
 use App\Http\Controllers\Admin\Volunteers\AbilityController;
+use App\Http\Controllers\Admin\Volunteers\VolunteerAssignmentController;
 use App\Http\Controllers\Admin\Volunteers\VolunteerController;
+use App\Http\Controllers\HomeController as ControllersHomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +43,27 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::delete('/volunteer/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteer_delete');
 
     Route::post('/volunteer/store', [VolunteerController::class, 'store'])->name('volunteer_store');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Volunteers Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage volunteers data API
+    |
+    */
+
+    Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
+
+    Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');
+    
+    Route::post('/volunteer/{id}/assignment/store', [VolunteerAssignmentController::class, 'store'])->name('volunteer_assignment_store');
+
+    Route::get('/volunteer/{id}/assignment/edit/{assignment_id}', [VolunteerAssignmentController::class, 'edit'])->name('volunteer_assignment_edit');
+
+    Route::put('/volunteer/{id}/assignment/update/{assignment_id}', [VolunteerAssignmentController::class, 'update'])->name('volunteer_assignment_update');
+
+    Route::delete('/volunteer/{id}/assignment/destroy/{assignment_id}', [VolunteerAssignmentController::class, 'destroy'])->name('volunteer_assignment_update');
 
     /*
     |--------------------------------------------------------------------------
@@ -212,6 +235,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/disaster/search', [DisasterController::class, 'searchDisasters'])->name('disaster_search');
 
+    Route::get('/disaster/search/station', [DisasterController::class, 'searchDisasterStation'])->name('disaster_search_station');
+
     Route::get('/disaster/edit/{id}', [DisasterController::class, 'edit'])->name('disaster_edit');
 
     Route::post('/disaster/store', [DisasterController::class, 'store'])->name('disaster_store');
@@ -235,5 +260,5 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::post('/delivery/store', [DeliveryController::class, 'store'])->name('delivery_store');
 
-    Route::get('{any}', [HomeController::class, 'index'])->name('index');
+    Route::get('{any}', [ControllersHomeController::class, 'index'])->name('index');
 });

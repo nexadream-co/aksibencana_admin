@@ -185,10 +185,26 @@
                                             Status</label>
                                     </div>
 
-                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
+                                    {{-- <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
                                         <input type="checkbox" class="form-check-input" id="status_active"
                                             name="status" @if ((old('status') ?? @$volunteer->status) == 'active') checked @endif>
                                         <label class="form-check-label" for="status_active">Active</label>
+                                    </div>
+                                     --}}
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label" for="status_active">Status</label>
+                                        <select name="status" id="status_active" class="form-control @error('status') is-invalid @enderror">
+                                            <option value="">Choose Status</option>
+                                            <option value="active" @if((old('status') ?? @$volunteer->status) == 'active') selected @endif>Active</option>
+                                            <option value="requested" @if((old('status') ?? @$volunteer->status) == 'requested') selected @endif>Requested</option>
+                                            <option value="rejected" @if((old('status') ?? @$volunteer->status) == 'rejected') selected @endif>Rejected</option>
+                                        </select>
+                                        @error('status')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="mt-4">
