@@ -24,6 +24,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Pray</th>
+                                    <th scope="col">Donation</th>
                                     <th scope="col">Show Identity</th>
                                     <th scope="col" width="120px">Created At</th>
                                     <th scope="col" width="120px">Updated At</th>
@@ -41,6 +42,9 @@
                                         </td>
                                         <td>
                                             {{ @$item->pray }}
+                                        </td>
+                                        <td>
+                                            {{ @$item->donationHistory->donation->title }}
                                         </td>
                                         <td>
                                             {{ @$item->show_identity }}

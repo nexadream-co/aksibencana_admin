@@ -71,10 +71,10 @@
                                             {{ @$item->end_date }}
                                         </td>
                                         <td>
-                                            {{ @$item->total }}
+                                            {{ number_format(@$item->total ?? 0) }}
                                         </td>
                                         <td>
-                                            {{ @$item->target }}
+                                            {{ number_format(@$item->target ?? 0) }}
                                         </td>
                                         <td>
                                             <a href="{{ route('donation_edit', $item->id) }}" class="btn btn-primary"><i
@@ -82,7 +82,8 @@
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
-                                            <a class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                            <a href="{{ route('donation_histories', $item->id) }}"
+                                                class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
                                                 action="{{ route('donation_delete', $item->id) }}" method="POST"

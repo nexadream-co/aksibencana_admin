@@ -108,7 +108,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="mb-3">
+                                    {{-- <div class="mb-3">
                                         <label class="form-label" for="total">Total</label>
                                         <input type="number"
                                             class="form-control @error('total') is-invalid @enderror"
@@ -119,7 +119,7 @@
                                                 <strong>{{ $message }}</strong>
                                             </span>
                                         @enderror
-                                    </div>
+                                    </div> --}}
 
                                     <div class="mb-3">
                                         <label class="form-label" for="target">Target</label>

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Deliveries\DeliveryController;
 use App\Http\Controllers\Admin\Disasters\DisasterController;
 use App\Http\Controllers\Admin\Disasters\DisasterStationContoller;
 use App\Http\Controllers\Admin\Donations\DonationController;
+use App\Http\Controllers\Admin\Donations\DonationHistoryController;
 use App\Http\Controllers\Admin\Donations\DonationPrayerController;
 use App\Http\Controllers\Admin\Donations\FundraiserController;
 use App\Http\Controllers\Admin\Education\EducationController;
@@ -57,7 +58,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
 
     Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');
-    
+
     Route::post('/volunteer/{id}/assignment/store', [VolunteerAssignmentController::class, 'store'])->name('volunteer_assignment_store');
 
     Route::get('/volunteer/{id}/assignment/edit/{assignment_id}', [VolunteerAssignmentController::class, 'edit'])->name('volunteer_assignment_edit');
@@ -144,7 +145,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::get('/user/create', [UserController::class, 'create'])->name('user_create');
 
     Route::post('/user/store', [UserController::class, 'store'])->name('user_store');
-    
+
     Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user_delete');
 
     Route::post('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user_reset_password');
@@ -177,6 +178,17 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::put('/donation/update/{id}', [DonationController::class, 'update'])->name('donation_update');
 
     Route::delete('/donation/delete/{id}', [DonationController::class, 'destroy'])->name('donation_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Donation histories Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage donation histories data API
+    |
+    */
+
+    Route::get('/donation/{id}/histories', [DonationHistoryController::class, 'index'])->name('donation_histories');
 
     /*
     |--------------------------------------------------------------------------

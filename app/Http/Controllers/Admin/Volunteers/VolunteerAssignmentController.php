@@ -18,7 +18,7 @@ class VolunteerAssignmentController extends Controller
 
         if(!@$volunteer) return abort(404);
 
-        $assignments = VolunteerAssignment::latest()->get();
+        $assignments = VolunteerAssignment::where('volunteer_id', $id)->latest()->get();
         return view('pages.volunteers.assignments.index', compact('assignments', 'volunteer'));
     }
 
