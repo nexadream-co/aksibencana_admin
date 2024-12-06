@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\Admin\Deliveries\DeliveryController;
 use App\Http\Controllers\Admin\Disasters\DisasterController;
+use App\Http\Controllers\Admin\Disasters\DisasterStationContoller;
 use App\Http\Controllers\Admin\Donations\DonationController;
 use App\Http\Controllers\Admin\Donations\DonationPrayerController;
 use App\Http\Controllers\Admin\Donations\FundraiserController;
@@ -63,7 +64,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::put('/volunteer/{id}/assignment/update/{assignment_id}', [VolunteerAssignmentController::class, 'update'])->name('volunteer_assignment_update');
 
-    Route::delete('/volunteer/{id}/assignment/destroy/{assignment_id}', [VolunteerAssignmentController::class, 'destroy'])->name('volunteer_assignment_update');
+    Route::delete('/volunteer/{id}/assignment/destroy/{assignment_id}', [VolunteerAssignmentController::class, 'destroy'])->name('volunteer_assignment_delete');
 
     /*
     |--------------------------------------------------------------------------
@@ -244,6 +245,27 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::put('/disaster/update/{id}', [DisasterController::class, 'update'])->name('disaster_update');
 
     Route::delete('/disaster/delete/{id}', [DisasterController::class, 'destroy'])->name('disaster_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Disaster station Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage disaster stations data API
+    |
+    */
+
+    Route::get('/disaster/{id}/station', [DisasterStationContoller::class, 'index'])->name('disaster_stations');
+
+    Route::get('/disaster/{id}/create', [DisasterStationContoller::class, 'create'])->name('disaster_station_create');
+
+    Route::post('/disaster/{id}/store', [DisasterStationContoller::class, 'store'])->name('disaster_station_store');
+
+    Route::get('/disaster/{id}/edit/{station_id}', [DisasterStationContoller::class, 'edit'])->name('disaster_station_edit');
+
+    Route::put('/disaster/{id}/update/{station_id}', [DisasterStationContoller::class, 'update'])->name('disaster_station_update');
+
+    Route::delete('/disaster/{id}/delete/{station_id}', [DisasterStationContoller::class, 'destroy'])->name('disaster_station_delete');
 
     /*
     |--------------------------------------------------------------------------

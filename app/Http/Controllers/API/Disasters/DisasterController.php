@@ -168,7 +168,7 @@ class DisasterController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'district_id' => $request->district_id,
-            'status' => "request",
+            'status' => "requested",
         ]);
 
         return response()->json([

@@ -25,6 +25,21 @@
                                     @csrf
 
                                     <h4>Assignment Volunteer Form</h4>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="user_name">Volunteer</label>
+                                        <input type="text"
+                                            class="form-control @error('user_name') is-invalid @enderror"
+                                            name="user_name" placeholder="user" id="user_name"
+                                            value="{{ @$volunteer->user->name }}" readonly>
+                                            <input type="hidden" value="{{ @$volunteer->user_id }}" name="user_id">
+                                        @error('user_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    
                                     <div class="mb-3">
                                         <label for="basicpill-firstname-input" class="form-label"><span
                                                 data-key="t-choose-disaster">Choose disaster</span><span
@@ -52,21 +67,6 @@
                                         </select>
                                         @error('disaster_station_id')
                                             <div class="text-danger">The disaster station field is required.</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="basicpill-firstname-input" class="form-label"><span
-                                                data-key="t-choose-user">Choose User</span><span
-                                                class="text-danger ms-1">*</span></label>
-                                        <select class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                                            name="choices-single-default" id="user-text-input"
-                                            placeholder="Search Location">
-                                            <option value="" data-key="t-search-user">Search User
-                                            </option>
-                                        </select>
-                                        @error('user_id')
-                                            <div class="text-danger">The user field is required.</div>
                                         @enderror
                                     </div>
 
@@ -147,10 +147,8 @@
     <script>
         const disasterElement = document.getElementById('disaster-text-input');
         const disasterStationElement = document.getElementById('disaster-station-text-input');
-        const userElement = document.getElementById('user-text-input');
         initChoices(disasterElement, '/disaster/search');
         initChoices(disasterStationElement, '/disaster/search/station');
-        initChoices(userElement, '/user/search');
 
         function initChoices(element, url) {
             const choices = new Choices(element, {

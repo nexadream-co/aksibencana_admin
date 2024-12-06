@@ -60,7 +60,7 @@ class DisasterController extends Controller
         $disaster->date = $request->date;
         $disaster->district_id = $request->district_id;
         $disaster->disaster_category_id = $request->category_id;
-        $disaster->status = $request->status ? 'active' : 'inactive';
+        $disaster->status = $request->status;
         $disaster->images = json_encode($image);
         $disaster->created_by = $request->user()->id;
         $disaster->save();
@@ -114,7 +114,7 @@ class DisasterController extends Controller
         $disaster->date = $request->date;
         $disaster->district_id = $request->district_id;
         $disaster->disaster_category_id = $request->category_id;
-        $disaster->status = $request->status ? 'active' : 'inactive';
+        $disaster->status = $request->status;
         $disaster->save();
 
         session()->flash('success', 'Disaster successfully updated');

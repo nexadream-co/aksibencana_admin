@@ -1,13 +1,13 @@
 @extends('layouts.master')
 @section('title')
-    Disaster Stations
+    Disaster Stations {{@$disaster->title}}
 @endsection
 @section('css')
     <!-- gridjs css -->
     <link rel="stylesheet" href="{{ URL::asset('vendors/libs/gridjs/theme/mermaid.min.css') }}">
 @endsection
 @section('page-title')
-    Disaster Stations
+    Disaster Stations {{@$disaster->title}}
 @endsection
 
 @section('content')
@@ -15,13 +15,12 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-
                     <div class="position-relative">
                         <div class="modal-button mt-2">
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <a href="{{ route('disaster_create') }}" class="btn btn-success"><i
+                                        <a href="{{ route('disaster_station_create', [$disaster->id]) }}" class="btn btn-success"><i
                                                 class="mdi mdi-plus me-1"></i> Add
                                             Disaster Stations</a>
                                     </div>
@@ -38,54 +37,42 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">City</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Created By</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Latitude</th>
+                                    <th scope="col">Longitude</th>
+                                    <th scope="col">Category</th>
                                     <th scope="col">Action</th>
                                 </tr>
 
                             </thead>
                             <tbody>
-                                @foreach ($disasters as $item)
+                                @foreach ($stations as $item)
                                     <tr>
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            {{ @$item->title }}
+                                            {{ @$item->name }}
                                         </td>
                                         <td>
-                                            {{ @$item->address }}
+                                            {{ $item->latitude }}
                                         </td>
                                         <td>
-                                            {{ @$item->district->name }}, {{ @$item->district->city->name }}
+                                            {{ $item->longitude }}
                                         </td>
                                         <td>
-                                            {{ $item->date }}
+                                            {{ @$item->category }}
                                         </td>
                                         <td>
-                                            {{ $item->type }}
-                                        </td>
-                                        <td>
-                                            {{ $item->status }}
-                                        </td>
-                                        <td>
-                                            {{ @$item->user->name }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('disaster_edit', $item->id) }}" class="btn btn-primary"><i
+                                            <a href="{{ route('disaster_station_edit', ['station_id' => $item->id, 'id' => $disaster->id]) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
+                                                    
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
-                                            <a class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
-                                                action="{{ route('disaster_delete', $item->id) }}" method="POST"
+                                                action="{{ route('disaster_station_delete', ['station_id' => $item->id, 'id' => $disaster->id]) }}" method="POST"
                                                 style="display: none;">
                                                 @method('delete')
                                                 @csrf

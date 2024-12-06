@@ -82,7 +82,7 @@
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
-                                            <a class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                            <a href="{{route('disaster_stations', [$item->id])}}" class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
                                                 action="{{ route('disaster_delete', $item->id) }}" method="POST"

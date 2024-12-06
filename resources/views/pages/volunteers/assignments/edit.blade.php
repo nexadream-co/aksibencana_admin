@@ -23,8 +23,24 @@
                             <div class="mt-4 mt-xl-0">
                                 <form method="post" action="{{ route('volunteer_assignment_update', ["id" => $volunteer->id, "assignment_id" => $assignment->id]) }}" enctype="multipart/form-data">
                                     @csrf
+                                    @method("put")
 
                                     <h4>Assignment Volunteer Form</h4>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="user_name">Volunteer</label>
+                                        <input type="text"
+                                            class="form-control @error('user_name') is-invalid @enderror"
+                                            name="user_name" placeholder="user" id="user_name"
+                                            value="{{ @$volunteer->user->name }}" readonly>
+                                            <input type="hidden" value="{{ @$volunteer->user_id }}" name="user_id">
+                                        @error('user_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="mb-3">
                                         <label for="basicpill-firstname-input" class="form-label"><span
                                                 data-key="t-choose-disaster">Choose disaster</span><span
@@ -34,9 +50,9 @@
                                             placeholder="Search Disaster">
                                             <option value="" data-key="t-search-disaster">Search disaster
                                             </option>
-                                            @if (@$logistic->disaster->id)
-                                                <option value="{{ @$logistic->disaster->id }}" selected>
-                                                    {{ @$logistic->disaster->title }}
+                                            @if (@$assignment->disaster->id)
+                                                <option value="{{ @$assignment->disaster->id }}" selected>
+                                                    {{ @$assignment->disaster->title }}
                                                 </option>
                                             @endif
                                         </select>
@@ -55,34 +71,14 @@
                                             <option value="" data-key="t-search-disaster">Search disaster station
                                             </option>
                                             
-                                            @if (@$logistic->station->id)
-                                                <option value="{{ @$logistic->station->id }}" selected>
-                                                    {{ @$logistic->station->title }}
+                                            @if (@$assignment->station->id)
+                                                <option value="{{ @$assignment->station->id }}" selected>
+                                                    {{ @$assignment->station->name }}
                                                 </option>
                                             @endif
                                         </select>
                                         @error('disaster_station_id')
                                             <div class="text-danger">The disaster station field is required.</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="basicpill-firstname-input" class="form-label"><span
-                                                data-key="t-choose-user">Choose User</span><span
-                                                class="text-danger ms-1">*</span></label>
-                                        <select class="form-control @error('user_id') is-invalid @enderror" name="user_id"
-                                            name="choices-single-default" id="user-text-input"
-                                            placeholder="Search Location">
-                                            <option value="" data-key="t-search-user">Search User
-                                            </option>
-                                            @if (@$logistic->user->id)
-                                                <option value="{{ @$logistic->user->id }}" selected>
-                                                    {{ @$logistic->user->name }}
-                                                </option>
-                                            @endif
-                                        </select>
-                                        @error('user_id')
-                                            <div class="text-danger">The user field is required.</div>
                                         @enderror
                                     </div>
 
@@ -163,10 +159,8 @@
     <script>
         const disasterElement = document.getElementById('disaster-text-input');
         const disasterStationElement = document.getElementById('disaster-station-text-input');
-        const userElement = document.getElementById('user-text-input');
         initChoices(disasterElement, '/disaster/search');
         initChoices(disasterStationElement, '/disaster/search/station');
-        initChoices(userElement, '/user/search');
 
         function initChoices(element, url) {
             const choices = new Choices(element, {
