@@ -19,7 +19,7 @@ class Delivery extends Model
 
     public function courier()
     {
-        return $this->belongsTo(User::class, 'delivered_by');
+        return $this->belongsTo(User::class, 'delivery_by');
     }
 
     public function disaster()

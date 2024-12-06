@@ -1,13 +1,13 @@
 @extends('layouts.master')
 @section('title')
-    Deliveries
+    Delivery Logistics
 @endsection
 @section('css')
     <!-- gridjs css -->
     <link rel="stylesheet" href="{{ URL::asset('vendors/libs/gridjs/theme/mermaid.min.css') }}">
 @endsection
 @section('page-title')
-    Deliveries
+    Delivery Logistics
 @endsection
 
 @section('content')
@@ -15,15 +15,19 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-
+                    <h4>
+                        {{ @$delivery->disaster->title }}
+                    </h4>
+                    <span>{{ @$delivery->station->name }}</span>
+                    <hr>
                     <div class="position-relative">
                         <div class="modal-button mt-2">
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <a href="{{ route('delivery_create') }}" class="btn btn-success"><i
-                                                class="mdi mdi-plus me-1"></i> Add
-                                            Deliveries</a>
+                                        <a href="{{ route('delivery_logistic_create', [$delivery->id]) }}"
+                                            class="btn btn-success"><i class="mdi mdi-plus me-1"></i> Add
+                                            Logistics</a>
                                     </div>
                                 </div>
                             </div>
@@ -38,59 +42,50 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">User</th>
+                                    <th scope="col">Goods</th>
                                     <th scope="col">Disaster</th>
-                                    <th scope="col">Station</th>
-                                    <th scope="col">Date</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Branch</th>
-                                    <th scope="col">Delivered At</th>
-                                    <th scope="col">Delivered By</th>
-                                    <th scope="col">Arrived At</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">From</th>
                                     <th scope="col">Action</th>
                                 </tr>
 
                             </thead>
                             <tbody>
-                                @foreach ($deliveries as $item)
+                                @foreach ($logistics as $item)
                                     <tr>
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
+                                            {{ @$item->user->name }}
+                                        </td>
+                                        <td>
+                                            {{ @$item->goods->name }}
+                                        </td>
+                                        <td>
                                             {{ @$item->disaster->title }}
-                                        </td>
-                                        <td>
-                                            {{ @$item->station->name }}
-                                        </td>
-                                        <td>
-                                            {{ @$item->date }}
                                         </td>
                                         <td>
                                             {{ $item->status }}
                                         </td>
                                         <td>
-                                            {{ $item->branchOffice->name }}
+                                            {{ $item->date }}
                                         </td>
                                         <td>
-                                            {{ $item->delivered_at }}
+                                            {{ @$item->expedition->district->city->name }}
                                         </td>
                                         <td>
-                                            {{ @$item->courier->name }}
-                                        </td>
-                                        <td>
-                                            {{ @$item->arrived_at }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('delivery_edit', $item->id) }}" class="btn btn-primary"><i
+                                            <a href="{{ route('logistic_edit', $item->id) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
-                                            <a href="{{ route('delivery_logistics', [$item->id]) }}"
-                                                class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                            <a class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
-                                                action="{{ route('delivery_delete', $item->id) }}" method="POST"
+                                                action="{{ route('logistic_delete', $item->id) }}" method="POST"
                                                 style="display: none;">
                                                 @method('delete')
                                                 @csrf

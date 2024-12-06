@@ -79,7 +79,7 @@ class LogisticController extends Controller
 
         $logistic->expedition_id = $expedition->id;
         $logistic->save();
-        
+
         DB::commit();
 
         session()->flash('success', 'Logistic successfully created');
@@ -154,7 +154,7 @@ class LogisticController extends Controller
 
         $logistic->expedition_id = $expedition->id;
         $logistic->save();
-        
+
         DB::commit();
 
         session()->flash('success', 'Logistic successfully updated');
@@ -178,9 +178,39 @@ class LogisticController extends Controller
         $logistics->delete();
 
         DB::commit();
-        
+
         session()->flash('success', 'logistic successfully deleted');
 
         return redirect()->route('logistics');
+    }
+
+    public function searchLogistics(Request $request): array
+    {
+        $data = [];
+        $search = $request->q;
+        $limit = $request->limit;
+
+        $logistics = Logistic::query();
+        if ($search) {
+            $logistics->whereHas('goods', function ($query) use ($search) {
+                foreach (explode(",", $search) as $key => $item) {
+                    if ($key == 0) {
+                        $query->where('name', 'LIKE', '%' . $item . '%');
+                    } else {
+                        $query->orWhere('name', 'LIKE', '%' . $item . '%');
+                    }
+                }
+            });
+        }
+
+        $logistics = $logistics->paginate($limit ?? 10);
+        foreach ($logistics as $item) {
+            $data[] = [
+                "id" => $item->id,
+                "value" => @$item->goods->name
+            ];
+        }
+
+        return $data;
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
 use App\Http\Controllers\Admin\Deliveries\DeliveryController;
+use App\Http\Controllers\Admin\Deliveries\DeliveryLogisticController;
 use App\Http\Controllers\Admin\Disasters\DisasterController;
 use App\Http\Controllers\Admin\Disasters\DisasterStationContoller;
 use App\Http\Controllers\Admin\Donations\DonationController;
@@ -233,6 +234,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::delete('/logistic/delete/{id}', [LogisticController::class, 'destroy'])->name('logistic_delete');
 
+    Route::get('/logistic/search', [LogisticController::class, 'searchLogistics'])->name('logistic_search');
+
     /*
     |--------------------------------------------------------------------------
     | Disasters Routes
@@ -293,6 +296,42 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::get('/delivery/create', [DeliveryController::class, 'create'])->name('delivery_create');
 
     Route::post('/delivery/store', [DeliveryController::class, 'store'])->name('delivery_store');
+
+    Route::get('/delivery/edit/{id}', [DeliveryController::class, 'edit'])->name('delivery_edit');
+
+    Route::put('/delivery/update/{id}', [DeliveryController::class, 'update'])->name('delivery_update');
+
+    Route::delete('/delivery/delete/{id}', [DeliveryController::class, 'destroy'])->name('delivery_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delivery Logistics Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage delivery logistics data API
+    |
+    */
+
+    Route::get('/delivery/{id}/logistics', [DeliveryLogisticController::class, 'index'])->name('delivery_logistics');
+
+    Route::get('/delivery/{id}/logistic/create', [DeliveryLogisticController::class, 'create'])->name('delivery_logistic_create');
+
+    Route::post('/delivery/{id}/logistic/store', [DeliveryLogisticController::class, 'store'])->name('delivery_logistic_store');
+
+    Route::get('/delivery/{id}/logistic/edit/{logistic_id}', [DeliveryLogisticController::class, 'edit'])->name('delivery_logistic_edit');
+
+    Route::put('/delivery/{id}/logistic/update', [DeliveryLogisticController::class, 'update'])->name('delivery_logistic_update');
+
+    Route::delete('/delivery/{id}/logistic/delete/{logistic_id}', [DeliveryLogisticController::class, 'destroy'])->name('delivery_logistic_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Template Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage template data API
+    |
+    */
 
     Route::get('{any}', [ControllersHomeController::class, 'index'])->name('index');
 });
