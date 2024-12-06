@@ -141,6 +141,13 @@
                     </a>
                 </li>
 
+                <li>
+                    <a href="data">
+                        <i class="bx bx-spreadsheet icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-education">Data</span>
+                    </a>
+                </li>
+
                 <li class="menu-title" data-key="t-applications">Profile</li>
 
                 <li>

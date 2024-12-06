@@ -21,7 +21,7 @@
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
-                                        <a href="{{ route('ability_create') }}" class="btn btn-success"><i
+                                        <a href="{{ route('education_create') }}" class="btn btn-success"><i
                                                 class="mdi mdi-plus me-1"></i> Add
                                             Education</a>
                                     </div>
@@ -53,8 +53,10 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>
-                                            <img src="{{ $item->banner }}"
-                                                style="width: 50px; height: 50px; object-fit:cover; border-radius: 5px">
+                                            @if (@$item->banner)
+                                                <img src="{{ url('storage') }}/{{ $item->banner }}"
+                                                    style="width: 50px; height: 50px; object-fit:cover; border-radius: 5px">
+                                            @endif
                                         </td>
                                         <td>
                                             {{ @$item->title }}
@@ -67,14 +69,13 @@
                                         </td>
                                         <td>
                                             <div class="d-flex">
-                                                <a href="{{ route('ability_edit', $item->id) }}"
+                                                <a href="{{ route('education_edit', $item->id) }}"
                                                     class="btn btn-primary me-1"><i class="bx bx-pencil"></i></a>
-
                                                 <a href="javascript:void();"
                                                     onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                     class="btn btn-danger"><i class='bx bx-trash'></i></a>
                                                 <form id="delete-item-{{ $item->id }}"
-                                                    action="{{ route('ability_delete', $item->id) }}" method="POST"
+                                                    action="{{ route('education_delete', $item->id) }}" method="POST"
                                                     style="display: none;">
                                                     @method('delete')
                                                     @csrf

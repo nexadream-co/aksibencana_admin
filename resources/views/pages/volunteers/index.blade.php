@@ -78,7 +78,9 @@
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
-                                            <a href="{{route('volunteer_assignments', [$item])}}" class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                            <a href="{{ route('volunteer_assignments', [$item]) }}"
+                                                class="btn btn-outline-primary" title="Assignments"><i
+                                                    class='bx bx-task'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
                                                 action="{{ route('volunteer_delete', $item->id) }}" method="POST"

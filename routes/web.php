@@ -121,6 +121,16 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/education', [EducationController::class, 'index'])->name('education');
 
+    Route::get('/education/create', [EducationController::class, 'create'])->name('education_create');
+
+    Route::get('/education/edit/{id}', [EducationController::class, 'edit'])->name('education_edit');
+
+    Route::post('/education/store', [EducationController::class, 'store'])->name('education_store');
+
+    Route::put('/education/update/{id}', [EducationController::class, 'update'])->name('education_update');
+
+    Route::delete('/education/delete/{id}', [EducationController::class, 'destroy'])->name('education_delete');
+
     /*
     |--------------------------------------------------------------------------
     | Location Routes

@@ -87,7 +87,8 @@
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
                                             <a href="{{ route('delivery_logistics', [$item->id]) }}"
-                                                class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                                class="btn btn-outline-primary" title="Delivery Logistics"><i
+                                                    class='bx bx-package'></i></a>
 
                                             <form id="delete-item-{{ $item->id }}"
                                                 action="{{ route('delivery_delete', $item->id) }}" method="POST"

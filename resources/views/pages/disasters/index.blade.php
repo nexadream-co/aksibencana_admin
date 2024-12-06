@@ -84,7 +84,8 @@
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
 
                                             <a href="{{ route('disaster_stations', [$item->id]) }}"
-                                                class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
+                                                class="btn btn-outline-primary" title="Stations"><i
+                                                    class='bx bx-home'></i></a>
 
                                             <a href="{{ route('disaster_detail', [$item->id]) }}"
                                                 class="btn btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
