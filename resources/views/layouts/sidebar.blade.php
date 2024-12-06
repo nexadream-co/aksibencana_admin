@@ -142,7 +142,7 @@
                 </li>
 
                 <li>
-                    <a href="data">
+                    <a href="{{ route('data') }}">
                         <i class="bx bx-spreadsheet icon nav-icon"></i>
                         <span class="menu-item" data-key="t-education">Data</span>
                     </a>

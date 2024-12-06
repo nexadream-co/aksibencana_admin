@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BranchOffices\BranchOfficeController;
+use App\Http\Controllers\Admin\Data\DataController;
 use App\Http\Controllers\Admin\Deliveries\DeliveryController;
 use App\Http\Controllers\Admin\Deliveries\DeliveryLogisticController;
 use App\Http\Controllers\Admin\Disasters\DisasterController;
@@ -335,6 +336,17 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     Route::put('/delivery/{id}/logistic/update', [DeliveryLogisticController::class, 'update'])->name('delivery_logistic_update');
 
     Route::delete('/delivery/{id}/logistic/delete/{logistic_id}', [DeliveryLogisticController::class, 'destroy'])->name('delivery_logistic_delete');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Data Routes
+    |--------------------------------------------------------------------------
+    |
+    | Manage data data API
+    |
+    */
+
+    Route::get('/data', [DataController::class, 'index'])->name('data');
 
     /*
     |--------------------------------------------------------------------------
