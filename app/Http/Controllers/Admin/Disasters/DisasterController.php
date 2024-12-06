@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Disaster;
 use App\Models\DisasterCategory;
 use App\Models\DisasterStation;
+use App\Models\VolunteerAssignment;
 use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -68,6 +69,20 @@ class DisasterController extends Controller
         session()->flash('success', 'Disaster successfully created');
 
         return redirect()->route('disasters');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function show(string $id)
+    {
+        $disaster = Disaster::find($id);
+
+        if (!$disaster) return abort(404);
+
+        $assignments = VolunteerAssignment::where('disaster_id', $id)->latest()->get();
+
+        return view('pages.disasters.detail', compact('disaster', 'assignments'));
     }
 
     /**
@@ -137,7 +152,7 @@ class DisasterController extends Controller
         $disaster->delete();
 
         DB::commit();
-        
+
         session()->flash('success', 'Disaster successfully deleted');
 
         return redirect()->route('disasters');
@@ -170,7 +185,7 @@ class DisasterController extends Controller
 
         return $data;
     }
-    
+
     public function searchDisasterStation(Request $request): array
     {
         $data = [];

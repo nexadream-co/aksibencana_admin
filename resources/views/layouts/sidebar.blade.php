@@ -82,21 +82,21 @@
                 <li class="menu-title" data-key="t-applications">Donations</li>
 
                 <li>
-                    <a href="{{route('donations')}}">
+                    <a href="{{ route('donations') }}">
                         <i class="bx bx-crown icon nav-icon"></i>
                         <span class="menu-item" data-key="t-donations">Donations</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('fundraisers')}}">
+                    <a href="{{ route('fundraisers') }}">
                         <i class="bx bx-user-pin icon nav-icon"></i>
                         <span class="menu-item" data-key="t-fundraisers">Fundraisers</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="{{route('prayers')}}">
+                    <a href="{{ route('prayers') }}">
                         <i class="bx bx-heart icon nav-icon"></i>
                         <span class="menu-item" data-key="t-prayers">Prayer</span>
                     </a>
@@ -119,7 +119,7 @@
                 </li>
 
                 <li>
-                    <a href="{{route('deliveries')}}">
+                    <a href="{{ route('deliveries') }}">
                         <i class="bx bx-shape-square icon nav-icon"></i>
                         <span class="menu-item" data-key="t-disasters">Deliveries</span>
                     </a>
@@ -159,13 +159,13 @@
 
                 <li>
                     <a href="javascript:void();"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="bx bx-log-out icon nav-icon"></i>
                         <span class="menu-item" data-key="t-branch-offices">Logout</span>
                     </a>
                 </li>
 
-                <li class="menu-title" data-key="t-applications">Template</li>
+                {{-- <li class="menu-title" data-key="t-applications">Template</li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
@@ -397,7 +397,7 @@
                             </ul>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

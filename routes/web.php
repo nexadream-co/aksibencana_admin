@@ -253,6 +253,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::get('/disaster/search/station', [DisasterController::class, 'searchDisasterStation'])->name('disaster_search_station');
 
+    Route::get('/disaster/detail/{id}', [DisasterController::class, 'show'])->name('disaster_detail');
+
     Route::get('/disaster/edit/{id}', [DisasterController::class, 'edit'])->name('disaster_edit');
 
     Route::post('/disaster/store', [DisasterController::class, 'store'])->name('disaster_store');
