@@ -29,8 +29,8 @@
                                         <label for="basicpill-firstname-input" class="form-label"><span
                                                 data-key="t-choose-disaster">Choose disaster</span><span
                                                 class="text-danger ms-1">*</span></label>
-                                        <select class="form-control @error('disaster_id') is-invalid @enderror" name="disaster_id"
-                                            name="choices-single-default" id="disaster-text-input"
+                                        <select class="form-control @error('disaster_id') is-invalid @enderror"
+                                            name="disaster_id" name="choices-single-default" id="disaster-text-input"
                                             placeholder="Search Disaster">
                                             <option value="" data-key="t-search-disaster">Search disaster
                                             </option>
@@ -72,8 +72,7 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="goods_name">Goods Name</label>
-                                        <input type="text"
-                                            class="form-control @error('goods_name') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('goods_name') is-invalid @enderror"
                                             name="goods_name" placeholder="Goods Name" id="goods_name"
                                             value="{{ old('goods_name') }}">
                                         @error('goods_name')
@@ -82,11 +81,10 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label" for="goods_type">Goods Type</label>
-                                        <input type="text"
-                                            class="form-control @error('goods_type') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('goods_type') is-invalid @enderror"
                                             name="goods_type" placeholder="Goods Type" id="goods_type"
                                             value="{{ old('goods_type') }}">
                                         @error('goods_type')
@@ -98,10 +96,8 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="date">Date</label>
-                                        <input type="date"
-                                            class="form-control @error('date') is-invalid @enderror"
-                                            name="date" placeholder="Date" id="date"
-                                            value="{{ old('date') }}">
+                                        <input type="date" class="form-control @error('date') is-invalid @enderror"
+                                            name="date" placeholder="Date" id="date" value="{{ old('date') }}">
                                         @error('date')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -111,10 +107,13 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="branch_office_id">Branch Office</label>
-                                        <select name="branch_office_id" id="branch_office_id" class="form-control @error('branch_office_id') is-invalid @enderror">
+                                        <select name="branch_office_id" id="branch_office_id"
+                                            class="form-control @error('branch_office_id') is-invalid @enderror">
                                             <option value="">Choose Branch Office</option>
                                             @foreach ($branch_offices as $item)
-                                                <option value="{{$item->id}}" @if(old('branch_office_id') == $item->id) selected @endif>{{$item->name}}</option>
+                                                <option value="{{ $item->id }}"
+                                                    @if (old('branch_office_id') == $item->id) selected @endif>{{ $item->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('branch_office_id')
@@ -130,10 +129,13 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="expedition_name">Expedition Name</label>
-                                        <select name="expedition_name" id="expedition_name" class="form-control @error('expedition_name') is-invalid @enderror">
+                                        <select name="expedition_name" id="expedition_name"
+                                            class="form-control @error('expedition_name') is-invalid @enderror">
                                             <option value="">Choose Expedition</option>
-                                            <option value="jnt" @if(old('expedition_name') == 'jnt') selected @endif>JNT</option>
-                                            <option value="jne" @if(old('expedition_name') == 'jne') selected @endif>JNE</option>
+                                            <option value="jnt" @if (old('expedition_name') == 'jnt') selected @endif>JNT
+                                            </option>
+                                            <option value="jne" @if (old('expedition_name') == 'jne') selected @endif>JNE
+                                            </option>
                                         </select>
                                         @error('expedition_name')
                                             <span class="invalid-feedback" role="alert">
@@ -141,11 +143,10 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label" for="telp">Telp Number</label>
-                                        <input type="number"
-                                            class="form-control @error('telp') is-invalid @enderror"
+                                        <input type="number" class="form-control @error('telp') is-invalid @enderror"
                                             name="telp" placeholder="Telp Number" id="telp"
                                             value="{{ old('telp') }}">
                                         @error('telp')
@@ -154,11 +155,10 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label class="form-label" for="weight">Weight</label>
-                                        <input type="number"
-                                            class="form-control @error('weight') is-invalid @enderror"
+                                        <input type="number" class="form-control @error('weight') is-invalid @enderror"
                                             name="weight" placeholder="Weight" id="weight"
                                             value="{{ old('weight') }}">
                                         @error('weight')
@@ -196,10 +196,25 @@
 
                                     <h4>Status</h4>
 
-                                    <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                        <input type="checkbox" class="form-check-input" id="status_active"
-                                            name="status" @if (old('status')) checked @endif>
-                                        <label class="form-check-label" for="status_active">Active</label>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="status_active">Status</label>
+                                        <select name="status" id="status_active"
+                                            class="form-control @error('status') is-invalid @enderror">
+                                            <option value="">Choose Status</option>
+                                            <option value="active" @if (old('status') == 'active') selected @endif>
+                                                Active</option>
+                                            <option value="requested" @if (old('status') == 'requested') selected @endif>
+                                                Requested</option>
+                                            <option value="rejected" @if (old('status') == 'rejected') selected @endif>
+                                                Rejected</option>
+                                            <option value="inactive" @if (old('status') == 'inactive') selected @endif>
+                                                Inactive</option>
+                                        </select>
+                                        @error('status')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
 
                                     <div class="mt-4">

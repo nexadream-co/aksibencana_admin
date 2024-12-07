@@ -58,7 +58,7 @@ class LogisticController extends Controller
         $logistic->user_id = $request->user_id ?? $request->user()->id;
         $logistic->date = $request->date;
         $logistic->branch_office_id = $request->branch_office_id;
-        $logistic->status = $request->status ? 'active' : 'inactive';
+        $logistic->status = $request->status;
 
         $goods = new Good();
         $goods->name = $request->goods_name;
@@ -133,7 +133,7 @@ class LogisticController extends Controller
         $logistic->user_id = $request->user_id ?? $request->user()->id;
         $logistic->date = $request->date;
         $logistic->branch_office_id = $request->branch_office_id;
-        $logistic->status = $request->status ? 'active' : 'inactive';
+        $logistic->status = $request->status;
 
         $goods = Good::find($logistic->good_id) ?? new Good();
         $goods->name = $request->goods_name;
