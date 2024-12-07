@@ -28,7 +28,7 @@ class LogisticController extends Controller
         foreach ($logistics as $item) {
             $images = [];
             foreach (@json_decode(@$item->disaster->images) ?? [] as $row) {
-                $images[] = url('storage').'/'.$row;
+                $images[] = url('storage') . '/' . $row;
             }
 
             $data[] = [
@@ -50,9 +50,9 @@ class LogisticController extends Controller
                         "name" => @$item->disaster->user->name
                     ]
                 ],
-                "branch_office" => @$item->branch_office ? [
-                    "id" => $item->branch_office->id,
-                    "name" => $item->branch_office->name,
+                "branch_office" => @$item->branchOffice ? [
+                    "id" => $item->branchOffice->id,
+                    "name" => $item->branchOffice->name,
                 ] : null,
                 "date" => $item->date,
                 "status" => $item->status,
@@ -73,6 +73,7 @@ class LogisticController extends Controller
     {
         $request->validate([
             'branch_office_id' => ['required', 'integer'],
+            'disaster_id' => ['required', 'integer'],
             'district_id' => ['required', 'integer'],
             'origin_address' => ['required', 'string'],
             'telp' => ['required', 'string'],
@@ -90,6 +91,7 @@ class LogisticController extends Controller
 
         $logistic = new Logistic();
         $logistic->user_id = $request->user()->id;
+        $logistic->disaster_id = $request->disaster_id;
         $logistic->date = $request->date;
         $logistic->image = @$request->image ? str_replace(url('storage') . '/', '', $request->image) : null;
         $logistic->branch_office_id = $request->branch_office_id;
@@ -115,7 +117,7 @@ class LogisticController extends Controller
 
         $logistic->expedition_id = $expedition->id;
         $logistic->save();
-        
+
         DB::commit();
 
         return response()->json([
@@ -138,7 +140,7 @@ class LogisticController extends Controller
 
         $images = [];
         foreach (@json_decode($logistic->images) ?? [] as $row) {
-            $images[] = url('storage').'/'.$row;
+            $images[] = url('storage') . '/' . $row;
         }
 
         $data = [
@@ -160,15 +162,15 @@ class LogisticController extends Controller
                     "name" => @$logistic->disaster->user->name
                 ]
             ],
-            "branch_office" => @$logistic->branch_office ? [
-                "id" => $logistic->branch_office->id,
-                "name" => $logistic->branch_office->name,
+            "branch_office" => @$logistic->branchOffice ? [
+                "id" => $logistic->branchOffice->id,
+                "name" => $logistic->branchOffice->name,
             ] : null,
             "goods" => @$logistic->goods ? [
                 "name" => @$logistic->goods->name,
                 "type" => @$logistic->goods->type,
             ] : null,
-            "image" => @$logistic->image ? url('storage').'/'. @$logistic->image : null,
+            "image" => @$logistic->image ? url('storage') . '/' . @$logistic->image : null,
             "date" => $logistic->date,
             "receipt_number" => $logistic->expedition->receipt_code,
             "status" => $logistic->status,
