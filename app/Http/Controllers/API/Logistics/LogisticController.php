@@ -187,47 +187,81 @@ class LogisticController extends Controller
     /**
      * Logistic Receipt Track
      */
-    public function logisticReceiptTracks(string $id)
+    public function receipts($id)
     {
-
         $logistic = Logistic::find($id);
-
-        if (!$logistic) {
+        if (!@$logistic) {
             return response()->json([
-                "message" => "Logistic data not found",
+                "message" => "Logistic not found"
             ], 404);
         }
 
-        $data = [
-            [
-                "title" => "Lorem ipsum dolor",
-                "date" => "2022-02-02 00:00:00"
-            ],
-            [
-                "title" => "Lorem ipsum dolor",
-                "date" => "2022-02-02 00:00:00"
-            ],
-        ];
+        if (!@$logistic->expedition) {
+            return response()->json([
+                "message" => "Expedition not found"
+            ], 404);
+        }
+
+        $url = config('rajaongkir.URL') . '/waybill';
+        $key = config('rajaongkir.KEY');
+
+        $result = null;
+
+        try {
+            ini_set('max_execution_time', 100000);
+
+            // Header untuk API RajaOngkir
+            $headers = [
+                'key: ' . $key,
+                'Content-Type: application/x-www-form-urlencoded',
+            ];
+
+            // Data POST
+            $postData = [
+                'waybill' => @$logistic->expedition->receipt_code,
+                'courier' => @$logistic->expedition->name,
+            ];
+
+            // Panggil fungsi getCURL
+            $result = $this->getCURL($url, $headers, $postData);
+        } catch (\Throwable $th) {
+        }
+
+        $resultData = [];
+        $data = @$result['rajaongkir']['result']['manifest'] ?? [];
+        foreach ($data as $item) {
+            $resultData[] = [
+                "title" => @$item["manifest_description"],
+                "date" => @$item["manifest_date"]
+            ];
+        }
 
         return response()->json([
-            "message" => "Detail logistic receipt tracks successfully retrieved",
-            "data" => $data,
+            "message" => "Logistic receipt tracks successfully retrieved",
+            "data" => $resultData,
         ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function getCURL($url, $headers = [], $postData = [])
     {
-        //
-    }
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Tambahkan header jika diberikan
+        if (!empty($headers)) {
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        }
+
+        // Jika ada data POST, gunakan metode POST
+        if (!empty($postData)) {
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postData)); // x-www-form-urlencoded
+        }
+
+        $result = curl_exec($curl);
+        curl_close($curl);
+
+        return json_decode($result, true);
     }
 }

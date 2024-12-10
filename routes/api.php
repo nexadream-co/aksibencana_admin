@@ -151,11 +151,12 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::get('/logistics', [LogisticController::class, 'index']);
 
+    Route::post('/logistic/create', [LogisticController::class, 'store']);
+
     Route::get('/logistic/{id}', [LogisticController::class, 'show']);
 
-    Route::get('/logistic/{id}/receipt-tracks', [LogisticController::class, 'logisticReceiptTracks']);
+    Route::get('/logistic/{id}/receipt-tracks', [LogisticController::class, 'receipts']);
 
-    Route::post('/logistic/create', [LogisticController::class, 'store']);
 
     /*
     |--------------------------------------------------------------------------
@@ -171,7 +172,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/donation/categories', [DonationController::class, 'categories']);
 
     Route::post('/donation/store/{id}', [DonationController::class, 'store']);
-    
+
     Route::get('/donation/histories', [DonationController::class, 'histories']);
 
     Route::get('/donation/{id}/prayers', [DonationController::class, 'prayers']);
