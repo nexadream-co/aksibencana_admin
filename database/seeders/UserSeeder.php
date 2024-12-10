@@ -21,6 +21,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
+        $courier = User::create([
+            'name' => 'Asep',
+            'email' => 'courier@gmail.com',
+            'password' => Hash::make('password'),
+        ]);
+
         $admin = User::create([
             'name' => 'John Doe',
             'email' => 'admin@gmail.com',
@@ -36,9 +42,11 @@ class UserSeeder extends Seeder
         Role::create(['name' => 'user']);
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'superadmin']);
+        Role::create(['name' => 'courier']);
 
         $user->assignRole('user');
         $admin->assignRole('admin');
         $superadmin->assignRole('superadmin');
+        $courier->assignRole('courier');
     }
 }

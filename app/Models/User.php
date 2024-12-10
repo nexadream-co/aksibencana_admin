@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Volunteer::class, 'user_id');
     }
+
+    public function branchOffice()
+    {
+        return $this->belongsTo(BranchOffice::class, 'branch_office_id');
+    }
 }

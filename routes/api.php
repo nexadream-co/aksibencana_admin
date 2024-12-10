@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\Auth\AuthController;
 use App\Http\Controllers\API\BranchOffices\BranchOfficeController;
+use App\Http\Controllers\API\Couriers\CourierController;
 use App\Http\Controllers\API\Disasters\DisasterController;
 use App\Http\Controllers\API\Donations\DonationController;
 use App\Http\Controllers\API\Educations\EducationController;
@@ -118,7 +119,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::get('/branch-offices', [BranchOfficeController::class, 'index']);
 
-
     /*
     |--------------------------------------------------------------------------
     | Disaster
@@ -157,7 +157,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
 
     Route::get('/logistic/{id}/receipt-tracks', [LogisticController::class, 'receipts']);
 
-
     /*
     |--------------------------------------------------------------------------
     | Donations
@@ -178,4 +177,33 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
     Route::get('/donation/{id}/prayers', [DonationController::class, 'prayers']);
 
     Route::get('/donation/{id}', [DonationController::class, 'show']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Courier
+    |--------------------------------------------------------------------------
+    |
+    | Manage courier data APIs
+    |
+    */
+
+    Route::group(['middleware' => ['role:courier']], function () {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Assignments
+        |--------------------------------------------------------------------------
+        |
+        | Manage assignments data APIs
+        |
+        */
+
+        Route::get('/courier/assignments', [CourierController::class, 'assignments']);
+
+        Route::post('/courier/assignment/{id}/update-location', [CourierController::class, 'updateLocation']);
+
+        Route::put('/courier/assignment/{id}/update-status', [CourierController::class, 'updateAssignmentStatus']);
+
+        Route::get('/courier/assignment/{id}', [CourierController::class, 'detailAssignment']);
+    });
 });

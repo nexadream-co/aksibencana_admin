@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Delivery;
 use App\Models\User;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class AuthController extends Controller
                 'password' => 'required',
                 'device_name' => 'string',
                 'device_token' => 'string|required',
+                'role' => 'string',
             ]
         );
 
@@ -52,6 +54,15 @@ class AuthController extends Controller
             return response()->json(
                 [
                     'message' => 'Your email or password is incorrect',
+                ],
+                400
+            );
+        }
+
+        if (@$request->role && @$user->getRoleNames()[0] != 'courier') {
+            return response()->json(
+                [
+                    'message' => 'you do not have the right to access',
                 ],
                 400
             );
@@ -170,6 +181,17 @@ class AuthController extends Controller
     {
         if ($request->user()) {
             $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+            $user = User::find($request->user()->id);
+            $delivery = Delivery::where('delivery_by', $user->id)->where('status', 'active')->latest()->first();
+
+            $branch_office = null;
+
+            if (@$user->getRoleNames()[0] == 'courier') {
+                $branch_office = @$user->branchOffice ? [
+                    "id" => @$user->branchOffice->id,
+                    "name" => @$user->branchOffice->name,
+                ] : null;
+            }
 
             return response()->json([
                 "message" => "User data has been successfully retrieved",
@@ -180,7 +202,13 @@ class AuthController extends Controller
                     "address" => @$volunteer->address,
                     "photo_url" => $request->user()->photo_url,
                     "date_of_birth" => @$volunteer->date_of_birth,
-                    "is_volunteer" => @$volunteer != null
+                    "is_volunteer" => @$volunteer != null,
+                    "branch_office" => $branch_office,
+                    "role" => @$user->getRoleNames()[0],
+                    "assignment" => @$delivery ? [
+                        "id" => @$delivery->id,
+                        "status" => @$delivery->status,
+                    ] : null,
                 ]
             ], 200);
         }

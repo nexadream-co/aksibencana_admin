@@ -20,9 +20,11 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
+            $table->string('recipient_name')->nullable();
             $table->string('status')->nullable();
             $table->date('delivered_at')->nullable();
             $table->date('arrived_at')->nullable();
+            $table->text('images')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
