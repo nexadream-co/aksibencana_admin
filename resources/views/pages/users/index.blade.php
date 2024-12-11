@@ -40,6 +40,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Email</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">Volunteer</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -58,7 +59,10 @@
                                             {{ @$item->email }}
                                         </td>
                                         <td>
-                                            {{ count(@$item->volunteers ?? []) ? 'Ya' : 'Belum' }} 
+                                            {{ @$item->getRoleNames()[0] }}
+                                        </td>
+                                        <td>
+                                            {{ count(@$item->volunteers ?? []) ? 'Ya' : 'Belum' }}
                                         </td>
                                         <td>
                                             <a href="javascript:void();" title="Reset Password"

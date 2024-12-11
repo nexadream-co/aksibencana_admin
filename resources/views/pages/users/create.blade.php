@@ -20,11 +20,26 @@
                                     <h4>Create User Form</h4>
 
                                     <div class="mb-3">
+                                        <label class="form-label" for="role_id">Role</label>
+                                        <select name="role_id" id="role_id" class="form-control">
+                                            <option value="">Choose Role</option>
+                                            @foreach ($roles as $item)
+                                                <option value="{{ $item->id }}"
+                                                    @if (old('role_id') == $item->id) selected @endif>{{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('role_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="text"
-                                            class="form-control @error('email') is-invalid @enderror"
-                                            name="email" placeholder="Email" id="email"
-                                            value="{{ old('email') }}">
+                                        <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                            name="email" placeholder="Email" id="email" value="{{ old('email') }}">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -34,10 +49,8 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="name">Name</label>
-                                        <input type="text"
-                                            class="form-control @error('name') is-invalid @enderror"
-                                            name="name" placeholder="Name" id="name"
-                                            value="{{ old('name')}}">
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" placeholder="Name" id="name" value="{{ old('name') }}">
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -47,10 +60,8 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="password">Password</label>
-                                        <input type="password"
-                                            class="form-control @error('password') is-invalid @enderror"
-                                            name="password" placeholder="Password" id="password"
-                                            value="">
+                                        <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                            name="password" placeholder="Password" id="password" value="">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

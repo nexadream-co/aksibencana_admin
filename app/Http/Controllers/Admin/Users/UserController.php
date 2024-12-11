@@ -7,12 +7,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $data = User::role(['user'])->orderBy('name', 'asc')->get();
+        $data = User::role(['user', 'courier'])->orderBy('name', 'asc')->get();
 
         return view('pages.users.index', compact('data'));
     }
@@ -63,7 +64,7 @@ class UserController extends Controller
 
         return redirect()->back();
     }
-    
+
     public function profileChangePassword(Request $request)
     {
         $request->validate([
@@ -82,7 +83,8 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        return view('pages.users.create');
+        $roles = Role::orderBy('name', 'asc')->get();
+        return view('pages.users.create', compact('roles'));
     }
 
     public function store(Request $request)
@@ -90,6 +92,7 @@ class UserController extends Controller
 
         $request->validate([
             'email' => ['required', 'string'],
+            'role_id' => ['required', 'string'],
             'name' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
@@ -103,7 +106,9 @@ class UserController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        $user->assignRole('user');
+        $role = Role::find($request->role_id);
+
+        $user->assignRole(@$role->name ?? 'user');
 
         DB::commit();
 
@@ -119,21 +124,21 @@ class UserController extends Controller
         if (!$user) return abort(404);
 
         $random_string = str()->random();
-        
+
         $user->password = Hash::make($random_string);
         $user->save();
 
-        session()->flash('success', 'User password successfully reset to '. $random_string);
+        session()->flash('success', 'User password successfully reset to ' . $random_string);
 
         return redirect()->route('users');
     }
-    
+
     public function destroy($id)
     {
         $user = User::find($id);
 
         if (!$user) return abort(404);
-        
+
         $user->delete();
 
         session()->flash('success', 'User successfully deleted');
