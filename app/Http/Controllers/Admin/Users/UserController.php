@@ -24,7 +24,7 @@ class UserController extends Controller
         $search = $request->q;
         $limit = $request->limit;
 
-        $users = User::role('user');
+        $users = User::role(['user', 'courier']);
         if ($search) {
             foreach (explode(",", $search) as $key => $item) {
                 if ($key == 0) {

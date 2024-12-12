@@ -19,7 +19,7 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::post('/auth/email/forgot-password', [AuthController::class, 'sendEmailResetPassword']);
 
-Route::group(['middleware' => ['auth:sanctum', 'role:user']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function () {
     /*
     |--------------------------------------------------------------------------
     | Auth Routes

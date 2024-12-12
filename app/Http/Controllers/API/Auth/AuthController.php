@@ -68,7 +68,7 @@ class AuthController extends Controller
             );
         }
 
-        if (@$user->getRoleNames()[0] != 'user') {
+        if (!in_array(@$user->getRoleNames()[0], ['courier', 'user'])) {
             return response()->json(
                 [
                     'message' => 'you do not have the right to access',

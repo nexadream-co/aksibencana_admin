@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
         ]);
 
         $courier = User::create([
+            'branch_office_id' => 1,
             'name' => 'Asep',
             'email' => 'courier@gmail.com',
             'password' => Hash::make('password'),
