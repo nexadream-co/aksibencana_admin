@@ -12,9 +12,13 @@ class DeliveryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $deliveries = Delivery::latest()->get();
+        $deliveries = Delivery::latest();
+        if ($request->user()->getRoleNames()[0] == 'admin') {
+            $deliveries = $deliveries->where('branch_office_id', $request->user()->branch_office_id);
+        }
+        $deliveries = $deliveries->get();
         return view('pages.deliveries.index', compact('deliveries'));
     }
 

@@ -5,19 +5,23 @@
             <div class="navbar-brand-box">
                 <a href="index" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt=""
+                            height="50">Aksi Bencana
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt=""
+                            height="50">Aksi Bencana
                     </span>
                 </a>
 
                 <a href="index" class="logo logo-light">
                     <span class="logo-lg">
-                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt=""
+                            height="50">Aksi Bencana
                     </span>
                     <span class="logo-sm">
-                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt="" height="50">Aksi Bencana
+                        <img src="{{ URL::asset('/assets/images/aksi-bencana-logo.png') }}" alt=""
+                            height="50">Aksi Bencana
                     </span>
                 </a>
             </div>
@@ -199,7 +203,8 @@
                 <div class="dropdown-menu dropdown-menu-end pt-0">
                     <div class="p-3 border-bottom">
                         <h6 class="mb-0">{{ auth()->user()->name }}</h6>
-                        <p class="mb-0 font-size-11 text-muted">{{ auth()->user()->email }}</p>
+                        <p class="mb-0 font-size-11 text-muted">{{ ucfirst(auth()->user()->getRoleNames()[0]) }} -
+                            {{ auth()->user()->branchOffice?->name }}</p>
                     </div>
                     {{-- <a class="dropdown-item" href="contacts-profile"><i
                             class="mdi mdi-account-circle text-muted font-size-16 align-middle me-2"></i> <span

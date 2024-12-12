@@ -36,17 +36,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/volunteers', [VolunteerController::class, 'index'])->name('volunteers');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/volunteers', [VolunteerController::class, 'index'])->name('volunteers');
 
-    Route::get('/volunteer/create', [VolunteerController::class, 'create'])->name('volunteer_create');
+        Route::get('/volunteer/create', [VolunteerController::class, 'create'])->name('volunteer_create');
 
-    Route::get('/volunteer/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteer_edit');
+        Route::get('/volunteer/edit/{id}', [VolunteerController::class, 'edit'])->name('volunteer_edit');
 
-    Route::put('/volunteer/update/{id}', [VolunteerController::class, 'update'])->name('volunteer_update');
+        Route::put('/volunteer/update/{id}', [VolunteerController::class, 'update'])->name('volunteer_update');
 
-    Route::delete('/volunteer/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteer_delete');
+        Route::delete('/volunteer/delete/{id}', [VolunteerController::class, 'destroy'])->name('volunteer_delete');
 
-    Route::post('/volunteer/store', [VolunteerController::class, 'store'])->name('volunteer_store');
+        Route::post('/volunteer/store', [VolunteerController::class, 'store'])->name('volunteer_store');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -57,17 +59,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
 
-    Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');
+        Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');
 
-    Route::post('/volunteer/{id}/assignment/store', [VolunteerAssignmentController::class, 'store'])->name('volunteer_assignment_store');
+        Route::post('/volunteer/{id}/assignment/store', [VolunteerAssignmentController::class, 'store'])->name('volunteer_assignment_store');
 
-    Route::get('/volunteer/{id}/assignment/edit/{assignment_id}', [VolunteerAssignmentController::class, 'edit'])->name('volunteer_assignment_edit');
+        Route::get('/volunteer/{id}/assignment/edit/{assignment_id}', [VolunteerAssignmentController::class, 'edit'])->name('volunteer_assignment_edit');
 
-    Route::put('/volunteer/{id}/assignment/update/{assignment_id}', [VolunteerAssignmentController::class, 'update'])->name('volunteer_assignment_update');
+        Route::put('/volunteer/{id}/assignment/update/{assignment_id}', [VolunteerAssignmentController::class, 'update'])->name('volunteer_assignment_update');
 
-    Route::delete('/volunteer/{id}/assignment/destroy/{assignment_id}', [VolunteerAssignmentController::class, 'destroy'])->name('volunteer_assignment_delete');
+        Route::delete('/volunteer/{id}/assignment/destroy/{assignment_id}', [VolunteerAssignmentController::class, 'destroy'])->name('volunteer_assignment_delete');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -78,17 +82,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/abilities', [AbilityController::class, 'index'])->name('abilities');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/abilities', [AbilityController::class, 'index'])->name('abilities');
 
-    Route::get('/ability/create', [AbilityController::class, 'create'])->name('ability_create');
+        Route::get('/ability/create', [AbilityController::class, 'create'])->name('ability_create');
 
-    Route::post('/ability/store', [AbilityController::class, 'store'])->name('ability_store');
+        Route::post('/ability/store', [AbilityController::class, 'store'])->name('ability_store');
 
-    Route::get('/ability/edit/{id}', [AbilityController::class, 'edit'])->name('ability_edit');
+        Route::get('/ability/edit/{id}', [AbilityController::class, 'edit'])->name('ability_edit');
 
-    Route::put('/ability/update/{id}', [AbilityController::class, 'update'])->name('ability_update');
+        Route::put('/ability/update/{id}', [AbilityController::class, 'update'])->name('ability_update');
 
-    Route::delete('/ability/delete/{id}', [AbilityController::class, 'destroy'])->name('ability_delete');
+        Route::delete('/ability/delete/{id}', [AbilityController::class, 'destroy'])->name('ability_delete');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -99,17 +105,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/branch-offices', [BranchOfficeController::class, 'index'])->name('branch_offices');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/branch-offices', [BranchOfficeController::class, 'index'])->name('branch_offices');
 
-    Route::get('/branch-office/create', [BranchOfficeController::class, 'create'])->name('branch_office_create');
+        Route::get('/branch-office/create', [BranchOfficeController::class, 'create'])->name('branch_office_create');
 
-    Route::get('/branch-office/edit/{id}', [BranchOfficeController::class, 'edit'])->name('branch_office_edit');
+        Route::get('/branch-office/edit/{id}', [BranchOfficeController::class, 'edit'])->name('branch_office_edit');
 
-    Route::post('/branch-office/store', [BranchOfficeController::class, 'store'])->name('branch_office_store');
+        Route::post('/branch-office/store', [BranchOfficeController::class, 'store'])->name('branch_office_store');
 
-    Route::put('/branch-office/update/{id}', [BranchOfficeController::class, 'update'])->name('branch_office_update');
+        Route::put('/branch-office/update/{id}', [BranchOfficeController::class, 'update'])->name('branch_office_update');
 
-    Route::delete('/branch-office/delete/{id}', [BranchOfficeController::class, 'destroy'])->name('branch_office_delete');
+        Route::delete('/branch-office/delete/{id}', [BranchOfficeController::class, 'destroy'])->name('branch_office_delete');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -120,17 +128,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/education', [EducationController::class, 'index'])->name('education');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/education', [EducationController::class, 'index'])->name('education');
 
-    Route::get('/education/create', [EducationController::class, 'create'])->name('education_create');
+        Route::get('/education/create', [EducationController::class, 'create'])->name('education_create');
 
-    Route::get('/education/edit/{id}', [EducationController::class, 'edit'])->name('education_edit');
+        Route::get('/education/edit/{id}', [EducationController::class, 'edit'])->name('education_edit');
 
-    Route::post('/education/store', [EducationController::class, 'store'])->name('education_store');
+        Route::post('/education/store', [EducationController::class, 'store'])->name('education_store');
 
-    Route::put('/education/update/{id}', [EducationController::class, 'update'])->name('education_update');
+        Route::put('/education/update/{id}', [EducationController::class, 'update'])->name('education_update');
 
-    Route::delete('/education/delete/{id}', [EducationController::class, 'destroy'])->name('education_delete');
+        Route::delete('/education/delete/{id}', [EducationController::class, 'destroy'])->name('education_delete');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -152,15 +162,17 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/users', [UserController::class, 'index'])->name('users');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/users', [UserController::class, 'index'])->name('users');
 
-    Route::get('/user/create', [UserController::class, 'create'])->name('user_create');
+        Route::get('/user/create', [UserController::class, 'create'])->name('user_create');
 
-    Route::post('/user/store', [UserController::class, 'store'])->name('user_store');
+        Route::post('/user/store', [UserController::class, 'store'])->name('user_store');
 
-    Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user_delete');
+        Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user_delete');
 
-    Route::post('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user_reset_password');
+        Route::post('/user/reset-password/{id}', [UserController::class, 'resetPassword'])->name('user_reset_password');
+    });
 
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
 
@@ -179,17 +191,19 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/donations', [DonationController::class, 'index'])->name('donations');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/donations', [DonationController::class, 'index'])->name('donations');
 
-    Route::get('/donation/create', [DonationController::class, 'create'])->name('donation_create');
+        Route::get('/donation/create', [DonationController::class, 'create'])->name('donation_create');
 
-    Route::post('/donation/store', [DonationController::class, 'store'])->name('donation_store');
+        Route::post('/donation/store', [DonationController::class, 'store'])->name('donation_store');
 
-    Route::get('/donation/edit/{id}', [DonationController::class, 'edit'])->name('donation_edit');
+        Route::get('/donation/edit/{id}', [DonationController::class, 'edit'])->name('donation_edit');
 
-    Route::put('/donation/update/{id}', [DonationController::class, 'update'])->name('donation_update');
+        Route::put('/donation/update/{id}', [DonationController::class, 'update'])->name('donation_update');
 
-    Route::delete('/donation/delete/{id}', [DonationController::class, 'destroy'])->name('donation_delete');
+        Route::delete('/donation/delete/{id}', [DonationController::class, 'destroy'])->name('donation_delete');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -200,7 +214,9 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/donation/{id}/histories', [DonationHistoryController::class, 'index'])->name('donation_histories');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/donation/{id}/histories', [DonationHistoryController::class, 'index'])->name('donation_histories');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -211,7 +227,9 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/fundraisers', [FundraiserController::class, 'index'])->name('fundraisers');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/fundraisers', [FundraiserController::class, 'index'])->name('fundraisers');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -222,7 +240,9 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/prayers', [DonationPrayerController::class, 'index'])->name('prayers');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/prayers', [DonationPrayerController::class, 'index'])->name('prayers');
+    });
 
     /*
     |--------------------------------------------------------------------------
@@ -346,7 +366,9 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     |
     */
 
-    Route::get('/data', [DataController::class, 'index'])->name('data');
+    Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/data', [DataController::class, 'index'])->name('data');
+    });
 
     /*
     |--------------------------------------------------------------------------

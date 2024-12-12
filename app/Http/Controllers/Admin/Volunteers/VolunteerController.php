@@ -16,9 +16,10 @@ class VolunteerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $volunteers = Volunteer::latest()->get();
+
         return view('pages.volunteers.index', compact('volunteers'));
     }
 

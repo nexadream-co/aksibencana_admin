@@ -15,9 +15,13 @@ class LogisticController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $logistics = Logistic::latest()->get();
+        $logistics = Logistic::latest();
+        if ($request->user()->getRoleNames()[0] == 'admin') {
+            $logistics = $logistics->where('branch_office_id', $request->user()->branch_office_id);
+        }
+        $logistics = $logistics->get();
         return view('pages.logistics.index', compact('logistics'));
     }
 

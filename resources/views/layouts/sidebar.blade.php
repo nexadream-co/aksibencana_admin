@@ -53,9 +53,10 @@
                     </ul>
                 </li> --}}
 
-                <li class="menu-title" data-key="t-applications">Volunteers</li>
+                @role('superadmin')
+                    <li class="menu-title" data-key="t-applications">Volunteers</li>
 
-                {{-- <li>
+                    {{-- <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i class="bx bx-receipt icon nav-icon"></i>
                         <span class="menu-item" data-key="t-invoices">Volunteers</span>
@@ -65,42 +66,44 @@
                     </ul>
                 </li> --}}
 
-                <li>
-                    <a href="{{ route('volunteers') }}">
-                        <i class="bx bx-receipt icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-volunteers">Volunteers</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('volunteers') }}">
+                            <i class="bx bx-receipt icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-volunteers">Volunteers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('abilities') }}">
+                            <i class="bx bx-tag icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-abilities">Abilities</span>
+                        </a>
+                    </li>
+                @endrole
 
-                <li>
-                    <a href="{{ route('abilities') }}">
-                        <i class="bx bx-tag icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-abilities">Abilities</span>
-                    </a>
-                </li>
+                @role('superadmin')
+                    <li class="menu-title" data-key="t-applications">Donations</li>
 
-                <li class="menu-title" data-key="t-applications">Donations</li>
+                    <li>
+                        <a href="{{ route('donations') }}">
+                            <i class="bx bx-crown icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-donations">Donations</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="{{ route('donations') }}">
-                        <i class="bx bx-crown icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-donations">Donations</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('fundraisers') }}">
+                            <i class="bx bx-user-pin icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-fundraisers">Fundraisers</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="{{ route('fundraisers') }}">
-                        <i class="bx bx-user-pin icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-fundraisers">Fundraisers</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('prayers') }}">
-                        <i class="bx bx-heart icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-prayers">Prayer</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('prayers') }}">
+                            <i class="bx bx-heart icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-prayers">Prayer</span>
+                        </a>
+                    </li>
+                @endrole
 
                 <li class="menu-title" data-key="t-logistics">Logistics</li>
 
@@ -125,37 +128,42 @@
                     </a>
                 </li>
 
-                <li class="menu-title" data-key="t-applications">Master</li>
 
-                <li>
-                    <a href="{{ route('branch_offices') }}">
-                        <i class="bx bx-buildings icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-branch-offices">Branch Offices</span>
-                    </a>
-                </li>
+                @role('superadmin')
+                    <li class="menu-title" data-key="t-applications">Master</li>
 
-                <li>
-                    <a href="{{ route('education') }}">
-                        <i class="bx bx-book icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-education">Education</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('branch_offices') }}">
+                            <i class="bx bx-buildings icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-branch-offices">Branch Offices</span>
+                        </a>
+                    </li>
 
-                <li>
-                    <a href="{{ route('data') }}">
-                        <i class="bx bx-spreadsheet icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-education">Data</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('education') }}">
+                            <i class="bx bx-book icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-education">Education</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('data') }}">
+                            <i class="bx bx-spreadsheet icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-education">Data</span>
+                        </a>
+                    </li>
+                @endrole
 
                 <li class="menu-title" data-key="t-applications">Profile</li>
 
-                <li>
-                    <a href="{{ route('users') }}">
-                        <i class="bx bx-group icon nav-icon"></i>
-                        <span class="menu-item" data-key="t-users">Users</span>
-                    </a>
-                </li>
+                @role('superadmin')
+                    <li>
+                        <a href="{{ route('users') }}">
+                            <i class="bx bx-group icon nav-icon"></i>
+                            <span class="menu-item" data-key="t-users">Users</span>
+                        </a>
+                    </li>
+                @endrole
 
                 <li>
                     <a href="{{ route('user_profile') }}">
