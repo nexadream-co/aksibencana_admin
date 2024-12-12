@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\BranchOffice;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -84,12 +85,12 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $roles = Role::orderBy('name', 'asc')->get();
-        return view('pages.users.create', compact('roles'));
+        $branch_offices = BranchOffice::orderBy('name', 'asc')->get();
+        return view('pages.users.create', compact('roles', 'branch_offices'));
     }
 
     public function store(Request $request)
     {
-
         $request->validate([
             'email' => ['required', 'string'],
             'role_id' => ['required', 'string'],
@@ -101,6 +102,7 @@ class UserController extends Controller
 
         $user = new User();
 
+        $user->branch_office_id = $request->branch_office_id;
         $user->email = $request->email;
         $user->name = $request->name;
         $user->password = Hash::make($request->password);

@@ -191,6 +191,7 @@ class DisasterController extends Controller
         $data = [];
         $search = $request->q;
         $limit = $request->limit;
+        $disaster_id = $request->disaster_id;
 
         $disasters = DisasterStation::query();
         if ($search) {
@@ -201,6 +202,10 @@ class DisasterController extends Controller
                     $disasters->orWhere('name', 'LIKE', '%' . $item . '%');
                 }
             }
+        }
+
+        if ($disaster_id) {
+            $disasters = $disasters->where('disaster_id', $disaster_id);
         }
 
         $disasters = $disasters->paginate($limit ?? 10);

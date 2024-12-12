@@ -37,6 +37,24 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <label class="form-label" for="branch_office_id">Branch Office</label>
+                                        <select name="branch_office_id" id="branch_office_id"
+                                            class="form-control @error('branch_office_id') is-invalid @enderror">
+                                            <option value="">Choose Branch Office</option>
+                                            @foreach ($branch_offices as $item)
+                                                <option value="{{ $item->id }}"
+                                                    @if (old('branch_office_id') == $item->id) selected @endif>{{ $item->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('branch_office_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label class="form-label" for="email">Email</label>
                                         <input type="text" class="form-control @error('email') is-invalid @enderror"
                                             name="email" placeholder="Email" id="email" value="{{ old('email') }}">

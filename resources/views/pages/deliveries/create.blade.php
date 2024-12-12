@@ -181,7 +181,7 @@
                 searchTimeout = setTimeout(async () => {
                     try {
                         const response = await fetch(
-                            `${url}?q=${searchTerm}`
+                            `${url}?q=${searchTerm}&disaster_id=${document.getElementById('disaster-text-input').value}`
                         );
                         const data = await response.json();
 
