@@ -17,6 +17,11 @@ use Xendit\Invoice\InvoiceApi;
 
 class DonationController extends Controller
 {
+    public function __construct()
+    {
+        Configuration::setXenditKey(env('XENDIT_SECRET_KEY'));
+    }
+
     /**
      * List Donations
      */
@@ -124,8 +129,6 @@ class DonationController extends Controller
         $prayer->pray = $request->pray;
         $prayer->save();
 
-        // Inisialisasi Xendit dengan API key
-        Configuration::setXenditKey(env('XENDIT_SECRET_KEY'));
         $createInvoice = new CreateInvoiceRequest([
             'external_id' => $donation_history->id,
             'amount' => $request->amount,
