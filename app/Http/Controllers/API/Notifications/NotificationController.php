@@ -27,7 +27,11 @@ class NotificationController extends Controller
         foreach ($notifications as $item) {
             $results[] = [
                 "id" => $item->id,
-                "type" => $item->type
+                "title" => @$item->data['title'],
+                "description" => @$item->data['body'],
+                "data" => @json_decode(@$item->data['data']),
+                "type" => @$item->data['type'],
+                "created_at" => @$item->created_at->format('Y-m-d h:i:s')
             ];
         }
 

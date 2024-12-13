@@ -101,7 +101,6 @@ class DonationController extends Controller
      */
     public function store(Request $request, string $id)
     {
-        return response()->json(config('services.xendit.key'));
         $request->validate([
             'amount' => ['required', 'integer'],
             'show_identity' => ['string'],
@@ -110,7 +109,7 @@ class DonationController extends Controller
 
         DB::beginTransaction();
 
-        Configuration::setXenditKey(env('XENDIT_SECRET_KEY'));
+        Configuration::setXenditKey(config('services.xendit.key'));
 
         $donation_history = new DonationHistory();
         $donation_history->nominal = $request->amount;

@@ -215,10 +215,14 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
         Route::get('/courier/assignments', [CourierController::class, 'assignments']);
 
+        Route::get('/courier/notifications', [NotificationController::class, 'index']);
+
         Route::post('/courier/assignment/{id}/update-location', [CourierController::class, 'updateLocation']);
 
         Route::put('/courier/assignment/{id}/update-status', [CourierController::class, 'updateAssignmentStatus']);
 
         Route::get('/courier/assignment/{id}', [CourierController::class, 'detailAssignment']);
+
+        Route::get('/courier/notifications', [NotificationController::class, 'index']);
     });
 });
