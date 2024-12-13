@@ -79,7 +79,7 @@ class VolunteerController extends Controller
     public function show(Request $request)
     {
         $user = User::find($request->user()->id);
-        $volunteer = Volunteer::where('user_id', @$user->id);
+        $volunteer = Volunteer::where('user_id', @$user->id)->first();
 
         if (!$volunteer) {
             return response()->json([
