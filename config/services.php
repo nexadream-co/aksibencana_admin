@@ -41,4 +41,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'xendit' => [
+        'key' => env('XENDIT_SECRET_KEY'),
+    ],
+
 ];
