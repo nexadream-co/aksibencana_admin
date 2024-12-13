@@ -31,7 +31,7 @@ class AuthController extends Controller
                 'password' => 'required',
                 'device_name' => 'string',
                 'device_token' => 'string|required',
-                'role' => 'string',
+                'role' => 'string|nullable',
             ]
         );
 
