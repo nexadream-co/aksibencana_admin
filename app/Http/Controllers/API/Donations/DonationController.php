@@ -151,7 +151,7 @@ class DonationController extends Controller
     }
 
     /**
-     * Handle Webhook Donation
+     * Handle Webhook
      * @unauthenticated
      */
     public function handleWebhook(Request $request)

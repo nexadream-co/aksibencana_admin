@@ -29,7 +29,7 @@ class NotificationController extends Controller
                 "id" => $item->id,
                 "title" => @$item->data['title'],
                 "description" => @$item->data['body'],
-                "data" => @json_decode(@$item->data['data']),
+                "data" => @$item->data['data'],
                 "type" => @$item->data['type'],
                 "created_at" => @$item->created_at->format('Y-m-d h:i:s')
             ];
