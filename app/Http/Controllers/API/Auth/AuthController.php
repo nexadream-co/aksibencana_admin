@@ -78,6 +78,9 @@ class AuthController extends Controller
             );
         }
 
+        $user->fcm_token = $request->device_token;
+        $user->save();
+
         $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
 
         return response()->json(
@@ -128,6 +131,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'fcm_token' => $request->device_token
         ]);
 
         $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
@@ -156,6 +160,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'token' => ['string', 'required'],
+            'device_token' => 'string|required',
         ]);
 
         $userGoogle = null;
@@ -184,10 +189,14 @@ class AuthController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'fcm_token' => $request->device_token
             ]);
 
 
             $user->assignRole('user');
+        } else {
+            $user->fcm_token = $request->device_token;
+            $user->save();
         }
 
         $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
@@ -211,12 +220,14 @@ class AuthController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'address' => ['required', 'string'],
+            'date_of_birth' => ['string'],
             'photo_url' => ['required', 'string'],
         ]);
 
         $user = $request->user();
         $user->name = $request->name;
         $user->address = $request->address;
+        $user->date_of_birth = $request->date_of_birth;
         $user->photo_url = $request->photo_url;
         $user->save();
 
@@ -258,7 +269,7 @@ class AuthController extends Controller
                     "email" => $request->user()->email,
                     "address" => @$volunteer->address,
                     "photo_url" => $request->user()->photo_url,
-                    "date_of_birth" => @$volunteer->date_of_birth,
+                    "date_of_birth" => @$volunteer->date_of_birth ?? @$user->date_of_birth,
                     "is_volunteer" => @$volunteer != null,
                     "branch_office" => $branch_office,
                     "role" => @$user->getRoleNames()[0],
@@ -283,10 +294,16 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        DB::beginTransaction();
         $request
             ->user()
             ->currentAccessToken()
             ->delete();
+
+        $request->user()->device_token = null;
+        $request->user()->save();
+
+        DB::commit();
 
         return response()->json(
             [

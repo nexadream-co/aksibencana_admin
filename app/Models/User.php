@@ -21,6 +21,16 @@ class User extends Authenticatable
     protected $guarded = [];
 
     /**
+     * Specifies the user's FCM token
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>

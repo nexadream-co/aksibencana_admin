@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Notifications;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\TestNotification;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller
@@ -33,6 +34,19 @@ class NotificationController extends Controller
         return response()->json([
             "message" => "Notifications sucessfully retrieved",
             "data" => $results
+        ], 200);
+    }
+
+    /**
+     * Test Notification
+     */
+    public function testNotification(Request $request)
+    {
+        $user = User::find($request->user()->id);
+        $user->notify(new TestNotification());
+
+        return response()->json([
+            "message" => "Notification sucessfully sent",
         ], 200);
     }
 }

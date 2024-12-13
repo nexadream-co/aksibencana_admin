@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Volunteers;
 use App\Http\Controllers\Controller;
 use App\Models\Ability;
 use App\Models\Volunteer;
+use App\Notifications\VolunteerStatusUpdated;
 use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +68,7 @@ class VolunteerController extends Controller
             "ktp" => $request->ktp,
             "categories" => json_encode($request->categories),
             "availability_status" => $request->availability_status ? 'active' : 'inactive',
-            "status" => $request->status ? 'active' : 'inactive',
+            "status" => $request->status,
         ]);
 
         // $volunteer->abilities()->attach($request->abilities);
@@ -131,7 +132,7 @@ class VolunteerController extends Controller
         $volunteer->whatsapp_number = $request->whatsapp_number;
         $volunteer->categories = json_encode($request->categories);
         $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
-        $volunteer->status = $request->status ? 'active' : 'inactive';
+        $volunteer->status = $request->status;
         $volunteer->abilities()->sync($request->abilities);
 
         $image = null;
@@ -141,6 +142,13 @@ class VolunteerController extends Controller
         }
 
         $volunteer->save();
+
+        try {
+            if ($volunteer->status == 'active' || $volunteer->status == 'rejected') {
+                @$volunteer->user->notify(new VolunteerStatusUpdated($volunteer));
+            }
+        } catch (\Throwable $th) {
+        }
 
         DB::commit();
         session()->flash('success', 'Volunteer successfully updated');

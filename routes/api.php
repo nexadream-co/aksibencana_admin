@@ -99,6 +99,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
     Route::get('/notifications', [NotificationController::class, 'index']);
 
+    Route::post('/notification/test', [NotificationController::class, 'testNotification']);
+
     /*
     |--------------------------------------------------------------------------
     | Location Routes
