@@ -109,13 +109,20 @@ class DonationController extends Controller
 
         DB::beginTransaction();
 
-        $donation_history = new Donation();
+        $donation_history = new DonationHistory();
         $donation_history->nominal = $request->amount;
         $donation_history->user_id = $request->user()->id;
         $donation_history->donation_id = $id;
         $donation_history->status = 'unpaid';
         $donation_history->date = date('Y-m-d');
         $donation_history->save();
+
+        $prayer = new DonationPrayer();
+        $prayer->donation_history_id = $donation_history->id;
+        $prayer->user_id = $request->user()->id;
+        $prayer->show_identity = $request->show_identity ? true : false;
+        $prayer->pray = $request->pray;
+        $prayer->save();
 
         // Inisialisasi Xendit dengan API key
         Configuration::setXenditKey(env('XENDIT_SECRET_KEY'));
@@ -145,6 +152,7 @@ class DonationController extends Controller
 
     /**
      * Handle Webhook Donation
+     * @unauthenticated
      */
     public function handleWebhook(Request $request)
     {
