@@ -21,6 +21,17 @@ Route::post('/auth/register', [AuthController::class, 'register']);
 
 Route::post('/auth/email/forgot-password', [AuthController::class, 'sendEmailResetPassword']);
 
+/*
+|--------------------------------------------------------------------------
+| Xendits
+|--------------------------------------------------------------------------
+|
+| Manage xendit data APIs
+|
+*/
+
+Route::post('/donation/payments/webhook', [DonationController::class, 'handleWebhook']);
+
 Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function () {
     /*
     |--------------------------------------------------------------------------

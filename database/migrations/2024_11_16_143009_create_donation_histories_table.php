@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('donation_id')->nullable()->index();
             $table->unsignedBigInteger('user_id')->nullable()->index();
-            $table->string('status')->nullable();
+            $table->string('status')->nullable()->comment('unpaid', 'paid', 'settled', 'expired', 'active', 'stopped');
             $table->bigInteger('nominal')->nullable();
             $table->date('date')->nullable();
+            $table->text('snap_url')->nullable();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

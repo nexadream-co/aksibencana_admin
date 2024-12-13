@@ -7,7 +7,13 @@ use App\Models\Donation;
 use App\Models\DonationCategory;
 use App\Models\DonationHistory;
 use App\Models\DonationPrayer;
+use App\Models\User;
+use App\Notifications\DonationPaymentStatusUpdated;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Xendit\Configuration;
+use Xendit\Invoice\CreateInvoiceRequest;
+use Xendit\Invoice\InvoiceApi;
 
 class DonationController extends Controller
 {
@@ -25,7 +31,7 @@ class DonationController extends Controller
         $results = [];
         $donations = Donation::query();
 
-        if($request->category_id){
+        if ($request->category_id) {
             $donations->where('donation_category_id', $request->category_id);
         }
 
@@ -35,7 +41,7 @@ class DonationController extends Controller
             $images = [];
 
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images[] = url('storage').'/'.$row;
+                $images[] = url('storage') . '/' . $row;
             }
 
             $results[] = [
@@ -56,7 +62,7 @@ class DonationController extends Controller
                 "fundraiser" => @$item->fundraiser ? [
                     "id" => $item->fundraiser->id,
                     "name" => $item->fundraiser->name,
-                    "photo" => @$item->fundraiser->photo ? url('storage').'/'.@$item->fundraiser->photo : null,
+                    "photo" => @$item->fundraiser->photo ? url('storage') . '/' . @$item->fundraiser->photo : null,
                     "description" => @$item->fundraiser->description,
                 ] : null,
                 "created_at" => $item->created_at->format("Y-m-d h:i:s")
@@ -101,12 +107,76 @@ class DonationController extends Controller
             'pray' => ['string'],
         ]);
 
+        DB::beginTransaction();
+
+        $donation_history = new Donation();
+        $donation_history->nominal = $request->amount;
+        $donation_history->user_id = $request->user()->id;
+        $donation_history->donation_id = $id;
+        $donation_history->status = 'unpaid';
+        $donation_history->date = date('Y-m-d');
+        $donation_history->save();
+
+        // Inisialisasi Xendit dengan API key
+        Configuration::setXenditKey(env('XENDIT_SECRET_KEY'));
+        $createInvoice = new CreateInvoiceRequest([
+            'external_id' => $donation_history->id,
+            'amount' => $request->amount,
+            'payer_email' => $request->user()->email,
+            'description' => "Pembayaran donasi",
+            'invoice_duration' => 172800,
+        ]);
+
+        $apiInstance = new InvoiceApi();
+        $generateInvoice = $apiInstance->createInvoice($createInvoice);
+
+        $donation_history->snap_url = $generateInvoice['invoice_url'];
+        $donation_history->save();
+
+        DB::commit();
+
         return response()->json([
             "message" => "Donation successfully created, please do payment",
             "data" => [
-                "snap_token" => "8498435",
-                "snap_url" => "https://snap.id"
+                "snap_url" => $donation_history->snap_url
             ]
+        ], 200);
+    }
+
+    /**
+     * Handle Webhook Donation
+     */
+    public function handleWebhook(Request $request)
+    {
+        $data = $request->all();
+        $external_id = $data['external_id'];
+        $status = strtolower($data['status']);
+        $payment_method = $data['payment_method'];
+        $payer_email = $data['payer_email'];
+
+        DB::beginTransaction();
+
+        $donation_history = DonationHistory::where('id', $external_id)->first();
+        if (@$donation_history) {
+            $donation_history->status = strtolower($status);
+            $donation_history->payment_method = $payment_method;
+            $donation_history->save();
+        }
+
+        DB::commit();
+
+        try {
+            $user = User::where('email', $payer_email)->first();
+            if (@$user) {
+                $user->notify(new DonationPaymentStatusUpdated($donation_history));
+            }
+        } catch (\Throwable $th) {
+        }
+
+        return response()->json([
+            'message' => 'Webhook received',
+            'status' => $status,
+            'payment_method' => $payment_method,
         ], 200);
     }
 
@@ -125,7 +195,7 @@ class DonationController extends Controller
 
         $images = [];
         foreach (@json_decode($donation->images) ?? [] as $row) {
-            $images[] = url('storage').'/'.$row;
+            $images[] = url('storage') . '/' . $row;
         }
 
         return response()->json([
@@ -148,7 +218,7 @@ class DonationController extends Controller
                 "fundraiser" => @$donation->fundraiser ? [
                     "id" => $donation->fundraiser->id,
                     "name" => $donation->fundraiser->name,
-                    "photo" => @$donation->fundraiser->photo ? url('storage').'/'.@$donation->fundraiser->photo : null,
+                    "photo" => @$donation->fundraiser->photo ? url('storage') . '/' . @$donation->fundraiser->photo : null,
                     "description" => @$donation->fundraiser->description,
                 ] : null,
                 "created_at" => $donation->created_at->format("Y-m-d h:i:s")
@@ -166,7 +236,7 @@ class DonationController extends Controller
             'limit' => ['integer'],
         ]);
 
-        $prayers = DonationPrayer::with('donationHistory', function($query) use($id){
+        $prayers = DonationPrayer::with('donationHistory', function ($query) use ($id) {
             $query->where('donation_id', $id);
         })->latest()->paginate($request->limit ?? 10);
 
@@ -183,7 +253,7 @@ class DonationController extends Controller
                 "created_at" => $item->created_at->format('Y-m-d H:i:s')
             ];
         }
-        
+
         return response()->json([
             "message" => "Donation prayers data successfully retrieved",
             "data" => $results
@@ -207,7 +277,7 @@ class DonationController extends Controller
         foreach ($histories as $item) {
             $images = [];
             foreach (@json_decode(@$item->donation->images) ?? [] as $row) {
-                $images[] = url('storage').'/'.$row;
+                $images[] = url('storage') . '/' . $row;
             }
 
             $results[] = [
@@ -220,11 +290,12 @@ class DonationController extends Controller
                 ] : null,
                 "total_donation" => $item->nominal,
                 "status" => $item->status,
+                "snap_url" => $item->snap_url,
                 "date" => $item->date,
                 "created_at" => $item->created_at->format('Y-m-d H:i:s')
             ];
         }
-        
+
         return response()->json([
             "message" => "Donation histories data successfully retrieved",
             "data" => $results
