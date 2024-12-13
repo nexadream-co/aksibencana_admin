@@ -101,6 +101,7 @@ class DonationController extends Controller
      */
     public function store(Request $request, string $id)
     {
+        return response()->json(env('XENDIT_SECRET_KEY'));
         $request->validate([
             'amount' => ['required', 'integer'],
             'show_identity' => ['string'],
