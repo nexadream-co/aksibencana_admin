@@ -300,7 +300,7 @@ class AuthController extends Controller
             ->currentAccessToken()
             ->delete();
 
-        $request->user()->device_token = null;
+        $request->user()->fcm_token = null;
         $request->user()->save();
 
         DB::commit();
