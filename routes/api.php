@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
     |
     */
 
-    Route::get('/volunteer/detail/{id}', [VolunteerController::class, 'show']);
+    Route::get('/volunteer/detail', [VolunteerController::class, 'show']);
 
     Route::get('/volunteer/assignments', [VolunteerController::class, 'assignmentVolunteers']);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Volunteers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ability;
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerAssignment;
 use Illuminate\Http\Request;
@@ -75,9 +76,10 @@ class VolunteerController extends Controller
     /**
      * Detail Volunteer
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        $volunteer = Volunteer::find($id);
+        $user = User::find($request->user()->id);
+        $volunteer = Volunteer::where('user_id', @$user->id);
 
         if (!$volunteer) {
             return response()->json([
@@ -219,7 +221,7 @@ class VolunteerController extends Controller
     public function assignmentVolunteers(Request $request)
     {
         $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
-        if(!@$volunteer){
+        if (!@$volunteer) {
             return response()->json([
                 "message" => "You are not yet registered as volunteer",
             ], 400);
@@ -231,7 +233,7 @@ class VolunteerController extends Controller
         foreach ($data as $item) {
             $results[] = [
                 "id" => $item->id,
-                "title" => @$item->disaster->title. @$item->station->title ? ", {$item->station->title}" : "",
+                "title" => @$item->disaster->title . @$item->station->title ? ", {$item->station->title}" : "",
                 "description" => $item->description,
                 "date" => $item->date
             ];
@@ -243,7 +245,7 @@ class VolunteerController extends Controller
         ], 200);
     }
 
-    
+
 
     /**
      * Update Status Assignment
