@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -141,6 +142,62 @@ class AuthController extends Controller
                 'data' => [
                     'token' => $token
                 ]
+            ],
+            200
+        );
+    }
+
+    /**
+     * Login by Google
+     * @unauthenticated
+     */
+
+    public function loginByGoogle(Request $request)
+    {
+        $request->validate([
+            'token' => ['string', 'required'],
+        ]);
+
+        $userGoogle = null;
+
+        try {
+            // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
+            $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
+        } catch (\Throwable $th) {
+            return response()->json(
+                ['message' => 'Login gagal, kredensial akun Google anda tidak valid'],
+                400
+            );
+        }
+
+        if (!@$userGoogle) {
+            return response()->json(
+                ['message' => 'Login gagal, kredensial akun Google anda tidak ditemukan'],
+                400
+            );
+        }
+
+        $user = User::where('email', @$userGoogle->email)->first();
+
+        if (!@$user) {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+
+
+            $user->assignRole('user');
+        }
+
+        $token = $user->createToken($request->device_name ?? "android")->plainTextToken;
+
+        return response()->json(
+            [
+                'message' => 'Login berhasil',
+                'data' => [
+                    'token' => $token,
+                ],
             ],
             200
         );
