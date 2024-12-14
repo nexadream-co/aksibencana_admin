@@ -244,7 +244,7 @@ class DonationController extends Controller
             'limit' => ['integer'],
         ]);
 
-        $prayers = DonationPrayer::with('donationHistory', function ($query) use ($id) {
+        $prayers = DonationPrayer::whereHas('donationHistory', function ($query) use ($id) {
             $query->where('donation_id', $id);
         })->latest()->paginate($request->limit ?? 10);
 
@@ -255,8 +255,8 @@ class DonationController extends Controller
                 "id" => $item->id,
                 "pray" => $item->pray,
                 "user" =>  [
-                    "name" => $item->name,
-                    "photo_url" => @$item->photo_url,
+                    "name" => @$item->user->name,
+                    "photo_url" => @$item->user->photo_url,
                 ],
                 "created_at" => $item->created_at->format('Y-m-d H:i:s')
             ];
