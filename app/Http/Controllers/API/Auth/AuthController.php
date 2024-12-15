@@ -165,15 +165,18 @@ class AuthController extends Controller
 
         $userGoogle = null;
 
-        try {
-            // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
-            $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
-        } catch (\Throwable $th) {
-            return response()->json(
-                ['message' => 'Login gagal, kredensial akun Google anda tidak valid'],
-                400
-            );
-        }
+        // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
+        $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
+
+        // try {
+        //     // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
+        //     $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
+        // } catch (\Throwable $th) {
+        //     return response()->json(
+        //         ['message' => 'Login gagal, kredensial akun Google anda tidak valid'],
+        //         400
+        //     );
+        // }
 
         if (!@$userGoogle) {
             return response()->json(
@@ -221,7 +224,7 @@ class AuthController extends Controller
             'name' => ['required', 'string'],
             'address' => ['required', 'string'],
             'date_of_birth' => ['string'],
-            'photo_url' => ['required', 'string'],
+            'photo_url' => ['string'],
         ]);
 
         $user = $request->user();
@@ -269,7 +272,7 @@ class AuthController extends Controller
                     "email" => $request->user()->email,
                     "address" => @$volunteer->address,
                     "photo_url" => $request->user()->photo_url,
-                    "date_of_birth" => @$volunteer->date_of_birth ?? @$user->date_of_birth,
+                    "date_of_birth" => @$user->date_of_birth,
                     "is_volunteer" => @$volunteer != null,
                     "branch_office" => $branch_office,
                     "role" => @$user->getRoleNames()[0],
