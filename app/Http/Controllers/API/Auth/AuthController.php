@@ -186,9 +186,9 @@ class AuthController extends Controller
 
         if (!@$user) {
             $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'name' => @$userGoogle->name ?? "User",
+                'email' => @$userGoogle->email,
+                'password' => Hash::make(str()->random(5)),
                 'fcm_token' => $request->device_token
             ]);
 
