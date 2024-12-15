@@ -166,17 +166,17 @@ class AuthController extends Controller
         $userGoogle = null;
 
         // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
-        $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
+        // $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
 
-        // try {
-        //     // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
-        //     $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
-        // } catch (\Throwable $th) {
-        //     return response()->json(
-        //         ['message' => 'Login gagal, kredensial akun Google anda tidak valid'],
-        //         400
-        //     );
-        // }
+        try {
+            // https://www.raziel619.com/blog/authentication-between-a-flutter-app-and-laravel-api-using-socialite-and-sanctum/
+            $userGoogle = Socialite::driver('google')->stateless()->userFromToken($request->token);
+        } catch (\Throwable $th) {
+            return response()->json(
+                ['message' => 'Login gagal, kredensial akun Google anda tidak valid'],
+                400
+            );
+        }
 
         if (!@$userGoogle) {
             return response()->json(
