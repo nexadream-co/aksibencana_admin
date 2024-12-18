@@ -233,6 +233,7 @@ class VolunteerController extends Controller
         foreach ($data as $item) {
             $results[] = [
                 "id" => $item->id,
+                "disaster_id" => $item->disaster_id,
                 "title" => @$item->station->title ? ", {$item->station->title}" : " , {$item->disaster->title}",
                 "description" => $item->description,
                 "date" => $item->start_date

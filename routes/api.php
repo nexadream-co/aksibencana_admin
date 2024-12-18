@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
     Route::patch('/volunteer/update-status', [VolunteerController::class, 'updateStatusVolunteer']);
 
-    Route::patch('/volunteer/assignment/:id', [VolunteerController::class, 'updateStatusAssignment']);
+    Route::patch('/volunteer/assignment/{id}', [VolunteerController::class, 'updateStatusAssignment']);
 
     Route::patch('/volunteer/update-availability-status', [VolunteerController::class, 'updateAvailabilityStatusVolunteer']);
 
