@@ -245,8 +245,42 @@ class VolunteerController extends Controller
             "data" => $results
         ], 200);
     }
+    
+    /**
+     *  History Assignment Volunteers
+     */
+    public function historyAssignmentVolunteers(Request $request)
+    {
+        $request->validate([
+            'page' => ['integer'],
+            'limit' => ['integer'],
+        ]);
 
+        $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+        if (!@$volunteer) {
+            return response()->json([
+                "message" => "You are not yet registered as volunteer",
+            ], 400);
+        }
 
+        $data = VolunteerAssignment::where('volunteer_id', $volunteer->id)->whereIn('status', ['finished', 'canceled'])->paginate($request->limit ?? 10);
+        $results = [];
+
+        foreach ($data as $item) {
+            $results[] = [
+                "id" => $item->id,
+                "disaster_id" => $item->disaster_id,
+                "title" => @$item->station->title ? ", {$item->station->title}" : " , {$item->disaster->title}",
+                "description" => $item->description,
+                "date" => $item->start_date
+            ];
+        }
+
+        return response()->json([
+            "message" => "History assignment volunteer data successfully retrieved",
+            "data" => $results
+        ], 200);
+    }
 
     /**
      * Update Status Assignment
