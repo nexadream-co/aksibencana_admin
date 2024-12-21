@@ -122,7 +122,7 @@ class VolunteerController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'date_of_birth' => ['required', 'string'],
+            'date_of_birth' => ['required', 'nullable'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
             'ktp' => ['required', 'string'],
@@ -133,6 +133,12 @@ class VolunteerController extends Controller
         ]);
 
         $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
+        if ($volunteer->status == 'requested') {
+            return response()->json([
+                "message" => "Your volunteer status not activated yet",
+            ], 404);
+        }
 
         if (!$volunteer) {
             return response()->json([
@@ -148,8 +154,8 @@ class VolunteerController extends Controller
         $volunteer->health_status = $request->health_status;
         $volunteer->whatsapp_number = $request->whatsapp_number;
         $volunteer->categories = json_encode($request->categories);
-        $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
-        $volunteer->status = $request->status ? 'active' : 'inactive';
+        // $volunteer->availability_status = $request->availability_status ? 'active' : 'inactive';
+        // $volunteer->status = $request->status ? 'active' : 'inactive';
         $volunteer->abilities()->sync($request->abilities);
 
         if ($request->ktp) {
@@ -175,6 +181,18 @@ class VolunteerController extends Controller
         ]);
 
         $volunteer = Volunteer::where('user_id', $request->user()->id)->first();
+
+        if ($volunteer->status == 'requested') {
+            return response()->json([
+                "message" => "Your volunteer status not activated yet",
+            ], 404);
+        }
+
+        if ($volunteer->status == 'rejected') {
+            return response()->json([
+                "message" => "Your volunteer status rejected, cannot update",
+            ], 404);
+        }
 
         if (!$volunteer) {
             return response()->json([
@@ -245,7 +263,7 @@ class VolunteerController extends Controller
             "data" => $results
         ], 200);
     }
-    
+
     /**
      *  History Assignment Volunteers
      */
