@@ -64,10 +64,15 @@ class VolunteerStatusUpdated extends Notification
     public function toFcm($notifiable): FcmMessage
     {
         return (new FcmMessage(notification: new FcmNotification(
-            title: 'Status Volunteer',
-            body: $this->statusMessage($this->volunteer->status),
+            title: "Test Notifikasi",
+            body: "Test notifikasi berhasil",
         )))
-            ->data(['data' => $this->volunteer, 'type' => 'volunteer']);
+            ->data(['data' => 'Test notifikasi', 'type' => 'test']);
+        // return (new FcmMessage(notification: new FcmNotification(
+        //     title: 'Status Volunteer',
+        //     body: $this->statusMessage($this->volunteer->status),
+        // )))
+        //     ->data(['data' => $this->volunteer, 'type' => 'volunteer']);
     }
 
     private function statusMessage($status): string
