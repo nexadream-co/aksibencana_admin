@@ -21,7 +21,7 @@ class LogisticController extends Controller
             'limit' => ['integer'],
         ]);
 
-        $logistics = Logistic::paginate($request->limit ?? 10);
+        $logistics = Logistic::where('user_id', $request->user()->id)->paginate($request->limit ?? 10);
 
         $data = [];
 

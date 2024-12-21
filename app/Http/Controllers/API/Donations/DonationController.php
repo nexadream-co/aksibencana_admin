@@ -29,7 +29,7 @@ class DonationController extends Controller
         ]);
 
         $results = [];
-        $donations = Donation::query();
+        $donations = Donation::where('status', 'active');
 
         if ($request->category_id) {
             $donations->where('donation_category_id', $request->category_id);
