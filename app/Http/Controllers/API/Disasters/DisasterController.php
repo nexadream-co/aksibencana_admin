@@ -34,7 +34,7 @@ class DisasterController extends Controller
 
             $images = [];
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images[] = url('storage').'/'.$row;
+                $images[] = url('storage') . '/' . $row;
             }
 
             $data[] = [
@@ -86,7 +86,7 @@ class DisasterController extends Controller
         foreach ($disasters as $item) {
             $images = [];
             foreach (@json_decode($item->images) ?? [] as $row) {
-                $images[] = url('storage').'/'.$row;
+                $images[] = url('storage') . '/' . $row;
             }
 
             $data[] = [
@@ -160,6 +160,7 @@ class DisasterController extends Controller
 
         Disaster::create([
             'title' => $request->title,
+            'disaster_category_id' => $request->disaster_category_id,
             'created_by' => $request->user()->id,
             'description' => $request->description,
             'address' => $request->address,
@@ -191,7 +192,7 @@ class DisasterController extends Controller
 
         $images = [];
         foreach (@json_decode($disaster->images) ?? [] as $row) {
-            $images[] = url('storage').'/'.$row;
+            $images[] = url('storage') . '/' . $row;
         }
 
         $data = [
@@ -250,8 +251,8 @@ class DisasterController extends Controller
             $result[] = [
                 "id" => $item->id,
                 "logistic" => [
-                    "title" => "Logistic ". ($key + 1),
-                    "description" => "Total ". count(@$item->deliveries ?? [])." logistics",
+                    "title" => "Logistic " . ($key + 1),
+                    "description" => "Total " . count(@$item->deliveries ?? []) . " logistics",
                     "details" => $details,
                 ],
                 "origin" => [

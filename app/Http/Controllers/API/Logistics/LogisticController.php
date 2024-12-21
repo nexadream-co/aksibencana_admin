@@ -95,7 +95,7 @@ class LogisticController extends Controller
         $logistic->date = $request->date;
         $logistic->image = @$request->image ? str_replace(url('storage') . '/', '', $request->image) : null;
         $logistic->branch_office_id = $request->branch_office_id;
-        $logistic->status = 'request';
+        $logistic->status = 'requested';
 
         $goods = new Good();
         $goods->name = $request->goods['name'];
