@@ -26,7 +26,47 @@ class CourierController extends Controller
             $assignments = $assignments->where('status', $request->status);
         }
 
-        $assignments = $assignments->paginate($request->limit ?? 10);
+        $assignments = $assignments->latest()->paginate($request->limit ?? 10);
+
+        foreach ($assignments as $item) {
+
+            $images = [];
+            foreach (@json_decode(@$item->disaster->images) ?? [] as $row) {
+                $images[] = url('storage') . '/' . $row;
+            }
+
+            $data[] = [
+                "id" => $item->id,
+                "status" => $item->status,
+                "disaster" => @$item->disaster ? [
+                    "id" => @$item->disaster->id,
+                    "title" => @$item->disaster->title,
+                    "description" => @$item->disaster->description,
+                    "latitude" => @$item->station->latitude ?? @$item->disaster->latitude,
+                    "longitude" => @$item->station->longitude ?? @$item->disaster->longitude,
+                    "images" => $images
+                ] : null,
+            ];
+        }
+
+        return response()->json([
+            "message" => "Assignment data successfully retrieved",
+            "data" => $data,
+        ], 200);
+    }
+    
+    /**
+     * List Assignment Histories
+     */
+    public function assignmentHistories(Request $request)
+    {
+        $request->validate([
+            'page' => ['string'],
+            'limit' => ['string'],
+        ]);
+
+        $data = [];
+        $assignments = Delivery::where('status', '<>', 'active')->latest()->paginate($request->limit ?? 10);
 
         foreach ($assignments as $item) {
 

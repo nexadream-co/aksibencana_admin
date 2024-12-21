@@ -63,6 +63,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
     Route::get('/volunteer/detail', [VolunteerController::class, 'show']);
 
+    Route::get('/volunteer/assignment/histories', [VolunteerController::class, 'historyAssignmentVolunteers']);
+
     Route::get('/volunteer/assignments', [VolunteerController::class, 'assignmentVolunteers']);
 
     Route::post('/volunteer/register', [VolunteerController::class, 'register']);
@@ -214,6 +216,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
         */
 
         Route::get('/courier/assignments', [CourierController::class, 'assignments']);
+
+        Route::get('/courier/assignment/histories', [CourierController::class, 'assignmentHistories']);
 
         Route::get('/courier/notifications', [NotificationController::class, 'index']);
 
