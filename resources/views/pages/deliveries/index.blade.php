@@ -78,7 +78,7 @@
                                             {{ @$item->courier->name }}
                                         </td>
                                         <td>
-                                            {{ @$item->arrived_at }}
+                                            {{ @$item->arrived_at ?? '-' }}
                                         </td>
                                         <td>
                                             <a href="{{ route('delivery_edit', $item->id) }}" class="btn btn-primary"><i

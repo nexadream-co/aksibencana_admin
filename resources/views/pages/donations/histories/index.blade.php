@@ -50,7 +50,7 @@
                             <div class="d-flex mb-3">
                                 <div class="flex-grow-1">
                                     <h5 class="font-size-16">Total</h5>
-                                    <p class="mb-0">{{ @$donation->total }}</p>
+                                    <p class="mb-0">{{ number_format(@$donation->totalDonation ?? 0) }}</p>
                                 </div>
                             </div>
 
@@ -106,7 +106,7 @@
                                             {{ @$item->status }}
                                         </td>
                                         <td>
-                                            {{ $item->nominal }}
+                                            {{ number_format($item->nominal) }}
                                         </td>
                                         <td>
                                             {{ $item->date }}

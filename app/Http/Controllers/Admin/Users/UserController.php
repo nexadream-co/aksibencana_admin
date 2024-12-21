@@ -92,13 +92,21 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'string'],
+            'email' => ['required', 'string', 'unique:users,email'],
             'role_id' => ['required', 'string'],
             'name' => ['required', 'string'],
             'password' => ['required', 'string'],
         ]);
 
         DB::beginTransaction();
+
+        $role = Role::find($request->role_id);
+
+        if ($role->name != 'user') {
+            $request->validate([
+                'branch_office_id' => ['required', 'string'],
+            ]);
+        }
 
         $user = new User();
 
@@ -107,8 +115,6 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->password = Hash::make($request->password);
         $user->save();
-
-        $role = Role::find($request->role_id);
 
         $user->assignRole(@$role->name ?? 'user');
 

@@ -21,7 +21,8 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="role_id">Role</label>
-                                        <select name="role_id" id="role_id" class="form-control">
+                                        <select name="role_id" id="role_id"
+                                            class="form-control @error('role_id') is-invalid @enderror">
                                             <option value="">Choose Role</option>
                                             @foreach ($roles as $item)
                                                 <option value="{{ $item->id }}"

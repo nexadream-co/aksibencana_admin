@@ -71,7 +71,7 @@
                                             {{ @$item->end_date }}
                                         </td>
                                         <td>
-                                            {{ number_format(@$item->total ?? 0) }}
+                                            {{ number_format(@$item->totalDonation ?? 0) }}
                                         </td>
                                         <td>
                                             {{ number_format(@$item->target ?? 0) }}
