@@ -105,6 +105,7 @@ class VolunteerController extends Controller
                         ]
                     ],
                 ],
+                "categories" => @json_decode(@$volunteer->categories) ?? [],
                 "whatsapp_number" => $volunteer->whatsapp_number,
                 "health_status" => $volunteer->health_status,
                 "abilities" => $volunteer->abilities->pluck('id'),
