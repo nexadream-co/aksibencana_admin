@@ -72,7 +72,7 @@ class VolunteerStatusUpdated extends Notification
             title: 'Status Volunteer',
             body: $this->statusMessage(@$this->volunteer->status),
         )))
-            ->data(['data' => ['id' => @$this->volunteer->id], 'type' => 'volunteer']);
+            ->data(['data' => @json_encode(@$this->volunteer), 'type' => 'volunteer']);
     }
 
     private function statusMessage($status): string
