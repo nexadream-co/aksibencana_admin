@@ -39,6 +39,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Category</th>
                                     <th scope="col" width="120px">Availability</th>
                                     <th scope="col" width="120px">Status</th>
@@ -56,6 +57,9 @@
                                         </td>
                                         <td>
                                             {{ @$item->user->name }}
+                                        </td>
+                                        <td>
+                                            {{ @$item->user->email }}
                                         </td>
                                         <td>
                                             {{ implode(', ', @json_decode($item->categories) ?? []) }}

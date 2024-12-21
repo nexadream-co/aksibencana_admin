@@ -160,7 +160,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'token' => ['string', 'required'],
-            'device_token' => 'string|required',
+            'device_token' => ['string', 'required'],
         ]);
 
         $userGoogle = null;
