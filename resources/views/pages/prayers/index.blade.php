@@ -23,6 +23,7 @@
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
                                     <th scope="col">Pray</th>
                                     <th scope="col">Donation</th>
                                     <th scope="col">Show Identity</th>
@@ -39,6 +40,9 @@
                                         </td>
                                         <td>
                                             {{ @$item->user->name }}
+                                        </td>
+                                        <td>
+                                            {{ @$item->user->email }}
                                         </td>
                                         <td>
                                             {{ @$item->pray }}
