@@ -114,6 +114,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
     Route::post('/notification/test', [NotificationController::class, 'testNotification']);
 
+    Route::post('/notification/test-volunteer', [NotificationController::class, 'testVolunteeerNotification']);
+
     /*
     |--------------------------------------------------------------------------
     | Location Routes
