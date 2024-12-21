@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Volunteers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ability;
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Notifications\VolunteerStatusUpdated;
 use App\Traits\ImageUpload;
@@ -127,7 +128,9 @@ class VolunteerController extends Controller
         try {
             if (@$volunteer->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
                 $volunteer->status = $request->status;
-                @$volunteer->user->notify(new VolunteerStatusUpdated($volunteer));
+
+                $user = User::find(@$volunteer->user_id);
+                @$user->notify(new VolunteerStatusUpdated($volunteer));
             }
         } catch (\Throwable $th) {
         }
