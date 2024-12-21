@@ -40,7 +40,7 @@ class VolunteerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'date_of_birth' => ['required', 'string'],
+            // 'date_of_birth' => ['required', 'string'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
             'ktp' => ['required', 'file'],
@@ -113,7 +113,7 @@ class VolunteerController extends Controller
         if (!$volunteer) return abort(404);
 
         $request->validate([
-            'date_of_birth' => ['required', 'string'],
+            // 'date_of_birth' => ['required', 'string'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
             'user_id' => ['required', 'string'],

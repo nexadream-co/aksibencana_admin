@@ -44,7 +44,7 @@
                                     <th scope="col" width="120px">Availability</th>
                                     <th scope="col" width="120px">Status</th>
                                     <th scope="col" width="120px">City</th>
-                                    <th scope="col" width="120px">Birth</th>
+                                    {{-- <th scope="col" width="120px">Birth</th> --}}
                                     <th scope="col">Action</th>
                                 </tr>
 
@@ -73,9 +73,9 @@
                                         <td>
                                             {{ @$item->district->name }}, {{ @$item->district->city->name }}
                                         </td>
-                                        <td>
+                                        {{-- <td>
                                             {{ @$item->date_of_birth }}
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             <a href="{{ route('volunteer_edit', $item->id) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
