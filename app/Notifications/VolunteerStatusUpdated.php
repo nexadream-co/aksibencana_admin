@@ -32,7 +32,7 @@ class VolunteerStatusUpdated extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database', FcmChannel::class];
+        return [FcmChannel::class, 'database'];
     }
 
     /**
