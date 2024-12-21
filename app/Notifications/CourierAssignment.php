@@ -66,7 +66,7 @@ class CourierAssignment extends Notification
             title: 'Penugasan',
             body: 'Anda sedang ditugaskan pada bencana ' . @$this->delivery->disaster->title,
         )))
-            ->data(['data' => $this->delivery, 'type' => 'delivery']);
+            ->data(['data' => @json_encode($this->delivery), 'type' => 'delivery']);
     }
 
     private function statusMessage($status): string

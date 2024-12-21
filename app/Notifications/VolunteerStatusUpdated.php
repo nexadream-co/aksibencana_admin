@@ -32,7 +32,7 @@ class VolunteerStatusUpdated extends Notification
      */
     public function via(object $notifiable): array
     {
-        return [FcmChannel::class];
+        return ['database', FcmChannel::class];
     }
 
     /**
@@ -63,11 +63,6 @@ class VolunteerStatusUpdated extends Notification
 
     public function toFcm($notifiable): FcmMessage
     {
-        // return (new FcmMessage(notification: new FcmNotification(
-        //     title: "Test Notifikasi",
-        //     body: "Test notifikasi berhasil",
-        // )))
-        //     ->data(['data' => 'Test notifikasi', 'type' => 'test']);
         return (new FcmMessage(notification: new FcmNotification(
             title: 'Status Volunteer',
             body: $this->statusMessage(@$this->volunteer->status),

@@ -67,7 +67,7 @@ class LogisticStatusUpdated extends Notification
             title: 'Status Logistik',
             body: $this->statusMessage($this->logistic->status),
         )))
-            ->data(['data' => $this->logistic, 'type' => 'logistic']);
+            ->data(['data' => @json_encode($this->logistic), 'type' => 'logistic']);
     }
 
     private function statusMessage($status): string

@@ -67,7 +67,7 @@ class DisasterStatusUpdated extends Notification
             title: 'Status Bencana',
             body: $this->statusMessage($this->disaster->status),
         )))
-            ->data(['data' => $this->disaster, 'type' => 'disaster']);
+            ->data(['data' => @json_encode($this->disaster), 'type' => 'disaster']);
     }
 
     private function statusMessage($status): string

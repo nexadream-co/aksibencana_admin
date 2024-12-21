@@ -66,7 +66,7 @@ class DonationPaymentStatusUpdated extends Notification
             title: 'Pembayaran Donasi',
             body: $this->statusMessage($this->donation_history->status),
         )))
-            ->data(['data' => $this->donation_history, 'type' => 'donation_history']);
+            ->data(['data' => @json_encode($this->donation_history), 'type' => 'donation_history']);
     }
 
     private function statusMessage($status): string
