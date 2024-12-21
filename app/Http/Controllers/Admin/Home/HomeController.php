@@ -17,7 +17,7 @@ class HomeController extends Controller
     public function index()
     {
         $total_volunteer = Volunteer::where('status', 'active')->count();
-        $total_logistic = Logistic::where('status', 'approved')->count();
+        $total_logistic = Logistic::where('status', 'active')->count();
         $total_delivery = Delivery::where('status', 'active')->count();
         $total_disaster = Disaster::where('status', 'active')->count();
 
