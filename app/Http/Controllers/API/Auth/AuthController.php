@@ -331,6 +331,7 @@ class AuthController extends Controller
 
         $request->user()->email = Str::random(40) . '@aksibencana.com';
         $request->user()->save();
+        $request->user()->delete();
 
         DB::commit();
 
