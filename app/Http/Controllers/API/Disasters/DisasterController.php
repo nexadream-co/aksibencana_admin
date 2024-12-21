@@ -275,5 +275,10 @@ class DisasterController extends Controller
                 ],
             ];
         }
+
+        return response()->json([
+            "message" => "Disaster logistic tracks successfully retrieved",
+            "data" => $result,
+        ], 200);
     }
 }
