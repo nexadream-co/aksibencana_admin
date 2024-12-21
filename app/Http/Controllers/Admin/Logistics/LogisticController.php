@@ -7,6 +7,7 @@ use App\Models\BranchOffice;
 use App\Models\Expedition;
 use App\Models\Good;
 use App\Models\Logistic;
+use App\Notifications\LogisticStatusUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -132,6 +133,14 @@ class LogisticController extends Controller
         if (!$logistic) return abort(404);
 
         DB::beginTransaction();
+
+        try {
+            if (@$logistic->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
+                $logistic->status = $request->status;
+                @$logistic->user->notify(new LogisticStatusUpdated($logistic));
+            }
+        } catch (\Throwable $th) {
+        }
 
         $logistic->disaster_id = $request->disaster_id;
         $logistic->user_id = $request->user_id ?? $request->user()->id;

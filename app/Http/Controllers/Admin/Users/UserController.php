@@ -25,7 +25,35 @@ class UserController extends Controller
         $search = $request->q;
         $limit = $request->limit;
 
-        $users = User::role(['user', 'courier']);
+        $users = User::role(['user']);
+        if ($search) {
+            foreach (explode(",", $search) as $key => $item) {
+                if ($key == 0) {
+                    $users->where('name', 'LIKE', '%' . $item . '%');
+                } else {
+                    $users->orWhere('name', 'LIKE', '%' . $item . '%');
+                }
+            }
+        }
+
+        $users = $users->paginate($limit ?? 10);
+        foreach ($users as $item) {
+            $data[] = [
+                "id" => $item->id,
+                "value" => $item->name
+            ];
+        }
+
+        return $data;
+    }
+
+    public function searchCouriers(Request $request): array
+    {
+        $data = [];
+        $search = $request->q;
+        $limit = $request->limit;
+
+        $users = User::role(['courier']);
         if ($search) {
             foreach (explode(",", $search) as $key => $item) {
                 if ($key == 0) {

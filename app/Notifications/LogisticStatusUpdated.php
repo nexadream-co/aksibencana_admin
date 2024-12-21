@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\Models\DonationHistory;
+use App\Models\Logistic;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,17 +11,18 @@ use NotificationChannels\Fcm\FcmChannel;
 use NotificationChannels\Fcm\FcmMessage;
 use NotificationChannels\Fcm\Resources\Notification as FcmNotification;
 
-class DonationPaymentStatusUpdated extends Notification
+class LogisticStatusUpdated extends Notification
 {
-    // use Queueable;
-    private DonationHistory $donation_history;
+    use Queueable;
+
+    private Logistic $logistic;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(DonationHistory $donation_history)
+    public function __construct(Logistic $logistic)
     {
-        $this->donation_history = $donation_history;
+        $this->logistic = $logistic;
     }
 
     /**
@@ -53,28 +54,30 @@ class DonationPaymentStatusUpdated extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'Pembayaran Donasi',
-            'body' => $this->statusMessage($this->donation_history->status),
-            'data' => $this->donation_history,
-            'type' => 'donation_history'
+            'title' => 'Status Logistik',
+            'body' => $this->statusMessage($this->logistic->status),
+            'data' => $this->logistic,
+            'type' => 'logistic'
         ];
     }
 
     public function toFcm($notifiable): FcmMessage
     {
         return (new FcmMessage(notification: new FcmNotification(
-            title: 'Pembayaran Donasi',
-            body: $this->statusMessage($this->donation_history->status),
+            title: 'Status Logistik',
+            body: $this->statusMessage($this->logistic->status),
         )))
-            ->data(['data' => $this->donation_history, 'type' => 'donation_history']);
+            ->data(['data' => $this->logistic, 'type' => 'logistic']);
     }
 
     private function statusMessage($status): string
     {
-        if ($status == 'paid') {
-            return 'Berhasil, pembayaran donasi anda berhasil dilakukan.';
+        if ($status == 'active') {
+            return 'Logistik anda telah diterima oleh Aksi Bencana, terimakasih yang sebesar-besarnya!';
+        } else if ($status == 'rejected') {
+            return 'Mohon maaf, logistik anda tidak bisa kami diterima';
         } else {
-            return 'Mohon maaf, terjadi kesalahan dalam pembayaran donasi.';
+            return 'Mohon maaf, terjadi kesalahan dalam penerimaan logistik';
         }
     }
 }

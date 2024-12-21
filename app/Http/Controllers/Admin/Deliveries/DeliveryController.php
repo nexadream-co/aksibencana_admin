@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Deliveries;
 use App\Http\Controllers\Controller;
 use App\Models\BranchOffice;
 use App\Models\Delivery;
+use App\Notifications\CourierAssignment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DeliveryController extends Controller
 {
@@ -45,6 +47,8 @@ class DeliveryController extends Controller
             'status' => ['required', 'string'],
         ]);
 
+        DB::beginTransaction();
+
         $delivery = new Delivery();
         $delivery->disaster_id = $request->disaster_id;
         $delivery->disaster_station_id = $request->disaster_station_id;
@@ -54,6 +58,13 @@ class DeliveryController extends Controller
         $delivery->status = $request->status;
         $delivery->delivered_at = date('Y-m-d h:i:s');
         $delivery->save();
+
+        try {
+            @$delivery->courier->notify(new CourierAssignment($delivery));
+        } catch (\Throwable $th) {
+        }
+
+        DB::commit();
 
         session()->flash('success', 'Delivery successfully created');
 

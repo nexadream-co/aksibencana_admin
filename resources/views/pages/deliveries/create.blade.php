@@ -63,7 +63,7 @@
                                         <select class="form-control @error('user_id') is-invalid @enderror" name="user_id"
                                             name="choices-single-default" id="user-text-input"
                                             placeholder="Search Location">
-                                            <option value="" data-key="t-search-user">Search User
+                                            <option value="" data-key="t-search-user">Search Courier
                                             </option>
                                         </select>
                                         @error('user_id')
@@ -159,7 +159,7 @@
         const disasterStationElement = document.getElementById('disaster-station-text-input');
         const userElement = document.getElementById('user-text-input');
         initChoices(disasterElement, '/disaster/search');
-        initChoices(userElement, '/user/search');
+        initChoices(userElement, '/user/courier/search');
         initChoices(disasterStationElement, '/disaster/search/station');
 
         function initChoices(element, url) {

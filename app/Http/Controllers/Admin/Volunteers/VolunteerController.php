@@ -124,6 +124,14 @@ class VolunteerController extends Controller
 
         DB::beginTransaction();
 
+        try {
+            if (@$volunteer->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
+                $volunteer->status = $request->status;
+                @$volunteer->user->notify(new VolunteerStatusUpdated($volunteer));
+            }
+        } catch (\Throwable $th) {
+        }
+
         $volunteer->district_id = $request->district_id;
         $volunteer->user_id = $request->user_id;
         $volunteer->date_of_birth = $request->date_of_birth;
@@ -142,13 +150,6 @@ class VolunteerController extends Controller
         }
 
         $volunteer->save();
-
-        try {
-            if ($volunteer->status == 'active' || $volunteer->status == 'rejected') {
-                @$volunteer->user->notify(new VolunteerStatusUpdated($volunteer));
-            }
-        } catch (\Throwable $th) {
-        }
 
         DB::commit();
         session()->flash('success', 'Volunteer successfully updated');

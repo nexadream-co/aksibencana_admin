@@ -7,6 +7,7 @@ use App\Models\Disaster;
 use App\Models\DisasterCategory;
 use App\Models\DisasterStation;
 use App\Models\VolunteerAssignment;
+use App\Notifications\DisasterStatusUpdated;
 use App\Traits\ImageUpload;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -121,6 +122,14 @@ class DisasterController extends Controller
         if ($request->hasFile('images')) {
             $image[] = $this->upload($request, 'images', 'images');
             $disaster->images =  json_encode($image);
+        }
+
+        try {
+            if (@$disaster->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
+                $disaster->status = $request->status;
+                @$disaster->user->notify(new DisasterStatusUpdated($disaster));
+            }
+        } catch (\Throwable $th) {
         }
 
         $disaster->title = $request->title;
