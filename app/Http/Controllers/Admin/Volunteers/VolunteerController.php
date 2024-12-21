@@ -125,15 +125,22 @@ class VolunteerController extends Controller
 
         DB::beginTransaction();
 
-        try {
-            if (@$volunteer->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
-                $volunteer->status = $request->status;
+        if (@$volunteer->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
+            $volunteer->status = $request->status;
 
-                $user = User::find(@$volunteer->user_id);
-                @$user->notify(new VolunteerStatusUpdated($volunteer));
-            }
-        } catch (\Throwable $th) {
+            $user = User::find(@$volunteer->user_id);
+            @$user->notify(new VolunteerStatusUpdated($volunteer));
         }
+
+        // try {
+        //     if (@$volunteer->status == 'requested' && ($request->status == 'active' || $request->status == 'rejected')) {
+        //         $volunteer->status = $request->status;
+
+        //         $user = User::find(@$volunteer->user_id);
+        //         @$user->notify(new VolunteerStatusUpdated($volunteer));
+        //     }
+        // } catch (\Throwable $th) {
+        // }
 
         $volunteer->district_id = $request->district_id;
         $volunteer->user_id = $request->user_id;
