@@ -46,7 +46,18 @@ class NotificationController extends Controller
      */
     public function testNotification(Request $request)
     {
-        $user = User::find($request->user()->id);
+        $request->validate([
+            'user_id' => ['integer', 'nullable'],
+        ]);
+
+        $user = User::find($request->user_id ?? $request->user()->id);
+
+        if (!@$user) {
+            return response()->json([
+                "message" => "User not found",
+            ], 404);
+        }
+
         $user->notify(new TestNotification());
 
         return response()->json([
