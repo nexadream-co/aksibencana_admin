@@ -94,7 +94,7 @@ class VolunteerController extends Controller
                 "date_of_birth" => $volunteer->date_of_birth,
                 "address" => $volunteer->address,
                 "district" => [
-                    "id" => @$volunteer->id,
+                    "id" => @$volunteer->district->id,
                     "name" => @$volunteer->district->name,
                     "city" => [
                         "id" => @$volunteer->district->city->id,
