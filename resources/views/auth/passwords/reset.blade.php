@@ -37,6 +37,7 @@
                                     @endif
                                     <form method="POST" action="{{ route('password.update') }}" class="auth-input">
                                         @csrf
+                                        <input type="hidden" name="token" value="{{ @$token }}">
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Email Address <span
                                                     class="text-danger">*</span></label>
@@ -93,7 +94,7 @@
                     </div><!-- end col -->
                 </div><!-- end row -->
 
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-lg-12">
                         <div class="text-center p-4">
                             <p>©
@@ -104,7 +105,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
         </div><!-- end container -->
