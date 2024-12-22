@@ -241,8 +241,8 @@ class DisasterController extends Controller
             $details = [];
             foreach (@$item->logistics ?? [] as $row) {
                 $details[] = [
-                    "title" => @$row->good->name ?? '',
-                    "description" => @$row->good->type,
+                    "title" => @$row->goods->name ?? '',
+                    "description" => @$row->goods->type,
                     "value" => null,
                     "type_unit" => "Unit"
                 ];
