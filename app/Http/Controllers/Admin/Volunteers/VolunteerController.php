@@ -20,7 +20,7 @@ class VolunteerController extends Controller
      */
     public function index(Request $request)
     {
-        $volunteers = Volunteer::latest()->get();
+        $volunteers = Volunteer::whereHas('user')->latest()->get();
 
         return view('pages.volunteers.index', compact('volunteers'));
     }
