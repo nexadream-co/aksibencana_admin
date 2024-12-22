@@ -239,7 +239,7 @@ class DisasterController extends Controller
         foreach (@$disaster->deliveries ?? [] as $key => $item) {
 
             $details = [];
-            foreach (@$item->deliveries ?? [] as $row) {
+            foreach (@$item->logistics ?? [] as $row) {
                 $details[] = [
                     "title" => @$row->good->name ?? '',
                     "description" => @$row->good->type,
@@ -252,7 +252,7 @@ class DisasterController extends Controller
                 "id" => $item->id,
                 "logistic" => [
                     "title" => "Logistic " . ($key + 1),
-                    "description" => "Total " . count(@$item->deliveries ?? []) . " logistics",
+                    "description" => "Total " . count(@$details ?? []) . " logistics",
                     "details" => $details,
                 ],
                 "origin" => [
@@ -261,7 +261,7 @@ class DisasterController extends Controller
                     "longitude" => @$item->branchOffice->longitude
                 ],
                 "destination" => [
-                    "title" => @$item->branchOffice->name,
+                    "title" => @$item->station->name ?? @$item->district->name,
                     "latitude" => @$item->station->latitude ?? @$item->disaster->latitude,
                     "longitude" => @$item->station->longitude ?? @$item->disaster->longitude
                 ],

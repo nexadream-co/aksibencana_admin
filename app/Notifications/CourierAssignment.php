@@ -54,7 +54,7 @@ class CourierAssignment extends Notification
     {
         return [
             'title' => 'Penugasan',
-            'body' => $this->statusMessage($this->delivery->status),
+            'body' => 'Anda sedang ditugaskan pada bencana ' . @$this->delivery->disaster->title,
             'data' => $this->delivery,
             'type' => 'delivery'
         ];
@@ -67,16 +67,5 @@ class CourierAssignment extends Notification
             body: 'Anda sedang ditugaskan pada bencana ' . @$this->delivery->disaster->title,
         )))
             ->data(['data' => @json_encode($this->delivery), 'type' => 'delivery']);
-    }
-
-    private function statusMessage($status): string
-    {
-        if ($status == 'active') {
-            return 'Selamat, pengajuan bencana anda telah disetujui, dan telah diaktifkan.';
-        } else if ($status == 'rejected') {
-            return 'Mohon maaf, pengajuan bencana anda tidak disetujui, silahkan hubungi admin Aksi Bencana.';
-        } else {
-            return 'Mohon maaf, terjadi kesalahan dalam pengajuan bencana.';
-        }
     }
 }
