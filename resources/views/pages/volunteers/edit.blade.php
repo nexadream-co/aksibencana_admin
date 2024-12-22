@@ -140,10 +140,10 @@
                                         <label class="form-label">Category</label>
                                         <div class="form-check mb-3">
                                             <input class="form-check-input" type="checkbox" name="categories[]"
-                                                id="category1" value="emmergency"
-                                                {{ in_array('emmergency', old('categories') ?? (json_decode(@$volunteer->categories) ?? [])) ? 'checked' : '' }}>
+                                                id="category1" value="emergency"
+                                                {{ in_array('emergency', old('categories') ?? (json_decode(@$volunteer->categories) ?? [])) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="category1">
-                                                Emmergency
+                                                Emergency
                                             </label>
                                         </div>
                                         <div class="form-check">
