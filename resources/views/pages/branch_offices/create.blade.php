@@ -21,7 +21,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mt-4 mt-xl-0">
-                                <form method="post" action="{{ route('branch_office_store') }}" enctype="multipart/form-data">
+                                <form method="post" action="{{ route('branch_office_store') }}"
+                                    enctype="multipart/form-data">
                                     @csrf
 
                                     <h4>Branch Office Form</h4>
@@ -43,11 +44,33 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="name">Name</label>
-                                        <input type="text"
-                                            class="form-control @error('name') is-invalid @enderror"
-                                            name="name" placeholder="Name" id="name"
-                                            value="{{ old('name') }}">
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                            name="name" placeholder="Name" id="name" value="{{ old('name') }}">
                                         @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="latitude">Latitude</label>
+                                        <input type="text" class="form-control @error('latitude') is-invalid @enderror"
+                                            name="latitude" placeholder="Latitude" id="latitude"
+                                            value="{{ old('latitude') }}">
+                                        @error('latitude')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="longitude">Longitude</label>
+                                        <input type="text" class="form-control @error('longitude') is-invalid @enderror"
+                                            name="longitude" placeholder="Longitude" id="longitude"
+                                            value="{{ old('longitude') }}">
+                                        @error('longitude')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -66,8 +89,8 @@
                                     </div>
 
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                        <input type="checkbox" class="form-check-input" id="status_active"
-                                            name="status" @if (old('status')) checked @endif>
+                                        <input type="checkbox" class="form-check-input" id="status_active" name="status"
+                                            @if (old('status')) checked @endif>
                                         <label class="form-check-label" for="status_active">Active</label>
                                     </div>
 

@@ -31,4 +31,9 @@ class Disaster extends Model
     {
         return $this->hasMany(Delivery::class, 'disaster_id');
     }
+
+    public function stations()
+    {
+        return $this->hasMany(DisasterStation::class, 'disaster_id');
+    }
 }

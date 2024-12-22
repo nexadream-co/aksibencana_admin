@@ -58,6 +58,12 @@
                                         </td>
                                         <td>
                                             {{ @$item->disaster->title }}
+                                            @if (!count(@$item->logistics ?? []))
+                                                <div class="text-danger">Belum ada logistik yang ditambahkan, <a
+                                                        href="{{ route('delivery_logistics', [$item->id]) }}">Tambah
+                                                        disini</a>
+                                                </div>
+                                            @endif
                                         </td>
                                         <td>
                                             {{ @$item->station->name }}

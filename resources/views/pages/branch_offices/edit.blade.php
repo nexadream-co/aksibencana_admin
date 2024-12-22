@@ -21,7 +21,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="mt-4 mt-xl-0">
-                                <form method="post" action="{{ route('branch_office_update', $branch_office->id) }}" enctype="multipart/form-data">
+                                <form method="post" action="{{ route('branch_office_update', $branch_office->id) }}"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     @method('put')
 
@@ -51,11 +52,33 @@
 
                                     <div class="mb-3">
                                         <label class="form-label" for="name">Name</label>
-                                        <input type="text"
-                                            class="form-control @error('name') is-invalid @enderror"
+                                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                                             name="name" placeholder="Name" id="name"
                                             value="{{ old('name') ?? @$branch_office->name }}">
                                         @error('name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="latitude">Latitude</label>
+                                        <input type="text" class="form-control @error('latitude') is-invalid @enderror"
+                                            name="latitude" placeholder="Latitude" id="latitude"
+                                            value="{{ old('latitude') ?? @$branch_office->latitude }}">
+                                        @error('latitude')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label" for="longitude">Longitude</label>
+                                        <input type="text" class="form-control @error('longitude') is-invalid @enderror"
+                                            name="longitude" placeholder="Longitude" id="longitude"
+                                            value="{{ old('longitude') ?? @$branch_office->longitude }}">
+                                        @error('longitude')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -74,8 +97,8 @@
                                     </div>
 
                                     <div class="form-check form-switch form-switch-md mb-3" dir="ltr">
-                                        <input type="checkbox" class="form-check-input" id="status_active"
-                                            name="status" @if ((old('status') ?? @$branch_office->status) == 'active') checked @endif>
+                                        <input type="checkbox" class="form-check-input" id="status_active" name="status"
+                                            @if ((old('status') ?? @$branch_office->status) == 'active') checked @endif>
                                         <label class="form-check-label" for="status_active">Active</label>
                                     </div>
 

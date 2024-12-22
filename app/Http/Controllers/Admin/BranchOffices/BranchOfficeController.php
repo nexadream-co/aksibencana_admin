@@ -33,6 +33,8 @@ class BranchOfficeController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'address' => ['required', 'string'],
+            'latitude' => ['required', 'string'],
+            'longitude' => ['required', 'string'],
             'district_id' => ['required', 'string'],
             'status' => ['required', 'string'],
         ]);
@@ -40,6 +42,8 @@ class BranchOfficeController extends Controller
         $branch_office = new BranchOffice();
         $branch_office->district_id = $request->district_id;
         $branch_office->name = $request->name;
+        $branch_office->latitude = $request->latitude;
+        $branch_office->longitude = $request->longitude;
         $branch_office->address = $request->address;
         $branch_office->status = $request->status ? 'active' : 'inactive';
         $branch_office->save();
@@ -72,6 +76,8 @@ class BranchOfficeController extends Controller
             'name' => ['required', 'string'],
             'address' => ['required', 'string'],
             'district_id' => ['required', 'string'],
+            'latitude' => ['required', 'string'],
+            'longitude' => ['required', 'string'],
             'status' => ['required', 'string'],
         ]);
 
@@ -83,6 +89,8 @@ class BranchOfficeController extends Controller
         $branch_office->district_id = $request->district_id;
         $branch_office->name = $request->name;
         $branch_office->address = $request->address;
+        $branch_office->latitude = $request->latitude;
+        $branch_office->longitude = $request->longitude;
         $branch_office->status = $request->status ? 'active' : 'inactive';
         $branch_office->save();
 

@@ -54,7 +54,7 @@ class CourierController extends Controller
             "data" => $data,
         ], 200);
     }
-    
+
     /**
      * List Assignment Histories
      */
@@ -211,6 +211,7 @@ class CourierController extends Controller
 
         $assignment->status = $request->status;
         $assignment->recipient_name = $request->recipient_name;
+        $assignment->arrived_at = date('Y-m-d h:i:s');
         $assignment->images = json_encode($images);
         $assignment->save();
 
