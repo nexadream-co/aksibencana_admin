@@ -175,6 +175,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     });
 
     Route::get('/user/search', [UserController::class, 'searchUsers'])->name('user_search');
+
     Route::get('/user/courier/search', [UserController::class, 'searchCouriers'])->name('courier_search');
 
     Route::get('/user/profile', [UserController::class, 'profile'])->name('user_profile');
