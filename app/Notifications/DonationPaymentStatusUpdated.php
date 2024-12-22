@@ -72,7 +72,7 @@ class DonationPaymentStatusUpdated extends Notification
     private function statusMessage($status): string
     {
         if ($status == 'paid') {
-            return 'Berhasil, pembayaran donasi anda berhasil dilakukan.';
+            return 'Berhasil, pembayaran donasi anda berhasil dilakukan sejumlah ' . number_format(@$this->donation_history->nominal ?? 0) . '.';
         } else {
             return 'Mohon maaf, terjadi kesalahan dalam pembayaran donasi.';
         }

@@ -254,6 +254,7 @@ class DonationController extends Controller
             $results[] = [
                 "id" => $item->id,
                 "pray" => $item->pray,
+                "show_identity" => @$item->show_identity ? true : false,
                 "user" =>  [
                     "name" => @$item->user->name,
                     "photo_url" => @$item->user->photo_url,
