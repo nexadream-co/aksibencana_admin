@@ -39,11 +39,11 @@ class VolunteerController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'date_of_birth' => ['required', 'string'],
+            'date_of_birth' => ['nullable'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
             'ktp' => ['required', 'string'],
-            'district_id' => ['required', 'string'],
+            'district_id' => ['required', 'exists:districts,id'],
             'categories' => ['required', 'array'],
             'abilities' => ['required', 'array'],
             'whatsapp_number' => ['string'],
@@ -123,11 +123,11 @@ class VolunteerController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'date_of_birth' => ['required', 'nullable'],
+            'date_of_birth' => ['nullable'],
             'address' => ['required', 'string'],
             'health_status' => ['required', 'string'],
             'ktp' => ['required', 'string'],
-            'district_id' => ['required', 'string'],
+            'district_id' => ['required', 'exists:districts,id'],
             'categories' => ['required', 'array'],
             'abilities' => ['required', 'array'],
             'whatsapp_number' => ['string'],
