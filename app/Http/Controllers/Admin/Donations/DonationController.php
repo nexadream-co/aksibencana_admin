@@ -126,11 +126,11 @@ class DonationController extends Controller
         $photo = null;
         if ($request->hasFile('fundraiser_photo')) {
             $photo = $this->upload($request, 'images', 'fundraiser_photo');
-        }else{
+        } else {
             $photo = $fundraiser->photo;
         }
 
-        if($fundraiser) {
+        if ($fundraiser) {
             $fundraiser->name = $request->fundraiser_name;
             $fundraiser->photo = $photo;
             $fundraiser->description = $request->fundraiser_description;
@@ -148,7 +148,6 @@ class DonationController extends Controller
         $donation->description = $request->description;
         $donation->start_date = $request->start_date;
         $donation->end_date = $request->end_date;
-        $donation->total = $request->total ?? 0;
         $donation->target = $request->target ?? 0;
         $donation->status = $request->status ? 'active' : 'inactive';
         $donation->save();
@@ -175,7 +174,7 @@ class DonationController extends Controller
         $donation->delete();
 
         DB::commit();
-        
+
         session()->flash('success', 'Donation successfully deleted');
 
         return redirect()->route('donations');
