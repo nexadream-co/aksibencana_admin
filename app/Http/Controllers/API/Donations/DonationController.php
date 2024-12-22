@@ -29,7 +29,8 @@ class DonationController extends Controller
         ]);
 
         $results = [];
-        $donations = Donation::where('status', 'active');
+        $donations = Donation::where('status', 'active')->where('start_date', '<=', date('Y-m-d'))
+            ->where('end_date', '>=', date('Y-m-d'));
 
         if ($request->category_id) {
             $donations->where('donation_category_id', $request->category_id);
