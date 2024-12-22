@@ -77,7 +77,7 @@ class LogisticController extends Controller
             'district_id' => ['required', 'integer'],
             'origin_address' => ['required', 'string'],
             'telp' => ['required', 'string'],
-            'expedition_name' => ['required', 'string'],
+            'expedition_name' => ['required', 'string', 'in:jnt,jne,pos'],
             'weight' => ['required', 'string'],
             'image' => ['required', 'string'],
             'date' => ['required', 'string'],
@@ -106,7 +106,7 @@ class LogisticController extends Controller
 
         $expedition = new Expedition();
         $expedition->district_id = $request->district_id;
-        $expedition->name = $request->expedition_name;
+        $expedition->name = strtolower($request->expedition_name);
         $expedition->sender_name = $request->sender_name;
         $expedition->origin_address = $request->origin_address;
         $expedition->telp = $request->telp;
