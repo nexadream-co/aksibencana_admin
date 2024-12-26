@@ -289,9 +289,9 @@ class VolunteerController extends Controller
             $results[] = [
                 "id" => $item->id,
                 "disaster_id" => $item->disaster_id,
-                "title" => $item->title . (@$item->station->title ? ", {$item->station->title}" : " , {$item->disaster->title}"),
-                "description" => $item->description,
-                "date" => $item->start_date
+                "title" => @$item->title . (@$item->station->title ? ", {$item->station->title}" : " , " . @$item->disaster->title),
+                "description" => @$item->description,
+                "date" => @$item->start_date
             ];
         }
 
