@@ -16,7 +16,7 @@ class DeliveryController extends Controller
      */
     public function index(Request $request)
     {
-        $deliveries = Delivery::latest();
+        $deliveries = Delivery::whereHas('disaster')->latest();
         if ($request->user()->getRoleNames()[0] == 'admin') {
             $deliveries = $deliveries->where('branch_office_id', $request->user()->branch_office_id);
         }

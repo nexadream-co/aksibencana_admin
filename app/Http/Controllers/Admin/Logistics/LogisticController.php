@@ -18,7 +18,7 @@ class LogisticController extends Controller
      */
     public function index(Request $request)
     {
-        $logistics = Logistic::latest();
+        $logistics = Logistic::whereHas('disaster')->latest();
         if ($request->user()->getRoleNames()[0] == 'admin') {
             $logistics = $logistics->where('branch_office_id', $request->user()->branch_office_id);
         }

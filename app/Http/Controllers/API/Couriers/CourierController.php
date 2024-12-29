@@ -20,7 +20,7 @@ class CourierController extends Controller
         ]);
 
         $data = [];
-        $assignments = Delivery::query();
+        $assignments = Delivery::whereHas('disaster');
 
         if ($request->status) {
             $assignments = $assignments->where('status', $request->status);
@@ -66,7 +66,7 @@ class CourierController extends Controller
         ]);
 
         $data = [];
-        $assignments = Delivery::where('status', '<>', 'active')->latest()->paginate($request->limit ?? 10);
+        $assignments = Delivery::whereHas('disaster')->where('status', '<>', 'active')->latest()->paginate($request->limit ?? 10);
 
         foreach ($assignments as $item) {
 
