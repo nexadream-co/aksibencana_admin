@@ -20,7 +20,7 @@ class DisasterController extends Controller
             'category_id' => ['integer'],
         ]);
 
-        $disasters = Disaster::whereHas('disaster')->where('status', 'active');
+        $disasters = Disaster::where('status', 'active');
 
         if ($request->category_id) {
             $disasters = $disasters->where('disaster_category_id', $request->category_id);
@@ -73,7 +73,7 @@ class DisasterController extends Controller
             'category_id' => ['integer'],
         ]);
 
-        $disasters = Disaster::whereHas('disaster');
+        $disasters = Disaster::query();
 
         if ($request->category_id) {
             $disasters = $disasters->where('disaster_category_id', $request->category_id);
