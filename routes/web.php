@@ -218,6 +218,7 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::group(['middleware' => ['role:superadmin']], function () {
         Route::get('/donation/{id}/histories', [DonationHistoryController::class, 'index'])->name('donation_histories');
+        Route::get('/donation/history/download', [DonationHistoryController::class, 'download'])->name('donation_history_download');
     });
 
     /*

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Donations;
 
+use App\Exports\DonationHistoryExport;
 use App\Http\Controllers\Controller;
 use App\Models\Donation;
 use App\Models\DonationHistory;
@@ -18,55 +19,17 @@ class DonationHistoryController extends Controller
 
         if (!@$donation) return abort(404);
 
-        $histories = DonationHistory::where('donation_id', $id)->latest()->get();
+        $histories = DonationHistory::with(['user' => function($query) {
+            $query->withTrashed();
+        }])->where('donation_id', $id)->latest()->get();
         return view('pages.donations.histories.index', compact('histories', 'donation'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Download resource
      */
-    public function create()
+    public function download()
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return (new DonationHistoryExport)->download("donation-".time().".xlsx");
     }
 }

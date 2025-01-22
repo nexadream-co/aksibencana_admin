@@ -13,7 +13,7 @@ class DonationPrayerController extends Controller
      */
     public function index()
     {
-        $prayers = DonationPrayer::latest()->get();
+        $prayers = DonationPrayer::whereHas('user')->latest()->get();
         return view('pages.prayers.index', compact('prayers'));
     }
 }

@@ -17,7 +17,7 @@ class DeliveryLogisticController extends Controller
         $delivery = Delivery::find($id);
         if (!@$delivery) return abort(404);
 
-        $logistics = Logistic::where('delivery_id', $id)->latest()->get();
+        $logistics = Logistic::whereHas('user')->where('delivery_id', $id)->latest()->get();
         return view('pages.deliveries.logistics.index', compact('logistics', 'delivery'));
     }
 

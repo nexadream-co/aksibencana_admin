@@ -21,6 +21,8 @@
                             <div class="row align-items-start">
                                 <div class="col-sm">
                                     <div class="mt-3 mt-md-0 mb-3">
+                                        <a href="{{ route('donation_history_download') }}" target="_blank" class="btn btn-info"><i
+                                                class="mdi mdi-download me-1"></i> Export</a>
                                         <a href="{{ route('donation_create') }}" class="btn btn-success"><i
                                                 class="mdi mdi-plus me-1"></i> Add
                                             Donation</a>
