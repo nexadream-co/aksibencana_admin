@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Deliveries;
 use App\Http\Controllers\Controller;
 use App\Models\BranchOffice;
 use App\Models\Delivery;
+use App\Models\User;
 use App\Notifications\CourierAssignment;
+use App\Notifications\DeliveryStatusUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -107,6 +109,21 @@ class DeliveryController extends Controller
         $delivery->branch_office_id = $request->branch_office_id;
         $delivery->delivery_by = $request->user_id;
         $delivery->date = $request->date;
+
+        try {
+            if (@$delivery->status == 'active' && $request->status == 'finished') {
+                foreach (@$delivery->logistics ?? [] as $item) {
+                    $user = User::find(@$item->user_id);
+                    if(@$user){
+                        @$user->notify(new DeliveryStatusUpdated($delivery));
+                    }
+                }
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
         $delivery->status = $request->status;
         $delivery->save();
 

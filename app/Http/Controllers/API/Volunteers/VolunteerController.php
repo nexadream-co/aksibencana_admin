@@ -7,6 +7,7 @@ use App\Models\Ability;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerAssignment;
+use App\Notifications\VolunteerAssignmentStatusUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -318,6 +319,20 @@ class VolunteerController extends Controller
             ], 404);
         }
 
+        try {
+            if (@$assignment->status == 'active' && $request->status == 'finished') {
+                foreach (@$assignment->logistics ?? [] as $item) {
+                    $user = User::find(@$item->user_id);
+                    if(@$user){
+                        @$user->notify(new VolunteerAssignmentStatusUpdated($assignment));
+                    }
+                }
+
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
         $assignment->status = $request->status;
         $assignment->save();
 

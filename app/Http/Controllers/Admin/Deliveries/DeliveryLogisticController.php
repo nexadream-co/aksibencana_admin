@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Deliveries;
 use App\Http\Controllers\Controller;
 use App\Models\Delivery;
 use App\Models\Logistic;
+use App\Models\User;
+use App\Notifications\DeliveryLogisticUpdated;
 use Illuminate\Http\Request;
 
 class DeliveryLogisticController extends Controller
@@ -46,6 +48,15 @@ class DeliveryLogisticController extends Controller
         $logistic->delivery_id = $id;
         $logistic->save();
 
+        try {
+            $user = User::find(@$logistic->user_id);
+            if(@$user){
+                @$user->notify(new DeliveryLogisticUpdated($logistic));
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
         session()->flash('success', 'Logistic successfully added');
 
         return redirect()->route('delivery_logistics', [$id]);
@@ -78,6 +89,15 @@ class DeliveryLogisticController extends Controller
 
         $logistic->delivery_id = $id;
         $logistic->save();
+
+        try {
+            $user = User::find(@$logistic->user_id);
+            if(@$user){
+                @$user->notify(new DeliveryLogisticUpdated($logistic));
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         session()->flash('success', 'Logistic successfully updated');
 

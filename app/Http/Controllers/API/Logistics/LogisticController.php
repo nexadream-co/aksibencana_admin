@@ -142,10 +142,15 @@ class LogisticController extends Controller
         foreach (@json_decode($logistic->images) ?? [] as $row) {
             $images[] = url('storage') . '/' . $row;
         }
+        
+        $delivery_images = [];
+        foreach (@json_decode(@$logistic->delivery->images) ?? [] as $row) {
+            $delivery_images[] = url('storage') . '/' . $row;
+        }
 
         $data = [
             "id" => $logistic->id,
-            "disaster" => $logistic->disaster == null ? null : [
+            "disaster" => @$logistic->disaster == null ? null : [
                 "id" => $logistic->disaster->id,
                 "title" => $logistic->disaster->title,
                 "category" => @$logistic->disaster->category == null ? null : [
@@ -162,6 +167,17 @@ class LogisticController extends Controller
                     "name" => @$logistic->disaster->user->name
                 ]
             ],
+            "delivery" => @$logistic->delivery ? [
+                "id" => @$logistic->delivery->id,
+                "status" => @$logistic->delivery->status,
+                "station" => @$logistic->delivery->station ? [
+                    "id" => @$logistic->delivery->station->id,
+                    "name" => @$logistic->delivery->station->name,
+                ] : null,
+                "recipient_name" => @$logistic->delivery->recipient_name,
+                "images" => $delivery_images,
+                "delivered_at" => @$logistic->delivery->delivered_at,
+            ] : null,
             "branch_office" => @$logistic->branchOffice ? [
                 "id" => $logistic->branchOffice->id,
                 "name" => $logistic->branchOffice->name,
