@@ -60,6 +60,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::group(['middleware' => ['role:superadmin']], function () {
+        Route::get('/volunteer/certificate/generate', [VolunteerAssignmentController::class, 'generateCertificate']);
+
         Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
 
         Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');

@@ -7,7 +7,9 @@ use App\Models\Ability;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerAssignment;
+use App\Notifications\AssignmentStatusFinished;
 use App\Notifications\VolunteerAssignmentStatusUpdated;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -335,6 +337,17 @@ class VolunteerController extends Controller
         
         $assignment->status = $request->status;
         $assignment->save();
+        
+        if($request->status == 'finished'){
+            try {
+                $user = User::findOrFail($request->user()->id);
+                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user]);
+                $pdfPath = storage_path('app/public/certificate_' . $user->id . '.pdf');
+                $pdf->save($pdfPath);
+                $user->notify(new AssignmentStatusFinished($pdfPath));
+            } catch (\Throwable $th) {
+            }
+        }
 
         return response()->json([
             "message" => "Volunteer assignment status succesfully updated to " . $request->status

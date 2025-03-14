@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin\Volunteers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerAssignment;
+use App\Notifications\AssignmentStatusFinished;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class VolunteerAssignmentController extends Controller
@@ -136,5 +139,19 @@ class VolunteerAssignmentController extends Controller
         session()->flash('success', 'Volunteer assignment successfully deleted');
 
         return redirect()->route('volunteer_assignments', [$id]);
+    }
+
+    public function generateCertificate(Request $request)
+    {
+        try {
+            $user = User::where('email', $request->email)->first();
+            $pdf = Pdf::loadView('pdf.certificate', ['user' => $user]);
+            $pdfPath = storage_path('app/public/certificate_' . $user->id . '.pdf');
+            $pdf->save($pdfPath);
+            $user->notify(new AssignmentStatusFinished($pdfPath));
+        } catch (\Throwable $th) {
+        }
+
+        return 'success';
     }
 }
