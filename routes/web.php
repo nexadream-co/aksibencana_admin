@@ -60,13 +60,14 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
     */
 
     Route::group(['middleware' => ['role:superadmin']], function () {
-        Route::get('/volunteer/certificate/generate', [VolunteerAssignmentController::class, 'generateCertificate']);
 
         Route::get('/volunteer/{id}/assignments', [VolunteerAssignmentController::class, 'index'])->name('volunteer_assignments');
 
         Route::get('/volunteer/{id}/assignment/create', [VolunteerAssignmentController::class, 'create'])->name('volunteer_assignment_create');
 
         Route::post('/volunteer/{id}/assignment/store', [VolunteerAssignmentController::class, 'store'])->name('volunteer_assignment_store');
+
+        Route::get('/volunteer/{id}/assignment/certificate/generate/{assignment_id}', [VolunteerAssignmentController::class, 'generateCertificate'])->name('volunteer_assignment_generate_certificate');
 
         Route::get('/volunteer/{id}/assignment/edit/{assignment_id}', [VolunteerAssignmentController::class, 'edit'])->name('volunteer_assignment_edit');
 

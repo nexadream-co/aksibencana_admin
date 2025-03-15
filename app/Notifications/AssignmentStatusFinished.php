@@ -26,15 +26,14 @@ class AssignmentStatusFinished extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Your Certificate of Excellence')
-            ->greeting('Congratulations, ' . $notifiable->name . '!')
-            ->line('You have received the Certificate of Excellence in recognition of your outstanding performance.')
-            ->line('Please find your certificate attached to this email.')
+            ->subject('Sertifikat Penghargaan')
+            ->greeting('Selamat, ' . $notifiable->name . '!')
+            ->line('Atas kontribusi luar biasa sebagai relawan dalam upaya pemulihan pasca-bencana di Indonesia.')
             ->attach($this->pdfPath, [
-                'as' => 'Certificate_of_Excellence.pdf',
+                'as' => 'sertifikat-penghargaan.pdf',
                 'mime' => 'application/pdf',
             ])
-            ->line('Best regards,')
-            ->line('Our Team');
+            ->line('Salam hangat,')
+            ->line('Aksi Bencana');
     }
 }

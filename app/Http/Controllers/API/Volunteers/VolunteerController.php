@@ -341,8 +341,8 @@ class VolunteerController extends Controller
         if($request->status == 'finished'){
             try {
                 $user = User::findOrFail($request->user()->id);
-                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user]);
-                $pdfPath = storage_path('app/public/certificate_' . $user->id . '.pdf');
+                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster]);
+                $pdfPath = storage_path('app/public/certificate-' . $user->id . '.pdf');
                 $pdf->save($pdfPath);
                 $user->notify(new AssignmentStatusFinished($pdfPath));
             } catch (\Throwable $th) {

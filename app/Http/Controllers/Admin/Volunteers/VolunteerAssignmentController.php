@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Volunteers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Disaster;
 use App\Models\User;
 use App\Models\Volunteer;
 use App\Models\VolunteerAssignment;
@@ -116,6 +117,17 @@ class VolunteerAssignmentController extends Controller
         $assignment->end_date = $request->end_date;
         $assignment->save();
 
+        if($request->status == 'finished'){
+            try {
+                $user = User::find($request->user_id);
+                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster]);
+                $pdfPath = storage_path('app/public/certificate-' . $user->id . '.pdf');
+                $pdf->save($pdfPath);
+                $user->notify(new AssignmentStatusFinished($pdfPath));
+            } catch (\Throwable $th) {
+            }
+        }
+
         session()->flash('success', 'Volunteer assignment successfully updated');
 
         return redirect()->route('volunteer_assignments', [$id]);
@@ -141,17 +153,20 @@ class VolunteerAssignmentController extends Controller
         return redirect()->route('volunteer_assignments', [$id]);
     }
 
-    public function generateCertificate(Request $request)
+    public function generateCertificate(string $id, string $assignment_id)
     {
-        try {
-            $user = User::where('email', $request->email)->first();
-            $pdf = Pdf::loadView('pdf.certificate', ['user' => $user]);
-            $pdfPath = storage_path('app/public/certificate_' . $user->id . '.pdf');
-            $pdf->save($pdfPath);
-            $user->notify(new AssignmentStatusFinished($pdfPath));
-        } catch (\Throwable $th) {
-        }
+        $assignment = VolunteerAssignment::find($assignment_id);
+        $user = User::find($assignment->user_id);
+        $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster])->setPaper('a4', 'landscape');
+        $pdfPath = storage_path('app/public/certificate_' . $user->id . '.pdf');
+        $pdf->save($pdfPath);
+        
+        // return $pdf->stream('sertifikat-penghargaan.pdf');
 
-        return 'success';
+        $user->notify(new AssignmentStatusFinished($pdfPath));
+
+        session()->flash('success', 'Certificate successfully sent by email');
+
+        return redirect()->route('volunteer_assignments', [$id]);
     }
 }

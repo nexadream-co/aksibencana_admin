@@ -113,6 +113,8 @@
                                         <td>
                                             <a href="{{ route('volunteer_assignment_edit', ['id' => $volunteer->id, 'assignment_id' => $item->id]) }}" class="btn btn-primary"><i
                                                     class="bx bx-pencil"></i></a>
+                                            <a href="{{ route('volunteer_assignment_generate_certificate', ['id' => $volunteer->id, 'assignment_id' => $item->id]) }}" class="btn btn-outline-primary" title="Send Certificate"><i
+                                                    class="bx bx-envelope"></i></a>
                                             <a href="javascript:void();"
                                                 onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
                                                 class="btn btn-danger"><i class='bx bx-trash'></i></a>
