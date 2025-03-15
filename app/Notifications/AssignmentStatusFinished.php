@@ -33,8 +33,6 @@ class AssignmentStatusFinished extends Notification
             ->attach($this->pdfPath, [
                 'as' => 'sertifikat-penghargaan.pdf',
                 'mime' => 'application/pdf',
-            ])
-            ->line('Salam hangat,')
-            ->line('Aksi Bencana');
+            ]);
     }
 }
