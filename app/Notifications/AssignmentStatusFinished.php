@@ -29,6 +29,7 @@ class AssignmentStatusFinished extends Notification
             ->subject('Sertifikat Penghargaan')
             ->greeting('Selamat, ' . $notifiable->name . '!')
             ->line('Atas kontribusi luar biasa sebagai relawan dalam upaya pemulihan pasca-bencana di Indonesia.')
+            ->line('Silakan temukan sertifikat Anda terlampir pada email ini.')
             ->attach($this->pdfPath, [
                 'as' => 'sertifikat-penghargaan.pdf',
                 'mime' => 'application/pdf',
