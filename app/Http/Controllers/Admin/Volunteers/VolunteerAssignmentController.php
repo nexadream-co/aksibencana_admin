@@ -112,12 +112,10 @@ class VolunteerAssignmentController extends Controller
         $assignment->disaster_station_id = $request->disaster_station_id;
         $assignment->title = $request->title;
         $assignment->description = $request->description;
-        $assignment->status = $request->status;
         $assignment->start_date = $request->start_date;
         $assignment->end_date = $request->end_date;
-        $assignment->save();
 
-        if($request->status == 'finished'){
+        if(@$assignment->status == 'active' && $request->status == 'finished'){
             try {
                 $user = User::find($request->user_id);
                 $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster]);
@@ -127,6 +125,9 @@ class VolunteerAssignmentController extends Controller
             } catch (\Throwable $th) {
             }
         }
+        
+        $assignment->status = $request->status;
+        $assignment->save();
 
         session()->flash('success', 'Volunteer assignment successfully updated');
 

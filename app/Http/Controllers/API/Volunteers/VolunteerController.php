@@ -329,7 +329,12 @@ class VolunteerController extends Controller
                         @$user->notify(new VolunteerAssignmentStatusUpdated($assignment));
                     }
                 }
-
+        
+                $user = User::findOrFail($request->user()->id);
+                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster]);
+                $pdfPath = storage_path('app/public/certificate-' . $user->id . '.pdf');
+                $pdf->save($pdfPath);
+                $user->notify(new AssignmentStatusFinished($pdfPath));
             }
         } catch (\Throwable $th) {
             //throw $th;
@@ -337,17 +342,6 @@ class VolunteerController extends Controller
         
         $assignment->status = $request->status;
         $assignment->save();
-        
-        if($request->status == 'finished'){
-            try {
-                $user = User::findOrFail($request->user()->id);
-                $pdf = Pdf::loadView('pdf.certificate', ['user' => $user, 'disaster' => @$assignment->disaster]);
-                $pdfPath = storage_path('app/public/certificate-' . $user->id . '.pdf');
-                $pdf->save($pdfPath);
-                $user->notify(new AssignmentStatusFinished($pdfPath));
-            } catch (\Throwable $th) {
-            }
-        }
 
         return response()->json([
             "message" => "Volunteer assignment status succesfully updated to " . $request->status
