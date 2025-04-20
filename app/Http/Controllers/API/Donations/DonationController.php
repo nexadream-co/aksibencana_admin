@@ -311,4 +311,53 @@ class DonationController extends Controller
             "data" => $results
         ], 200);
     }
+    
+    /**
+     * Donation All Histories
+     */
+    public function allHistories(Request $request, $id)
+    {
+        $request->validate([
+            'page' => ['integer'],
+            'limit' => ['integer'],
+        ]);
+
+        $histories = DonationHistory::where('donation_id', $id)->latest()->paginate($request->limit ?? 10);
+
+        $results = [];
+
+        foreach ($histories as $item) {
+            $images = [];
+            foreach (@json_decode(@$item->donation->images) ?? [] as $row) {
+                $images[] = url('storage') . '/' . $row;
+            }
+
+            $show_user = @$item->prayer->show_identity;
+
+            $results[] = [
+                "id" => $item->id,
+                "donation" => @$item->donation ? [
+                    "id" => @$item->donation->id,
+                    "title" => @$item->donation->title,
+                    "description" => @$item->donation->description,
+                    "images" => $images,
+                ] : null,
+                "user" => $show_user && @$item->user ? [
+                    "id" => @$item->user->id,
+                    "name" => @$item->user->name,
+                    "email" => @$item->user->email,
+                ] : null,
+                "total_donation" => (int) @$item->nominal ?? 0,
+                "status" => $item->status,
+                "snap_url" => $item->snap_url,
+                "date" => $item->date,
+                "created_at" => $item->created_at->format('Y-m-d H:i:s')
+            ];
+        }
+
+        return response()->json([
+            "message" => "Donation all histories data successfully retrieved",
+            "data" => $results
+        ], 200);
+    }
 }

@@ -65,6 +65,63 @@ class LogisticController extends Controller
             "data" => $data,
         ], 200);
     }
+    
+    /**
+     * All List Logistics
+     */
+    public function allLogistics(Request $request)
+    {
+        $request->validate([
+            'page' => ['integer'],
+            'limit' => ['integer'],
+        ]);
+
+        $logistics = Logistic::whereHas('disaster')->paginate($request->limit ?? 10);
+
+        $data = [];
+
+        foreach ($logistics as $item) {
+            $images = [];
+            foreach (@json_decode(@$item->disaster->images) ?? [] as $row) {
+                $images[] = url('storage') . '/' . $row;
+            }
+
+            $data[] = [
+                "id" => $item->id,
+                "disaster" => $item->disaster == null ? null : [
+                    "id" => $item->disaster->id,
+                    "title" => $item->disaster->title,
+                    "category" => @$item->disaster->category == null ? null : [
+                        "id" => $item->disaster->category->id,
+                        "name" => $item->disaster->category->name,
+                    ],
+                    "images" => $images,
+                    "description" => $item->disaster->description,
+                    "date" => $item->disaster->date,
+                    "status" => $item->disaster->status,
+                    "address" => $item->disaster->address,
+                    "created_by" => @$item->disaster->user == null ? null : [
+                        "id" => @$item->disaster->user->id,
+                        "name" => @$item->disaster->user->name
+                    ]
+                ],
+                "branch_office" => @$item->branchOffice ? [
+                    "id" => $item->branchOffice->id,
+                    "name" => $item->branchOffice->name,
+                ] : null,
+                "goods" => @$item->goods,
+                "expedition" => @$item->expedition,
+                "date" => $item->date,
+                "status" => $item->status,
+                "created_at" => $item->created_at->format('Y-m-d H:i:s')
+            ];
+        }
+
+        return response()->json([
+            "message" => "Logistics data successfully retrieved",
+            "data" => $data,
+        ], 200);
+    }
 
     /**
      * Store Logistic

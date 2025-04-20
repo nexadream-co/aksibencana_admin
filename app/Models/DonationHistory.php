@@ -21,4 +21,9 @@ class DonationHistory extends Model
     {
         return $this->belongsTo(Donation::class, 'donation_id');
     }
+
+    public function prayer()
+    {
+        return $this->hasOne(DonationPrayer::class, 'donation_history_id');
+    }
 }

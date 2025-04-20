@@ -170,6 +170,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
 
     Route::get('/logistics', [LogisticController::class, 'index']);
 
+    Route::get('/logistic/all', [LogisticController::class, 'allLogistics']);
+
     Route::post('/logistic/create', [LogisticController::class, 'store']);
 
     Route::get('/logistic/{id}', [LogisticController::class, 'show']);
@@ -192,6 +194,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|courier']], function (
     Route::post('/donation/store/{id}', [DonationController::class, 'store']);
 
     Route::get('/donation/histories', [DonationController::class, 'histories']);
+
+    Route::get('/donation/{id}/histories/all', [DonationController::class, 'allHistories']);
 
     Route::get('/donation/{id}/prayers', [DonationController::class, 'prayers']);
 
