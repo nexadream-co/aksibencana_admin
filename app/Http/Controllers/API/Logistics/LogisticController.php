@@ -76,7 +76,7 @@ class LogisticController extends Controller
             'limit' => ['integer'],
         ]);
 
-        $logistics = Logistic::whereHas('disaster')->paginate($request->limit ?? 10);
+        $logistics = Logistic::whereHas('disaster')->whereHas('user')->paginate($request->limit ?? 10);
 
         $data = [];
 
@@ -105,6 +105,11 @@ class LogisticController extends Controller
                         "name" => @$item->disaster->user->name
                     ]
                 ],
+                "user" => @$item->user ? [
+                    "id" => @$item->user->id,
+                    "name" => @$item->user->name,
+                    "email" => @$item->user->email,
+                ] : null,
                 "branch_office" => @$item->branchOffice ? [
                     "id" => $item->branchOffice->id,
                     "name" => $item->branchOffice->name,
