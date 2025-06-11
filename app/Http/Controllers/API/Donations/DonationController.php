@@ -128,8 +128,8 @@ class DonationController extends Controller
         $prayer->save();
 
         $createInvoice = new CreateInvoiceRequest([
-            'external_id' => "$donation_history->id",
-            'amount' => $request->amount,
+            'external_id' => (string) $donation_history->id,
+            'amount' => (int) $request->amount,
             'payer_email' => $request->user()->email,
             'description' => "Pembayaran donasi",
             'invoice_duration' => 172800,
