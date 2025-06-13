@@ -207,8 +207,8 @@ class DisasterController extends Controller
             "date" => $disaster->date,
             "status" => $disaster->status,
             "address" => $disaster->address,
-            "latitude" => $disaster->latitude,
-            "longitude" => $disaster->longitude,
+            "latitude" => (double) $disaster->latitude,
+            "longitude" => (double) $disaster->longitude,
             "created_by" => @$disaster->user == null ? null : [
                 "id" => @$disaster->user->id,
                 "name" => @$disaster->user->name
@@ -257,20 +257,20 @@ class DisasterController extends Controller
                 ],
                 "origin" => [
                     "title" => @$item->branchOffice->name,
-                    "latitude" => @$item->branchOffice->latitude,
-                    "longitude" => @$item->branchOffice->longitude
+                    "latitude" => (double) @$item->branchOffice->latitude,
+                    "longitude" => (double) @$item->branchOffice->longitude
                 ],
                 "destination" => [
                     "title" => @$item->station->name ?? @$item->district->name,
-                    "latitude" => @$item->station->latitude ?? @$item->disaster->latitude,
-                    "longitude" => @$item->station->longitude ?? @$item->disaster->longitude
+                    "latitude" => (double) @$item->station->latitude ?? @$item->disaster->latitude,
+                    "longitude" => (double) @$item->station->longitude ?? @$item->disaster->longitude
                 ],
                 "tracks" => [
                     [
                         "id" => $item->id,
                         "courir_name" => @$item->courier->name,
-                        "latitude" => $item->latitude,
-                        "longitude" => $item->longitude
+                        "latitude" => (double) $item->latitude,
+                        "longitude" => (double) $item->longitude
                     ]
                 ],
             ];
