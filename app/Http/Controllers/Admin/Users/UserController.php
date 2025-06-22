@@ -175,6 +175,9 @@ class UserController extends Controller
 
         if (!$user) return abort(404);
 
+        $user->email = Str::random(40) . '@aksibencana.com';
+        $user->save();
+
         $user->delete();
 
         session()->flash('success', 'User successfully deleted');
