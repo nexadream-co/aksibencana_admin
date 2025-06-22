@@ -185,7 +185,7 @@ class AuthController extends Controller
             );
         }
 
-        $user = User::where('email', @$userGoogle->email)->first();
+        $user = User::where('email', @$userGoogle->email)->withTrashed()->first();
 
         if (!@$user) {
             $user = User::create([
@@ -198,6 +198,13 @@ class AuthController extends Controller
 
             $user->assignRole('user');
         } else {
+            if($user->deleted_at){
+                return response()->json(
+                    ['message' => 'Login gagal, akun pengguna telah dihapus, mohon gunakan email lain'],
+                    400
+                );
+            }
+            
             $user->fcm_token = $request->device_token;
             $user->save();
         }
