@@ -248,6 +248,8 @@ Route::middleware(['auth', 'role:admin|superadmin'])->group(function () {
 
     Route::group(['middleware' => ['role:superadmin']], function () {
         Route::get('/prayers', [DonationPrayerController::class, 'index'])->name('prayers');
+        
+        Route::delete('/prayer/delete/{id}', [DonationPrayerController::class, 'destroy'])->name('prayer_delete');
     });
 
     /*

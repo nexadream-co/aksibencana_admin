@@ -29,6 +29,7 @@
                                     <th scope="col">Show Identity</th>
                                     <th scope="col" width="120px">Created At</th>
                                     <th scope="col" width="120px">Updated At</th>
+                                    <th scope="col" width="120px">Action</th>
                                 </tr>
 
                             </thead>
@@ -58,6 +59,19 @@
                                         </td>
                                         <td>
                                             {{ @$item->updated_at }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a href="javascript:void();"
+                                                    onclick="if(confirm('Are you sure delete this item?')) { event.preventDefault(); document.getElementById('delete-item-{{ $item->id }}').submit(); }"
+                                                    class="btn btn-danger"><i class='bx bx-trash'></i></a>
+                                                <form id="delete-item-{{ $item->id }}"
+                                                    action="{{ route('prayer_delete', $item->id) }}" method="POST"
+                                                    style="display: none;">
+                                                    @method('delete')
+                                                    @csrf
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
